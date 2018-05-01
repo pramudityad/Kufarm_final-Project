@@ -139,7 +139,7 @@ def main():
                 timeRequest = now.strftime('%Y-%m-%d %H:00:00');
                 if(now.hour == 0):
                     DB.addSunTime([strTerbit,strTerbenam])
-                    code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
+                code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
                 weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
                 wsp = "wunderground"
                 DB.addForecast(code,weather,wsp,timeRequest)

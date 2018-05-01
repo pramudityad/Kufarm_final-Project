@@ -26,33 +26,33 @@ terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 
 #request wsp using restAPI
 def requestData():
-        now = datetime.datetime.now()
-        timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
-        print('Request Data')
-        try:
-                global str_ow_data;
-                global str_wu_data;
-                global location;
-                global latitude;
-                global longitude;
-                global timeForcast;
-                global weather;
-                global code;
-                global requestStatus
+    now = datetime.datetime.now()
+    timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
+    print('Request Data')
+    try:
+        global str_ow_data;
+        global str_wu_data;
+        global location;
+        global latitude;
+        global longitude;
+        global timeForcast;
+        global weather;
+        global code;
+        global requestStatus
 
-                str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
-                str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
-                location    = OW.getCityName(str_ow_data);
-                latitude    = str(OW.getCityLatitude(str_ow_data));
-                longitude   = str(OW.getCityLongitude(str_ow_data));
-                timeForcast = str(OW.getForecastNext(str_ow_data)['dt_txt']);
-                weather     = str(OW.getForecastNext(str_ow_data)['weather'][0]['description']);
-                code        = str(OW.getForecastNext(str_ow_data)['weather'][0]['id']);
-                requestStatus = True;
-                print('Request Success');
-        except Exception as e:
-                requestStatus = False;
-                print('Error Connection')
+        str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
+        str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
+        location    = OW.getCityName(str_ow_data);
+        latitude    = str(OW.getCityLatitude(str_ow_data));
+        longitude   = str(OW.getCityLongitude(str_ow_data));
+        timeForcast = str(OW.getForecastNext(str_ow_data)['dt_txt']);
+        weather     = str(OW.getForecastNext(str_ow_data)['weather'][0]['description']);
+        code        = str(OW.getForecastNext(str_ow_data)['weather'][0]['id']);
+        requestStatus = True;
+        print('Request Success')
+    except Exception as e:
+        requestStatus = False;
+        print('Error Connection')
 
 #cek openweather code
 def cekOwCode():
