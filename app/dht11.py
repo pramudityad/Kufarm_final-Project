@@ -16,8 +16,8 @@ def dhtread():
 	pin=4
 	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 	if humidity is not None and temperature is not None:
-	try:
-		'Temperature={0:0.1f}C'.format(temperature, humidity)
+		try:
+			'Temperature={0:0.1f}C'.format(temperature, humidity)
 		pass
 		'Humidity={1:0.1f}%'.format(temperature, humidity)
 	except Exception as e:
