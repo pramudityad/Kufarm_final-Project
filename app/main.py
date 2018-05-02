@@ -1,7 +1,9 @@
 import datetime, time
 from datetime import timedelta
 from calendar import monthrange
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
+import read_spi as SPI
+import dht11 as DT
 import wspcode as WP
 import datetime, time
 import hisab as hisab
@@ -17,18 +19,18 @@ pinPupuk = 37
 #dirPin2  = 35
 
 # Use board pin numbering
-#GPIO.setmode(GPIO.BOARD) 
+GPIO.setmode(GPIO.BOARD) 
 
 #pin siram
-#GPIO.setup(pinSiram, GPIO.OUT)
-#GPIO.output(pinSiram,False)
+GPIO.setup(pinSiram, GPIO.OUT)
+GPIO.output(pinSiram,False)
 
 #pin pupuk
 #GPIO.setup(pinPupuk, GPIO.OUT)
 #GPIO.output(pinPupuk,False)
 
-#GPIO.setup(stepPin1,GPIO.OUT)
-#GPIO.setup(dirPin1,GPIO.OUT)
+GPIO.setup(stepPin1,GPIO.OUT)
+GPIO.setup(dirPin1,GPIO.OUT)
 #GPIO.setup(stepPin2,GPIO.OUT)
 #GPIO.setup(dirPin2,GPIO.OUT)
 
@@ -131,10 +133,10 @@ def main():
             WP.requestData()
             WP.cekOwCode()
             WP.cekWuCode()
-            #DB.addSoil(soil);
-            #DB.addRaindrop(rain);
-            #DT.dhtread()
-            #soil = DB.getLastSoil();
+            DB.addSoil(soil);
+            DB.addRaindrop(rain);
+            DT.dhtread()
+            soil = DB.getLastSoil();
             if(now.minute==0 and now.second==0):
                 timeRequest = now.strftime('%Y-%m-%d %H:00:00');
                 if(now.hour == 0):
@@ -149,10 +151,10 @@ def main():
                     wsp = "openweather"
                     DB.addForecast(code,weather,wsp,timeRequest)
         try:
-            soil = 2
-            rain = 1
-            #soil = SPI.readSensor(0)
-            #rain = SPI.readSensor(1)
+            #soil = 2
+            #rain = 1
+            soil = SPI.readSensor(0)
+            rain = SPI.readSensor(1)
         except (RuntimeError, TypeError, NameError):
             pass
             
