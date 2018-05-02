@@ -29,8 +29,8 @@ GPIO.output(pinSiram,False)
 #GPIO.setup(pinPupuk, GPIO.OUT)
 #GPIO.output(pinPupuk,False)
 
-GPIO.setup(stepPin1,GPIO.OUT)
-GPIO.setup(dirPin1,GPIO.OUT)
+#GPIO.setup(stepPin1,GPIO.OUT)
+#GPIO.setup(dirPin1,GPIO.OUT)
 #GPIO.setup(stepPin2,GPIO.OUT)
 #GPIO.setup(dirPin2,GPIO.OUT)
 
