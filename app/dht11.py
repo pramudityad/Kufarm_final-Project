@@ -17,7 +17,7 @@ def dhtread():
 	humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
 	if humidity is not None and temperature is not None:
 		try:
-				'Temperature={0:0.1f}C'.format(temperature, humidity)
+			'Temperature={0:0.1f}C'.format(temperature, humidity)
 			pass
 			'Humidity={1:0.1f}%'.format(temperature, humidity)
 		except Exception as e:
@@ -26,9 +26,9 @@ def dhtread():
 		unix = int(time.time())
 		date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
 		cur.execute("INSERT INTO dht11 (temperature, humidity, created_at) VALUES (%s, %s, %s)",(temperature, humidity, date))
-			db.commit()
-			status = True;
+		db.commit()
+		status = True;
 	except Exception as e:
-			db.rollback()
-			status = False;
+		db.rollback()
+		status = False;
 	return status;
