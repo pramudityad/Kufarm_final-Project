@@ -79,8 +79,9 @@ motorState = False;
                 
 print("Start")
 while (requestStatus == False):
-        WP.requestData()
-        time.sleep(1)
+    WP.requestData()
+    time.sleep(1)
+    pass         
 WP.cekOwCode()
 WP.cekWuCode()
 
