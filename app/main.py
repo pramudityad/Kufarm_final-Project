@@ -12,7 +12,7 @@ import math
 
 #pin relay
 pinSiram = 18
-pinPupuk = 37
+#pinPupuk = 37
 #stepPin1 = 29 #x
 #dirPin1  = 31
 #stepPin2 = 33 #y
@@ -153,8 +153,8 @@ def main():
         try:
             #soil = 2
             #rain = 1
-            soil = SPI.readSensor(0)
-            rain = SPI.readSensor(1)
+            soil = SPI.readSensor(5)
+            rain = SPI.readSensor(6)
         except (RuntimeError, TypeError, NameError):
             pass
             
