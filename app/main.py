@@ -69,8 +69,8 @@ while (requestStatus == False):
 	WP.requestData()
 	time.sleep(1)
 	pass         
-	WP.cekOwCode()
-	WP.cekWuCode()
+WP.cekOwCode()
+WP.cekWuCode()
 
 #print str_ow_data;
 # print 'Time      : ' + timeRequest;

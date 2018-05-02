@@ -66,6 +66,14 @@ def requestData():
 	except Exception as e:
 		requestStatus = False;
 		print('Error Connection')
+	return str_ow_data;
+	return str_wu_data;
+	return location;
+	return latitude;
+	return longitude;
+	return timeForcast;
+	return weather;
+	return code;	
 	return requestStatus
 
 #cek openweather code
