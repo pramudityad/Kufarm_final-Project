@@ -52,7 +52,6 @@ def requestData():
 		global weather;
 		global code;
 		global requestStatus
-
 		str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 		str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
 		location    = OW.getCityName(str_ow_data);

@@ -8,6 +8,7 @@ import wspcode as WP
 import datetime, time
 import hisab as hisab
 import database as DB
+import fuzzy_v2 as fuzzy
 import math
 
 #pin relay
@@ -33,6 +34,11 @@ GPIO.output(pinSiram,False)
 #GPIO.setup(dirPin1,GPIO.OUT)
 #GPIO.setup(stepPin2,GPIO.OUT)
 #GPIO.setup(dirPin2,GPIO.OUT)
+
+ow_code = 0;
+wu_code = 0;
+ow_desc = 'Cerah'
+wu_desc = 'Cerah'
 
 #Sensor
 str_sensor  = None;
@@ -65,7 +71,7 @@ lastX = 0;
 motorState = False;
 				
 print("Start")
-while (requestStatus == False):
+while requestStatus == False:
 	WP.requestData()
 	time.sleep(1)
 	pass         
@@ -81,13 +87,6 @@ WP.cekWuCode()
 # print '            Cuaca    :' + weather;
 # print '            Code     :' + code;
 # print "Nilai Kelayakan : " + str(fuzzy.calculate(soil,300,ow_code,wu_code)); #calculate(soil,suhu,hujan,weather,wsp1,wsp2)
-
-#def on_message(ws, message):
-
-#def on_error(ws, error):
-	#print(error)
-
-#def on_close(ws):
 
 def main():
 	global soil
@@ -108,6 +107,8 @@ def main():
 	global overridePupuk
 	global motorState
 	global currentX
+	global wu_code
+	global ow_code
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
@@ -170,11 +171,6 @@ def main():
 									timeSiram = air * DB.getPerLiter()
 									maxTimeSiram = timeSiram
 									DB.addPumpLog('Pompa Penyiraman','ON')
-					#GPIO.output(26,True)
-					#statePenyiram = True
-					#if(now.second > 50):
-						#GPIO.output(26,False)
-						#statePenyiram = False
 						
 		if(overrideSiram == True):
 							plant = DB.getPlant()

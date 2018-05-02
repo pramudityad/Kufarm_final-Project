@@ -222,8 +222,7 @@ def calculate(soil,rain,forecast,forecast2):
         if basah and hujan and f_hujan and f2_hujan:
                 nkRendah[53]=min(basah,hujan,f_hujan,f2_hujan)
         
-        #nkRendah.append(5);
-        #nkRendah.insert(1,6);
+
         print("FUZZY OUTPUT");
         for i in range(54):
                 if nkRendah[i]>0:
