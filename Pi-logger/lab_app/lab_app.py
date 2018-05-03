@@ -6,7 +6,6 @@ import arrow
 app = Flask(__name__)
 app.debug = True # Make this False if you are no longer debugging
 
-
 def template(title = "HELLO!", text = ""):
 	now = datetime.datetime.now()
 	timeString = now
@@ -17,31 +16,21 @@ def template(title = "HELLO!", text = ""):
 		}
 	return templateDate
 
-@app.route('/home')
-def page_home():
-	import dht11
-	import read_spi
-	return render_template("lab_temp.html",temp=temperature,hum=humidity,soil=soil,rain=rain)
-
-#@app.route("/temp")
-#def read_temp():
-#	import sys
-#	import Adafruit_DHT
-#	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
-#	if humidity is not None and temperature is not None:
-#		return render_template("lab_temp.html",temp=temperature,hum=humidity)
-#	else:
-#		return render_template("no_sensor.html")
-
-#@app.route("/soil")
-#def read_soil():
-#	import read_spi
-#	soil=read_spi.readsoil()
-#	try:
-#		read_spi.readsoil()
-#		return render_template("lab_temp.html",value=soil)
-#	except Exception:
-#		return render_template("no_sensor.html")
+@app.route("/temp")
+def read_temp():
+	import sys
+	import Adafruit_GPIO.SPI as SPI
+	import Adafruit_MCP3008
+	import Adafruit_DHT
+	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
+	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+	soil = mcp.read_adc(5)
+	rain = mcp.read_adc(6)
+	return render_template("lab_temp.html",soil=soil,rain=rain)
+	if humidity is not None and temperature is not None:
+		return render_template("lab_temp.html",temp=temperature,hum=humidity)
+	else:
+		return render_template("no_sensor.html")
 
 @app.route("/lab_env_db", methods=['GET'])  #Add date limits in the URL #Arguments: from=2015-03-04&to=2015-03-05
 def lab_env_db():
