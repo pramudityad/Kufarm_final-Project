@@ -18,7 +18,7 @@ def template(title = "HELLO!", text = ""):
 
 @app.route("/")
 def hello():
-    templateData = template()
+	templateData = template()
 	return render_template("lab_temp.html", **templateData)
 
 @app.route("/temp")
