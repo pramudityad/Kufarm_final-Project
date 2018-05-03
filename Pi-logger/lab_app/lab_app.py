@@ -26,9 +26,8 @@ def read_temp():
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
 	soil = mcp.read_adc(5)
 	rain = mcp.read_adc(6)
-	return render_template("lab_temp.html",soil=soil,rain=rain)
 	if humidity is not None and temperature is not None:
-		return render_template("lab_temp.html",temp=temperature,hum=humidity)
+		return render_template("lab_temp.html",soil=soil,rain=rain,temp=temperature,hum=humidity)
 	else:
 		return render_template("no_sensor.html")
 
