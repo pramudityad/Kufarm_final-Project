@@ -70,13 +70,13 @@ lastY = 0;
 lastX = 0;
 motorState = False;
 				
-print("Start")
-while requestStatus == False:
-	WP.requestData()
-	time.sleep(1)
-	pass         
-WP.cekOwCode()
-WP.cekWuCode()
+#print("Start")
+#while requestStatus == False:
+	#WP.requestData()
+	#time.sleep(1)
+	#pass         
+#WP.cekOwCode()
+#WP.cekWuCode()
 
 #print str_ow_data;
 # print 'Time      : ' + timeRequest;
