@@ -58,7 +58,7 @@ def hello():
     return "Hello World!"
 
 @app.route("/lab_temp")
-def lab_temp():
+def read_temp():
 	import sys
 	import Adafruit_DHT
 	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
@@ -68,16 +68,16 @@ def lab_temp():
 		return render_template("no_sensor.html")
 
 @app.route("/lab_soil")
-def readspi():
-	read_spi.readSensor(5)
+def read_soil():
+	read_spi.readsoil()
 	try:
 		return render_template("lab_temp.html",soil=val)
 	except Exception:
 		return render_template("no_sensor.html")
 
 @app.route("/lab_rain")
-def readspi():
-	read_spi.readSensor(6)
+def read_rain():
+	read_spi.readrain()
 	try:
 		return render_template("lab_temp.html",rain=val)
 	except Exception:
