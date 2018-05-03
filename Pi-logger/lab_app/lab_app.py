@@ -8,7 +8,7 @@ app.debug = True # Make this False if you are no longer debugging
 
 def template(title = "HELLO!", text = ""):
 	now = datetime.datetime.now()
-	timeString = now
+	timeString = now.strftime('%Y-%m-%d %H:%M:%S');
 	templateDate = {
 		'title' : title,
 		'time' : timeString,
