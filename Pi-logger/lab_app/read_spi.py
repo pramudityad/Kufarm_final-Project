@@ -10,6 +10,7 @@ def readsoil():
 	soil = mcp.read_adc(5)
 	soil = 1024-soil
 	return soil
+	#print soil
 
 def readrain():
 	SPI_PORT   = 0
