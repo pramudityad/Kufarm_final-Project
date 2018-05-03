@@ -8,13 +8,13 @@ app.debug = True # Make this False if you are no longer debugging
 
 
 def template(title = "HELLO!", text = ""):
-    now = datetime.datetime.now()
-    timeString = now
-    templateDate = {
-        'title' : title,
-        'time' : timeString,
-        'text' : text
-        }
+	now = datetime.datetime.now()
+	timeString = now
+	templateDate = {
+		'title' : title,
+		'time' : timeString,
+		'text' : text
+		}
 	return templateDate
 
 @app.route('/home')
@@ -146,37 +146,37 @@ def to_plotly():
 		time_series_humidity_values.append(round(record[2],2))
 
 	temp = Scatter(
-        		x=time_series_adjusted_tempreratures,
-        		y=time_series_temprerature_values,
-        		name='Temperature'
-    				)
+				x=time_series_adjusted_tempreratures,
+				y=time_series_temprerature_values,
+				name='Temperature'
+					)
 	hum = Scatter(
-        		x=time_series_adjusted_humidities,
-        		y=time_series_humidity_values,
-        		name='Humidity',
-        		yaxis='y2'
-    				)
+				x=time_series_adjusted_humidities,
+				y=time_series_humidity_values,
+				name='Humidity',
+				yaxis='y2'
+					)
 
 	data = Data([temp, hum])
 
 	layout = Layout(
 					title="Temperature and Humidity in Clayton's Apartment",
-				    xaxis=XAxis(
-				        type='date',
-				        autorange=True
-				    ),
-				    yaxis=YAxis(
-				    	title='Celcius',
-				        type='linear',
-				        autorange=True
-				    ),
-				    yaxis2=YAxis(
-				    	title='Percent',
-				        type='linear',
-				        autorange=True,
-				        overlaying='y',
-				        side='right'
-				    )
+					xaxis=XAxis(
+						type='date',
+						autorange=True
+					),
+					yaxis=YAxis(
+						title='Celcius',
+						type='linear',
+						autorange=True
+					),
+					yaxis2=YAxis(
+						title='Percent',
+						type='linear',
+						autorange=True,
+						overlaying='y',
+						side='right'
+					)
 
 					)
 	fig = Figure(data=data, layout=layout)
@@ -185,11 +185,11 @@ def to_plotly():
 	return plot_url
 
 def validate_date(d):
-    try:
-        datetime.datetime.strptime(d, '%Y-%m-%d %H:%M')
-        return True
-    except ValueError:
-        return False
+	try:
+		datetime.datetime.strptime(d, '%Y-%m-%d %H:%M')
+		return True
+	except ValueError:
+		return False
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=8080)
+	app.run(host='0.0.0.0', port=8080)
