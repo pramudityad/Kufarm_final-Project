@@ -19,7 +19,7 @@ def template(title = "HELLO!", text = ""):
 @app.route("/")
 def hello():
     templateData = template()
-return render_template("lab_temp.html", **templateData)
+	return render_template("lab_temp.html", **templateData)
 
 @app.route("/temp")
 def read_temp():
