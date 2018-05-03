@@ -25,8 +25,15 @@ def read_temp():
 	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
 	val = 1024
-	soil = mcp.read_adc(5)-val
-	rain = mcp.read_adc(6)-val
+	#soil
+	soil = mcp.read_adc(5)
+	soil = val -soil
+	return soil
+	#rain
+	rain = mcp.read_adc(6)
+	rain = val - rain
+	return rain
+	#temp&hum
 	if humidity is not None and temperature is not None:
 		return render_template("lab_temp.html",soil=soil,rain=rain,temp=temperature,hum=humidity)
 	else:
