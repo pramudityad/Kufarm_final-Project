@@ -28,11 +28,11 @@ def read_temp():
 	#soil
 	soil = mcp.read_adc(5)
 	soil = val -soil
-	return soil
+	#return soil
 	#rain
 	rain = mcp.read_adc(6)
 	rain = val - rain
-	return rain
+	#return rain
 	#temp&hum
 	if humidity is not None and temperature is not None:
 		return render_template("lab_temp.html",soil=soil,rain=rain,temp=temperature,hum=humidity)
