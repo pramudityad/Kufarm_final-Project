@@ -1,49 +1,3 @@
-'''
-FILE NAME
-lab_app.py
-Version 9
-
-1. WHAT IT DOES
-This version adds support for Plotly.
- 
-2. REQUIRES
-* Any Raspberry Pi
-
-3. ORIGINAL WORK
-Raspberry Full Stack 2015, Peter Dalmaris
-
-4. HARDWARE
-* Any Raspberry Pi
-* DHT11 or 22
-* 10KOhm resistor
-* Breadboard
-* Wires
-
-5. SOFTWARE
-Command line terminal
-Simple text editor
-Libraries:
-from flask import Flask, request, render_template, sqlite3
-
-6. WARNING!
-None
-
-7. CREATED 
-
-8. TYPICAL OUTPUT
-A simple web page served by this flask application in the user's browser.
-The page contains the current temperature and humidity.
-A second page that displays historical environment data from the SQLite3 database.
-The historical records can be selected by specifying a date range in the request URL.
-The user can now click on one of the date/time buttons to quickly select one of the available record ranges.
-The user can use Jquery widgets to select a date/time range.
-The user can explore historical data to Plotly for visualisation and processing.
-
- // 9. COMMENTS
---
- // 10. END
-'''
-
 from flask import Flask, request, render_template
 import time
 import datetime
@@ -56,7 +10,7 @@ app.debug = True # Make this False if you are no longer debugging
 def hello():
     return "Hello World!"
 
-@app.route("/lab_temp")
+@app.route("/temp")
 def read_temp():
 	import sys
 	import Adafruit_DHT
@@ -66,21 +20,23 @@ def read_temp():
 	else:
 		return render_template("no_sensor.html")
 
-@app.route("/lab_soil")
+@app.route("/soil")
 def read_soil():
 	import read_spi
+	soil=read_spi.readsoil()
 	try:
 		read_spi.readsoil()
-		return render_template("lab_temp.html",soil=soil)
+		return render_template("lab_temp.html",value=soil)
 	except Exception:
 		return render_template("no_sensor.html")
 
-@app.route("/lab_rain")
+@app.route("/rain")
 def read_rain():
 	import read_spi
+	rain=read_spi.readrain()
 	try:
 		read_spi.readrain()
-		return render_template("lab_temp.html",rain=rain)
+		return render_template("lab_temp.html",value=rain)
 	except Exception:
 		return render_template("no_sensor.html")
 
