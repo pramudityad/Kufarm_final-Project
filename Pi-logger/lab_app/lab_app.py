@@ -70,7 +70,8 @@ def read_temp():
 def read_soil():
 	import read_spi
 	try:
-		return render_template("lab_temp.html",soil=read_spi.readsoil())
+		read_spi.readsoil()
+		return render_template("lab_temp.html",soil=soil)
 	except Exception:
 		return render_template("no_sensor.html")
 
@@ -78,7 +79,8 @@ def read_soil():
 def read_rain():
 	import read_spi
 	try:
-		return render_template("lab_temp.html",rain=read_spi.readrain())
+		read_spi.readrain()
+		return render_template("lab_temp.html",rain=rain)
 	except Exception:
 		return render_template("no_sensor.html")
 
