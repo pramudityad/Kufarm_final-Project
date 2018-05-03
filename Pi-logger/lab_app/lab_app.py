@@ -69,17 +69,17 @@ def read_temp():
 
 @app.route("/lab_soil")
 def read_soil():
-	read_spi.readsoil()
+	#read_spi.readsoil()
 	try:
-		return render_template("lab_temp.html",soil=soil)
+		return render_template("lab_temp.html",soil=read_spi.readsoil())
 	except Exception:
 		return render_template("no_sensor.html")
 
 @app.route("/lab_rain")
 def read_rain():
-	read_spi.readrain()
+	#read_spi.readrain()
 	try:
-		return render_template("lab_temp.html",rain=rain)
+		return render_template("lab_temp.html",rain=read_spi.readrain())
 	except Exception:
 		return render_template("no_sensor.html")
 
