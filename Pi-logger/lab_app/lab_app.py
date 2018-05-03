@@ -70,15 +70,17 @@ def lab_temp():
 @app.route("/lab_soil")
 def readspi():
 	read_spi.readSensor(5)
+	try:
 		return render_template("lab_temp.html",soil=val)
-	else:
+	except Exception:
 		return render_template("no_sensor.html")
 
 @app.route("/lab_rain")
 def readspi():
 	read_spi.readSensor(6)
+	try:
 		return render_template("lab_temp.html",rain=val)
-	else:
+	except Exception:
 		return render_template("no_sensor.html")
 
 @app.route("/lab_env_db", methods=['GET'])  #Add date limits in the URL #Arguments: from=2015-03-04&to=2015-03-05
