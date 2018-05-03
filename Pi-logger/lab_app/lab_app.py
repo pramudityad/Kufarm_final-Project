@@ -18,7 +18,7 @@ def template(title = "HELLO!", text = ""):
 
 @app.route("/")
 def hello():
-	templateData = templateDate()
+	templateData = template()
 	return render_template("lab_temp.html", **templateData)
 
 @app.route("/temp")
@@ -27,6 +27,7 @@ def read_temp():
 	import Adafruit_GPIO.SPI as SPI
 	import Adafruit_MCP3008
 	import Adafruit_DHT
+	templateData = template(text = "Watered Once")
 	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
 	val = 1024
