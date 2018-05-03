@@ -15,7 +15,7 @@ def template(title = "HELLO!", text = ""):
         'time' : timeString,
         'text' : text
         }
-return templateDate"
+	return templateDate
 
 @app.route('/home')
 def page_home():
