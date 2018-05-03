@@ -23,7 +23,7 @@ def read_temp():
 	import Adafruit_MCP3008
 	import Adafruit_DHT
 	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
-	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
 	soil = mcp.read_adc(5)
 	rain = mcp.read_adc(6)
 	return render_template("lab_temp.html",soil=soil,rain=rain)
