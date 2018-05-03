@@ -48,7 +48,6 @@ from flask import Flask, request, render_template
 import time
 import datetime
 import arrow
-import read_spi
 
 app = Flask(__name__)
 app.debug = True # Make this False if you are no longer debugging
@@ -69,7 +68,7 @@ def read_temp():
 
 @app.route("/lab_soil")
 def read_soil():
-	#read_spi.readsoil()
+	import read_spi
 	try:
 		return render_template("lab_temp.html",soil=read_spi.readsoil())
 	except Exception:
@@ -77,7 +76,7 @@ def read_soil():
 
 @app.route("/lab_rain")
 def read_rain():
-	#read_spi.readrain()
+	import read_spi
 	try:
 		return render_template("lab_temp.html",rain=read_spi.readrain())
 	except Exception:
