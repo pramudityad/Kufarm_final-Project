@@ -16,6 +16,11 @@ def template(title = "HELLO!", text = ""):
 		}
 	return templateDate
 
+@app.route("/")
+def hello():
+    templateData = template()
+return render_template("lab_temp.html", **templateData)
+
 @app.route("/temp")
 def read_temp():
 	import sys
@@ -35,7 +40,7 @@ def read_temp():
 	#return rain
 	#temp&hum
 	if humidity is not None and temperature is not None:
-		return render_template("lab_temp.html",soil=soil,rain=rain,temp=temperature,hum=humidity)
+		return render_template("lab_temp.html",soil=soil,rain=rain,temp=temperature,hum=humidity, **templateData)
 	else:
 		return render_template("no_sensor.html")
 
