@@ -48,6 +48,7 @@ from flask import Flask, request, render_template
 import time
 import datetime
 import arrow
+import read_spi
 
 app = Flask(__name__)
 app.debug = True # Make this False if you are no longer debugging
@@ -63,6 +64,20 @@ def lab_temp():
 	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
 	if humidity is not None and temperature is not None:
 		return render_template("lab_temp.html",temp=temperature,hum=humidity)
+	else:
+		return render_template("no_sensor.html")
+
+@app.route("/lab_soil")
+def readspi():
+	read_spi.readSensor(5)
+		return render_template("lab_temp.html",soil=val)
+	else:
+		return render_template("no_sensor.html")
+
+@app.route("/lab_rain")
+def readspi():
+	read_spi.readSensor(6)
+		return render_template("lab_temp.html",rain=val)
 	else:
 		return render_template("no_sensor.html")
 
