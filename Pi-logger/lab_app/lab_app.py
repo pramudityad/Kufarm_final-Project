@@ -6,39 +6,42 @@ import arrow
 app = Flask(__name__)
 app.debug = True # Make this False if you are no longer debugging
 
-@app.route("/")
-def hello():
-    return "Hello World!"
 
-@app.route("/temp")
-def read_temp():
-	import sys
-	import Adafruit_DHT
-	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
-	if humidity is not None and temperature is not None:
-		return render_template("lab_temp.html",temp=temperature,hum=humidity)
-	else:
-		return render_template("no_sensor.html")
+def template(title = "HELLO!", text = ""):
+    now = datetime.datetime.now()
+    timeString = now
+    templateDate = {
+        'title' : title,
+        'time' : timeString,
+        'text' : text
+        }
+return templateDate"
 
-@app.route("/soil")
-def read_soil():
+@app.route('/home')
+def page_home():
+	import dht11
 	import read_spi
-	soil=read_spi.readsoil()
-	try:
-		read_spi.readsoil()
-		return render_template("lab_temp.html",value=soil)
-	except Exception:
-		return render_template("no_sensor.html")
+	return render_template("lab_temp.html",temp=temperature,hum=humidity,soil=soil,rain=rain)
 
-@app.route("/rain")
-def read_rain():
-	import read_spi
-	rain=read_spi.readrain()
-	try:
-		read_spi.readrain()
-		return render_template("lab_temp.html",value=rain)
-	except Exception:
-		return render_template("no_sensor.html")
+#@app.route("/temp")
+#def read_temp():
+#	import sys
+#	import Adafruit_DHT
+#	humidity, temperature = Adafruit_DHT.read_retry(Adafruit_DHT.DHT11, 4)
+#	if humidity is not None and temperature is not None:
+#		return render_template("lab_temp.html",temp=temperature,hum=humidity)
+#	else:
+#		return render_template("no_sensor.html")
+
+#@app.route("/soil")
+#def read_soil():
+#	import read_spi
+#	soil=read_spi.readsoil()
+#	try:
+#		read_spi.readsoil()
+#		return render_template("lab_temp.html",value=soil)
+#	except Exception:
+#		return render_template("no_sensor.html")
 
 @app.route("/lab_env_db", methods=['GET'])  #Add date limits in the URL #Arguments: from=2015-03-04&to=2015-03-05
 def lab_env_db():
