@@ -48,27 +48,22 @@ def read_temp():
 
 @app.route("/lab_env_db", methods=['GET'])  #Add date limits in the URL #Arguments: from=2015-03-04&to=2015-03-05
 def lab_env_db():
-	temperatures, humidities, timezone, from_date_str, to_date_str = get_records()
+	dht11, timezone, from_date_str, to_date_str = get_records()
 
 	# Create new record tables so that datetimes are adjusted back to the user browser's time zone.
-	time_adjusted_temperatures = []
-	time_adjusted_humidities   = []
-	for record in temperatures:
+	time_adjusted_dht11 = []
+	for record in dht11:
 		local_timedate = arrow.get(record[0], "YYYY-MM-DD HH:mm").to(timezone)
-		time_adjusted_temperatures.append([local_timedate.format('YYYY-MM-DD HH:mm'), round(record[2],2)])
-
-	for record in humidities:
-		local_timedate = arrow.get(record[0], "YYYY-MM-DD HH:mm").to(timezone)
-		time_adjusted_humidities.append([local_timedate.format('YYYY-MM-DD HH:mm'), round(record[2],2)])
+		time_adjusted_dht11.append([local_timedate.format('YYYY-MM-DD HH:mm'), round(record[2],2)])
 
 	print "rendering lab_env_db.html with: %s, %s, %s" % (timezone, from_date_str, to_date_str)
 
 	return render_template("lab_env_db.html",	timezone		= timezone,
-												temp 			= time_adjusted_temperatures,
-												hum 			= time_adjusted_humidities, 
+												temp 			= time_adjusted_dht11,
+												#hum 			= time_adjusted_humidities, 
 												from_date 		= from_date_str, 
 												to_date 		= to_date_str,
-												temp_items 		= len(temperatures),
+												temp_items 		= len(dht11),
 												query_string	= request.query_string, #This query string is used
 																						#by the Plotly link
 												hum_items 		= len(humidities))
@@ -120,19 +115,19 @@ def get_records():
 					 db="gfarm")
 	curs 			    = conn.cursor()
 	curs.execute("SELECT temperature FROM dht11 WHERE created_at BETWEEN ? AND ?", (from_date_utc.format('YYYY-MM-DD HH:mm'), to_date_utc.format('YYYY-MM-DD HH:mm')))
-	temperatures 	    = curs.fetchall()
+	dht11 	    = curs.fetchall()
 	curs.execute("SELECT humidity FROM dht11 WHERE created_at BETWEEN ? AND ?", (from_date_utc.format('YYYY-MM-DD HH:mm'), to_date_utc.format('YYYY-MM-DD HH:mm')))
-	humidities 		    = curs.fetchall()
+	dht11 		    = curs.fetchall()
 	conn.close()
 
-	return [temperatures, humidities, timezone, from_date_str, to_date_str]
+	return [dht11, timezone, from_date_str, to_date_str]
 
 @app.route("/to_plotly", methods=['GET'])  #This method will send the data to ploty.
 def to_plotly():
 	import plotly.plotly as py
 	from plotly.graph_objs import *
 
-	temperatures, humidities, timezone, from_date_str, to_date_str = get_records()
+	dht11, timezone, from_date_str, to_date_str = get_records()
 
 	# Create new record tables so that datetimes are adjusted back to the user browser's time zone.
 	time_series_adjusted_tempreratures  = []
@@ -140,28 +135,22 @@ def to_plotly():
 	time_series_temprerature_values 	= []
 	time_series_humidity_values 		= []
 
-	for record in temperatures:
+	for record in dht11:
 		local_timedate = arrow.get(record[0], "YYYY-MM-DD HH:mm").to(timezone)
 		time_series_adjusted_tempreratures.append(local_timedate.format('YYYY-MM-DD HH:mm'))
 		time_series_temprerature_values.append(round(record[2],2))
-
-	for record in humidities:
-		local_timedate = arrow.get(record[0], "YYYY-MM-DD HH:mm").to(timezone)
-		time_series_adjusted_humidities.append(local_timedate.format('YYYY-MM-DD HH:mm')) #Best to pass datetime in text
-																						  #so that Plotly respects it
-		time_series_humidity_values.append(round(record[2],2))
 
 	temp = Scatter(
 				x=time_series_adjusted_tempreratures,
 				y=time_series_temprerature_values,
 				name='Temperature'
 					)
-	hum = Scatter(
-				x=time_series_adjusted_humidities,
-				y=time_series_humidity_values,
-				name='Humidity',
-				yaxis='y2'
-					)
+	#hum = Scatter(
+				#x=time_series_adjusted_humidities,
+				#y=time_series_humidity_values,
+				#name='Humidity',
+				#yaxis='y2'
+					#)
 
 	data = Data([temp, hum])
 
