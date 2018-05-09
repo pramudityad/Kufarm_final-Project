@@ -10,8 +10,8 @@ def getData():
 
 	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT 1"):
 		time = str(row[1])
-		#temp = row[2]
-		#hum = row[3]
+		temp = row[2]
+		hum = row[3]
 		soil = row[6]
 		rain = row[9]
 	conn.close()
@@ -20,7 +20,7 @@ def getData():
 # main route 
 @app.route("/")
 def index():	
-	time, temp, hum = getData()
+	time, temp, hum, soil = getData()
 	templateData = {
 	  'time'	: time,
       'temp'	: temp,
