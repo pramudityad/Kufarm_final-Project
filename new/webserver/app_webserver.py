@@ -15,12 +15,12 @@ def getData():
 		soil = row[6]
 		rain = row[9]
 	conn.close()
-	return time, temp, hum, soil
+	return time, temp, hum, soil, rain
 
 # main route 
 @app.route("/")
 def index():	
-	time, temp, hum, soil = getData()
+	time, temp, hum, soil, rain = getData()
 	templateData = {
 	  'time'	: time,
       'temp'	: temp,
