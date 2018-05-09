@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>DHT Data Sensor</title>
+    <title>Data Sensor</title>
     <link rel="stylesheet" href='../static/style.css'/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
@@ -41,12 +41,12 @@
 				id: "g1",
 				value: {{temp}},
 				valueFontColor: "red",
-				min: -10,
-				max: 50,
+				min: 0,
+				max: 70,
 				title: "Temperature",
 				label: "Celcius"
 			});
-				{
+				
 			g2 = new JustGage({
 				id: "g2",
 				value: {{hum}},
@@ -56,27 +56,26 @@
 				title: "Humidity",
 				label: "%"
 			});
-				{
+			
 			g3 = new JustGage({
 				id: "g3",
 				value: {{soil}},
 				valueFontColor: "green",
 				min: 0,
-				max: 100,
+				max: 1024,
 				title: "Soil",
 				label: "ADC"
 			});
-				{
+				
 			g4 = new JustGage({
 				id: "g4",
 				value: {{rain}},
 				valueFontColor: "blue",
 				min: 0,
-				max: 100,
+				max: 1024,
 				title: "Rain",
 				label: "Intensity"
 			});
-
 		});
     </script>
 </body>
