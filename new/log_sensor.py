@@ -4,7 +4,7 @@ import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 dbname='kufarm.db'
-sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+sampleFreq = 1*600 # time in seconds ==> Sample each 10 min
 
 # get data from DHT sensor
 def getdht():	
