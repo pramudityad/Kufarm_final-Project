@@ -15,7 +15,7 @@ def getData():
 		soil = row[6]
 		rain = row[9]
 	conn.close()
-	return time, soil, rain
+	return time, temp, hum, soil
 
 # main route 
 @app.route("/")
