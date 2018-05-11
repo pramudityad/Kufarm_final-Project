@@ -11,7 +11,6 @@
 '''
 
 from datetime import datetime
-
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import io
@@ -36,15 +35,15 @@ def getLastData():
 def getHistData (numSamples):
 	curs.execute("SELECT * FROM DHT_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
-	dates = []
+	times = []
 	temps = []
 	hums = []
 	for row in reversed(data):
-		dates.append(row[0])
-		temps.append(row[1])
-		hums.append(row[2])
+		times.append(row[1])
+		temps.append(row[2])
+		hums.append(row[3])
 		temps, hums = testeData(temps, hums)
-	return dates, temps, hums
+	return times, temps, hums
 
 # Test data for cleanning possible "out of range" values
 def testeData(temps, hums):
