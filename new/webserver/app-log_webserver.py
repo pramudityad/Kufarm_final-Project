@@ -182,7 +182,7 @@ def plot_soil():
 
 #plot rain
 @app.route('/plot/rain')
-def plot_hum():
+def plot_rain():
 	times, rains = getHistData(numSamples)
 	ys = rains
 	fig = Figure()
