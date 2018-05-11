@@ -23,19 +23,19 @@ def getLastData():
 def getHistData (numSamples):
 	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
-	times = []
+	dates = []
 	temps = []
 	hums = []
 	soils = []
 	rains = []
 	for row in reversed(data):
-		times.append(row[1])
+		dates.append(row[1])
 		temps.append(row[2])
 		hums.append(row[3])
 		soils.append(row[6])
 		rains.append(row[9])
 		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
-	return times, temps, hums, soils, rains
+	return dates, temps, hums, soils, rains
 
 # Test data for cleanning possible "out of range" values
 def testeData(temps, hums, soils, rains):
@@ -82,7 +82,6 @@ rangeTime = 100
 # main route 
 @app.route("/")
 def index():
-	
 	time, temp, hum, soil, rain = getLastData()
 	templateData = {
 	  'time'		: time,
