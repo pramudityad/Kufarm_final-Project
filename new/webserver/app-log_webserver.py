@@ -34,6 +34,7 @@ def getHistData (numSamples):
 		hums.append(row[3])
 		soils.append(row[6])
 		rains.append(row[9])
+		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
 	return times, temps, hums, soils, rains
 
 # Test data for cleanning possible "out of range" values
@@ -43,16 +44,16 @@ def testeData(temps, hums, soils, rains):
 		if (temps[i] < 0 or temps[i] >70):
 			temps[i] = temps[i-2]
 		if (hums[i] < 0 or hums[i] >100):
-			hums[i] = hums[i-2]
+			hums[i] = temps[i-2]
 		if (soils[i] < 0 or soils[i] >1024):
-			soils[i] = soils[i-2]
+			soils[i] = temps[i-2]
 		if (rains[i] < 0 or rains[i] >100):
-			rains[i] = rains[i-2]		
+			rains[i] = temps[i-2]		
 	return temps, hums, soils, rains
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	for row in curs.execute("select COUNT(*) from  DHT_data, soil, rain"):
+	for row in curs.execute("select COUNT() from  DHT_data, soil, rain"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
