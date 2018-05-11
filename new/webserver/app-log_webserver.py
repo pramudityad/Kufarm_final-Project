@@ -109,7 +109,6 @@ def my_form_post():
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
         numSamples = (numMaxSamples-1)
-    
     time, temp, hum, soil, rain = getLastData()
     
     templateData = {
