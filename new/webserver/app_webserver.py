@@ -35,15 +35,15 @@ def getLastData():
 def getHistData (numSamples):
 	curs.execute("SELECT * FROM DHT_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
-	times = []
+	dates = []
 	temps = []
 	hums = []
 	for row in reversed(data):
-		times.append(row[1])
+		dates.append(row[1])
 		temps.append(row[2])
 		hums.append(row[3])
 		temps, hums = testeData(temps, hums)
-	return times, temps, hums
+	return dates, temps, hums
 
 # Test data for cleanning possible "out of range" values
 def testeData(temps, hums):
