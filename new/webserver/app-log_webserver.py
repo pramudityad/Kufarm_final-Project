@@ -36,17 +36,47 @@ def getHistData (numSamples):
 		rains.append(row[9])
 	return times, temps, hums, soils, rains
 
+# Test data for cleanning possible "out of range" values
+def testeData(temps, hums, soils, rains):
+	n = len(temps)
+	for i in range(0, n-1):
+		if (temps[i] < 0 or temps[i] >70):
+			temps[i] = temps[i-2]
+		if (hums[i] < 0 or hums[i] >100):
+			hums[i] = hums[i-2]
+		if (soils[i] < 0 or soils[i] >1024):
+			soils[i] = soils[i-2]
+		if (rains[i] < 0 or rains[i] >100):
+			rains[i] = rains[i-2]		
+	return temps, hums, soils, rains
+
+# Get Max number of rows (table size)
 def maxRowsTable():
 	for row in curs.execute("select COUNT(*) from  DHT_data, soil, rain"):
 		maxNumberRows=row[0]
 	return maxNumberRows
+
+# Get sample frequency in minutes
+def freqSample():
+	times, temps, hums, soils, rains = getHistData (2)
+	fmt = '%Y-%m-%d %H:%M:%S'
+	tstamp0 = datetime.strptime(times[0], fmt)
+	tstamp1 = datetime.strptime(times[1], fmt)
+	freq = tstamp1-tstamp0
+	freq = int(round(freq.total_seconds()/60))
+	return (freq)
 
 #initialize global variables
 global numSamples
 numSamples = maxRowsTable()
 if (numSamples > 101):
 	numSamples = 100
-	
+
+global freqSamples
+freqSamples = freqSample()
+
+global rangeTime
+rangeTime = 100	
 	
 # main route 
 @app.route("/")
@@ -59,15 +89,22 @@ def index():
       'hum'			: hum,
       'soil'		: soil,
       'rain'		: rain,
-      'numSamples'	: numSamples
+      'freq'		: freqSamples,
+      'rangeTime'	: rangeTime
+      #'numSamples'	: numSamples
 	}
-	return render_template('index.html', **templateData)
+	return render_template('index_copy3.html', **templateData)
 
 
 @app.route('/', methods=['POST'])
 def my_form_post():
     global numSamples 
-    numSamples = int (request.form['numSamples'])
+    global freqSamples
+    global rangeTime
+    rangeTime = int (request.form['rangeTime'])
+    if (rangeTime < freqSamples):
+        rangeTime = freqSamples + 1
+    numSamples = rangeTime//freqSamples
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
         numSamples = (numMaxSamples-1)
@@ -80,9 +117,11 @@ def my_form_post():
       'hum'			: hum,
       'soil'		: soil,
       'rain'		: rain,
-      'numSamples'	: numSamples
+      'freq'		: freqSamples,
+      'rangeTime'	: rangeTime
+      #'numSamples'	: numSamples
 	}
-    return render_template('index.html', **templateData)
+    return render_template('index_copy3.html', **templateData)
 	
 #plot temp	
 @app.route('/plot/temp')

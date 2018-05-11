@@ -4,7 +4,7 @@ body{
 	padding:1%
 }
 .button {
-	font: bold 15px Arial;
+	font: bold 15px Lucida Console;
 	text-decoration: none;
 	background-color: #EEEEEE;
 	color: #333333;
@@ -13,4 +13,8 @@ body{
 	border-right: 1px solid #333333;
 	border-bottom: 1px solid #333333;
 	border-left: 1px solid #CCCCCC;
+}
+
+img{
+	display: display: inline-block
 }
