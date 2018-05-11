@@ -94,7 +94,7 @@ def index():
       'temp'		: temp,
       'hum'			: hum,
       'freq'		: freqSamples,
-      'rangeTime'		: rangeTime
+      'rangeTime'	: rangeTime
 	}
 	return render_template('index_copy.html', **templateData)
 
