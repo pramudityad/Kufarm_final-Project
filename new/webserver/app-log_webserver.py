@@ -53,7 +53,7 @@ def testeData(temps, hums, soils, rains):
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	for row in curs.execute("select COUNT() from  DHT_data, soil, rain"):
+	for row in curs.execute("select COUNT(temp) from  DHT_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
