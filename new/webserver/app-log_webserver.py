@@ -163,7 +163,7 @@ def plot_hum():
 
 #plot soil
 @app.route('/plot/soil')
-def plot_hum():
+def plot_soil():
 	times, soils = getHistData(numSamples)
 	ys = soils
 	fig = Figure()
