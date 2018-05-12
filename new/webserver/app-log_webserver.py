@@ -2,7 +2,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from datetime import datetime
 import io
-import time, datetime
+import time
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
