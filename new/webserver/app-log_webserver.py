@@ -168,7 +168,7 @@ def plot_soil():
 	ys = soils
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("ADC")
+	axis.set_title("Soil Condition")
 	axis.set_xlabel("Samples")
 	axis.grid(True)
 	xs = range(numSamples)
@@ -187,7 +187,7 @@ def plot_rain():
 	ys = rains
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("Intensity")
+	axis.set_title("Rain Intensity")
 	axis.set_xlabel("Samples")
 	axis.grid(True)
 	xs = range(numSamples)
