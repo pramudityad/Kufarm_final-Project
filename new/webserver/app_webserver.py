@@ -32,7 +32,7 @@ def getLastData():
 	return time, temp, hum
 
 # Get 'x' samples of historical data
-def getHistData (numSamples):
+def getHistData(numSamples):
 	curs.execute("SELECT * FROM DHT_data ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
 	dates = []
@@ -64,7 +64,7 @@ def maxRowsTable():
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums = getHistData (2)
+	times, temps, hums = getHistData(2)
 	fmt = '%Y-%m-%d %H:%M:%S'
 	tstamp0 = datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.strptime(times[1], fmt)
@@ -126,7 +126,7 @@ def my_form_post():
 	
 @app.route('/plot/temp')
 def plot_temp():
-	times, temps, hums = getHistData(numSamples)
+	times, temps = getHistData(numSamples)
 	ys = temps
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -144,7 +144,7 @@ def plot_temp():
 
 @app.route('/plot/hum')
 def plot_hum():
-	times, temps, hums = getHistData(numSamples)
+	times, hums = getHistData(numSamples)
 	ys = hums
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)

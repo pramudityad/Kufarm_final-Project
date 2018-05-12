@@ -3,8 +3,8 @@ import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-dbname='kufarm.db'
-sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+dbname='../kufarm.db'
+#sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
 # get data from DHT sensor
 def getdht():	

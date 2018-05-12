@@ -1,7 +1,13 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from datetime import datetime
+import time, datetime
 import io
+import time
+import sqlite3
+import Adafruit_DHT
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
+#import log_sensor as sensor
 
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
@@ -9,6 +15,8 @@ app = Flask(__name__)
 import sqlite3
 conn=sqlite3.connect('../kufarm.db')
 curs=conn.cursor()
+
+#sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
 # Retrieve LAST data from database
 def getLastData():
@@ -21,7 +29,7 @@ def getLastData():
 	#conn.close()
 	return time, temp, hum, soil, rain
 
-def getHistData (numSamples):
+def getHistData(numSamples):
 	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
 	dates = []
@@ -42,7 +50,7 @@ def getHistData (numSamples):
 def testeData(temps, hums, soils, rains):
 	n = len(temps)
 	for i in range(0, n-1):
-		if (temps[i] < 0 or temps[i] >70):
+		if (temps[i] < -10 or temps[i] >50):
 			temps[i] = temps[i-2]
 		if (hums[i] < 0 or hums[i] >100):
 			hums[i] = temps[i-2]
@@ -54,16 +62,16 @@ def testeData(temps, hums, soils, rains):
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	for row in curs.execute("select COUNT(temp) from  DHT_data, soil, rain"):
+	for row in curs.execute("select COUNT(temp) from  DHT_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums, soils, rains = getHistData (2)
+	times, temps, hums, soils, rains = getHistData(3)
 	fmt = '%Y-%m-%d %H:%M:%S'
-	tstamp0 = datetime.strptime(times[0], fmt)
-	tstamp1 = datetime.strptime(times[1], fmt)
+	tstamp0 = datetime.datetime.strptime(times[0], fmt)
+	tstamp1 = datetime.datetime.strptime(times[1], fmt)
 	freq = tstamp1-tstamp0
 	freq = int(round(freq.total_seconds()/60))
 	return (freq)
@@ -83,50 +91,51 @@ rangeTime = 100
 # main route 
 @app.route("/")
 def index():
+	#sensor.main()
 	time, temp, hum, soil, rain = getLastData()
 	templateData = {
 	  'time'		: time,
-      'temp'		: temp,
-      'hum'			: hum,
-      'soil'		: soil,
-      'rain'		: rain,
-      'freq'		: freqSamples,
-      'rangeTime'	: rangeTime
-      #'numSamples'	: numSamples
+	  'temp'		: temp,
+	  'hum'			: hum,
+	  'soil'		: soil,
+	  'rain'		: rain,
+	  'freq'		: freqSamples,
+	  'rangeTime'	: rangeTime
+	  #'numSamples'	: numSamples
 	}
 	return render_template('index_copy3.html', **templateData)
 
 
 @app.route('/', methods=['POST'])
 def my_form_post():
-    global numSamples 
-    global freqSamples
-    global rangeTime
-    rangeTime = int (request.form['rangeTime'])
-    if (rangeTime < freqSamples):
-        rangeTime = freqSamples + 1
-    numSamples = rangeTime//freqSamples
-    numMaxSamples = maxRowsTable()
-    if (numSamples > numMaxSamples):
-        numSamples = (numMaxSamples-1)
-    time, temp, hum, soil, rain = getLastData()
-    
-    templateData = {
+	global numSamples 
+	global freqSamples
+	global rangeTime
+	rangeTime = int (request.form['rangeTime'])
+	if (rangeTime < freqSamples):
+		rangeTime = freqSamples + 1
+	numSamples = rangeTime//freqSamples
+	numMaxSamples = maxRowsTable()
+	if (numSamples > numMaxSamples):
+		numSamples = (numMaxSamples-1)
+	time, temp, hum, soil, rain = getLastData()
+	
+	templateData = {
 	  'time'		: time,
-      'temp'		: temp,
-      'hum'			: hum,
-      'soil'		: soil,
-      'rain'		: rain,
-      'freq'		: freqSamples,
-      'rangeTime'	: rangeTime
-      #'numSamples'	: numSamples
+	  'temp'		: temp,
+	  'hum'			: hum,
+	  'soil'		: soil,
+	  'rain'		: rain,
+	  'freq'		: freqSamples,
+	  'rangeTime'	: rangeTime
+	  #'numSamples'	: numSamples
 	}
-    return render_template('index_copy3.html', **templateData)
+	return render_template('index_copy3.html', **templateData)
 	
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	times, temps, hums = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = temps
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -145,7 +154,7 @@ def plot_temp():
 #plot hum
 @app.route('/plot/hum')
 def plot_hum():
-	times, temps, hums = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = hums
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -164,7 +173,7 @@ def plot_hum():
 #plot soil
 @app.route('/plot/soil')
 def plot_soil():
-	times, soils = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = soils
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -183,7 +192,7 @@ def plot_soil():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	times, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = rains
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -200,5 +209,6 @@ def plot_rain():
 	return response
 
 if __name__ == "__main__":
-   app.run(host='0.0.0.0', port=8080, debug=False)
+	# ------------ Execute program 
+	app.run(host='0.0.0.0', port=8080, debug=False)
 
