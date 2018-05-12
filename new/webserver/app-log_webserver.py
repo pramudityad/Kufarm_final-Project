@@ -1,6 +1,5 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-#from datetime import datetime
 import time, datetime
 import io
 import time
@@ -121,8 +120,8 @@ def maxRowsTable():
 def freqSample():
 	times, temps, hums, soils, rains = getHistData (2)
 	fmt = '%Y-%m-%d %H:%M:%S'
-	tstamp0 = datetime.strptime(times[0], fmt)
-	tstamp1 = datetime.strptime(times[1], fmt)
+	tstamp0 = datetime.datetime.strptime(times[0], fmt)
+	tstamp1 = datetime.datetime.strptime(times[1], fmt)
 	freq = tstamp1-tstamp0
 	freq = int(round(freq.total_seconds()/60))
 	return (freq)
