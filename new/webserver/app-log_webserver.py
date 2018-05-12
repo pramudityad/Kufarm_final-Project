@@ -48,13 +48,13 @@ def testeData(temps, hums, soils, rains):
 			hums[i] = temps[i-2]
 		if (soils[i] < 0 or soils[i] >1024):
 			soils[i] = temps[i-2]
-		if (rains[i] < 0 or rains[i] >100):
+		if (rains[i] < 0 or rains[i] >1024):
 			rains[i] = temps[i-2]		
 	return temps, hums, soils, rains
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	for row in curs.execute("select COUNT(temp) from  DHT_data"):
+	for row in curs.execute("select COUNT(temp) from  DHT_data, soil, rain"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
