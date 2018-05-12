@@ -1,6 +1,5 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-from time import sleep
 import time, datetime
 import io
 import time
@@ -8,7 +7,7 @@ import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-import log_sensor as sensor
+#import log_sensor as sensor
 
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
@@ -17,7 +16,7 @@ import sqlite3
 conn=sqlite3.connect('../kufarm.db')
 curs=conn.cursor()
 
-sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+#sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
 # Retrieve LAST data from database
 def getLastData():
@@ -30,7 +29,7 @@ def getLastData():
 	#conn.close()
 	return time, temp, hum, soil, rain
 
-def getHistData (numSamples):
+def getHistData(numSamples):
 	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
 	dates = []
@@ -69,7 +68,7 @@ def maxRowsTable():
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums, soils, rains = getHistData (2)
+	times, temps, hums, soils, rains = getHistData(3)
 	fmt = '%Y-%m-%d %H:%M:%S'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
@@ -92,14 +91,7 @@ rangeTime = 100
 # main route 
 @app.route("/")
 def index():
-	while True:
-		temp, hum = sensor.getdht()
-		soil = sensor.getsoil()
-		rain = sensor.getrain()
-		sensor.logdht (temp, hum)
-		sensor.logsoil (soil)
-		sensor.lograin (rain)
-		sleep(sampleFreq)
+	#sensor.main()
 	time, temp, hum, soil, rain = getLastData()
 	templateData = {
 	  'time'		: time,
