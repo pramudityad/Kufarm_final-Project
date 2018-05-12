@@ -135,7 +135,7 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	times, temps, hums = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = temps
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -154,7 +154,7 @@ def plot_temp():
 #plot hum
 @app.route('/plot/hum')
 def plot_hum():
-	times, temps, hums = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = hums
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -173,7 +173,7 @@ def plot_hum():
 #plot soil
 @app.route('/plot/soil')
 def plot_soil():
-	times, soils = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = soils
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -192,7 +192,7 @@ def plot_soil():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	times, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = getHistData(numSamples)
 	ys = rains
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
