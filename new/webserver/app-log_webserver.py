@@ -1,5 +1,6 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from time import sleep
 import time, datetime
 import io
 import time
@@ -98,7 +99,7 @@ def index():
 		sensor.logdht (temp, hum)
 		sensor.logsoil (soil)
 		sensor.lograin (rain)
-		time.sleep(sampleFreq)
+		sleep(sampleFreq)
 	time, temp, hum, soil, rain = getLastData()
 	templateData = {
 	  'time'		: time,
