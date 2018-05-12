@@ -62,13 +62,13 @@ def testeData(temps, hums, soils, rains):
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	for row in curs.execute("select COUNT(temp) from  DHT_data, soil, rain"):
+	for row in curs.execute("select COUNT(temp) from  DHT_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums, soils, rains = getHistData(10)
+	times, temps, hums, soils, rains = getHistData(3)
 	fmt = '%Y-%m-%d %H:%M:%S'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
