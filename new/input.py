@@ -4,7 +4,6 @@ import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 dbname='kufarm.db'
-conn=sqlite3.connect(dbname)
 
 sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
@@ -39,6 +38,7 @@ def getrain():
 def logdht (temp, hum):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO DHT_data (timestamp, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
 	conn.commit()
@@ -48,6 +48,7 @@ def logdht (temp, hum):
 def logsoil (soil):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO soil (timestamp, value) values('"+currentTime+"', "+str(soil)+")")
 	conn.commit()
@@ -57,6 +58,7 @@ def logsoil (soil):
 def lograin (rain):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
 	conn.commit()
@@ -66,6 +68,7 @@ def lograin (rain):
 def addForecast(code,weather,wsp,dataTime):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "INSERT INTO forecast(code,weather,wsp,date) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"')"
 	try:
@@ -81,6 +84,7 @@ def addForecast(code,weather,wsp,dataTime):
 
 def getLatitude():
 	val = 0
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY id DESC LIMIT 1"
 	try:
@@ -94,6 +98,7 @@ def getLatitude():
 
 def getLongitude():
 	val = 0
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY id DESC LIMIT 1"
 	try:
@@ -107,6 +112,7 @@ def getLongitude():
 
 def getTimezone():
 	val = 0
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY id DESC LIMIT 1"
 	try:
@@ -121,6 +127,7 @@ def getTimezone():
 def addSunTime(data):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "INSERT INTO sun(sunrise,sunset,created_at) VALUES ('"+data[0]+"','"+data[1]+"','"+currentTime+"')"
 	try:
@@ -135,6 +142,7 @@ def addSunTime(data):
 
 def getPlant():
 	val = None
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY id DESC LIMIT 1"
 	try:
@@ -148,6 +156,7 @@ def getPlant():
 
 def getPlantDetail(data):
 	val = ""
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT * FROM tanaman WHERE id = 1 AND deleted_at IS NULL"
 	try:
@@ -161,6 +170,7 @@ def getPlantDetail(data):
 
 def getAir(umur, id_tanaman):
 	val = {}
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT * FROM karakteristik WHERE id_tanaman = "+str(id_tanaman)+" AND umur > "+str(umur)+" AND deleted_at IS NULL ORDER BY umur ASC LIMIT 1"
 	try:
@@ -175,6 +185,7 @@ def getAir(umur, id_tanaman):
 
 def getPerLiter():
 	val = None
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY id DESC LIMIT 1"
 	try:
@@ -188,6 +199,7 @@ def getPerLiter():
     
 def getPerMl():
 	val = None
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY id DESC LIMIT 1"
 	try:
@@ -202,6 +214,7 @@ def getPerMl():
 def addPumpLog(device,status):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
 	try:
