@@ -7,8 +7,8 @@ import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-import openweather as openweather
-import wunderground as wunderground
+#import openweather as openweather
+#import wunderground as wunderground
 #import log_sensor as sensor
 
 from flask import Flask, render_template, send_file, make_response, request
