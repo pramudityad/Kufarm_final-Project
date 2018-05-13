@@ -5,7 +5,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 dbname='kufarm.db'
 conn=sqlite3.connect(dbname)
-curs=conn.cursor()
+
 sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
 # get data from DHT sensor
@@ -39,6 +39,7 @@ def getrain():
 def logdht (temp, hum):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	curs=conn.cursor()
 	curs.execute("INSERT INTO DHT_data (timestamp, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
 	conn.commit()
 	conn.close()
@@ -47,6 +48,7 @@ def logdht (temp, hum):
 def logsoil (soil):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	curs=conn.cursor()
 	curs.execute("INSERT INTO soil (timestamp, value) values('"+currentTime+"', "+str(soil)+")")
 	conn.commit()
 	conn.close()
@@ -55,6 +57,7 @@ def logsoil (soil):
 def lograin (rain):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	curs=conn.cursor()
 	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
 	conn.commit()
 	conn.close()
@@ -63,6 +66,7 @@ def lograin (rain):
 def addForecast(code,weather,wsp,dataTime):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	curs=conn.cursor()
 	sql = "INSERT INTO forecast(code,weather,wsp,date) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"')"
 	try:
 		curs.execute(sql)
@@ -77,6 +81,7 @@ def addForecast(code,weather,wsp,dataTime):
 
 def getLatitude():
 	val = 0
+	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -89,6 +94,7 @@ def getLatitude():
 
 def getLongitude():
 	val = 0
+	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -101,6 +107,7 @@ def getLongitude():
 
 def getTimezone():
 	val = 0
+	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -114,6 +121,7 @@ def getTimezone():
 def addSunTime(data):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	curs=conn.cursor()
 	sql = "INSERT INTO sun(sunrise,sunset,created_at) VALUES ('"+data[0]+"','"+data[1]+"','"+currentTime+"')"
 	try:
 		curs.execute(sql)
@@ -127,6 +135,7 @@ def addSunTime(data):
 
 def getPlant():
 	val = None
+	curs=conn.cursor()
 	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -139,6 +148,7 @@ def getPlant():
 
 def getPlantDetail(data):
 	val = ""
+	curs=conn.cursor()
 	sql = "SELECT * FROM tanaman WHERE id = 1 AND deleted_at IS NULL"
 	try:
 		curs.execute(sql)
@@ -151,6 +161,7 @@ def getPlantDetail(data):
 
 def getAir(umur, id_tanaman):
 	val = {}
+	curs=conn.cursor()
 	sql = "SELECT * FROM karakteristik WHERE id_tanaman = "+str(id_tanaman)+" AND umur > "+str(umur)+" AND deleted_at IS NULL ORDER BY umur ASC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -164,6 +175,7 @@ def getAir(umur, id_tanaman):
 
 def getPerLiter():
 	val = None
+	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -176,6 +188,7 @@ def getPerLiter():
     
 def getPerMl():
 	val = None
+	curs=conn.cursor()
 	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY id DESC LIMIT 1"
 	try:
 		curs.execute(sql)
@@ -189,6 +202,7 @@ def getPerMl():
 def addPumpLog(device,status):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	curs=conn.cursor()
 	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
 	try:
 		curs.execute(sql)
