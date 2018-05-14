@@ -95,7 +95,7 @@ def index():
 	  'rangeTime'	: rangeTime
 	  #'numSamples'	: numSamples
 	}
-	return render_template('templates/index_copy3.html', **templateData)
+	return render_template('index_copy3.html', **templateData)
 
 
 @app.route('/', methods=['POST'])
@@ -122,7 +122,7 @@ def my_form_post():
 	  'rangeTime'	: rangeTime
 	  #'numSamples'	: numSamples
 	}
-	return render_template('templates/index_copy3.html', **templateData)
+	return render_template('index_copy3.html', **templateData)
 	
 #plot temp	
 @app.route('/plot/temp')
