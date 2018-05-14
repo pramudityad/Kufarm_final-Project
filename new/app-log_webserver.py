@@ -19,7 +19,8 @@ import sqlite3
 conn=sqlite3.connect('/kufarm.db')
 curs=conn.cursor()
 
-sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+requestStatus = False;
 
 #initialize global variables
 global numSamples
@@ -35,8 +36,8 @@ rangeTime = 100
 
 print "Start"
 while (requestStatus == False):
-		IN.requestData()
-		time.sleep(1)
+	IN.requestData()
+	time.sleep(1)
 IN.cekOwCode()
 IN.cekWuCode()	
 
@@ -92,7 +93,7 @@ def index():
 	  'rangeTime'	: rangeTime
 	  #'numSamples'	: numSamples
 	}
-	return render_template('index_copy3.html', **templateData)
+	return render_template('templates/index_copy3.html', **templateData)
 
 
 @app.route('/', methods=['POST'])
@@ -119,7 +120,7 @@ def my_form_post():
 	  'rangeTime'	: rangeTime
 	  #'numSamples'	: numSamples
 	}
-	return render_template('index_copy3.html', **templateData)
+	return render_template('templates/index_copy3.html', **templateData)
 	
 #plot temp	
 @app.route('/plot/temp')
