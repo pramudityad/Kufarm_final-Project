@@ -31,7 +31,10 @@ freqSamples = DB.freqSample()
 global rangeTime
 rangeTime = 100	
 
+global sampleFreq
 sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+
+global requestStatus
 requestStatus = False
 
 print "Start"
