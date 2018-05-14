@@ -1,6 +1,7 @@
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import time, datetime
+import os
 import io
 import time
 import math
@@ -45,15 +46,16 @@ rangeTime = 100
 #global sampleFreq
 #sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 
-#global requestStatus
-#requestStatus = False
 
-print "Start"
-while (requestStatus == False):
-	IN.requestData()
-	time.sleep(1)
-IN.cekOwCode()
-IN.cekWuCode()	
+def init():
+	global requestStatus
+	requestStatus = False
+	print "Start"
+	while (requestStatus == False):
+		IN.requestData()
+		time.sleep(1)
+	IN.cekOwCode()
+	IN.cekWuCode()	
 
 # main route 
 @app.route("/")
@@ -61,6 +63,7 @@ def index():
 	global terbit
 	global terbenam
 	while True:
+		init()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
