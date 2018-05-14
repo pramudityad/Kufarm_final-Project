@@ -73,9 +73,9 @@ def index():
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
 		try:
-			temp, hum = getdht()
-			soil = getsoil()
-			rain = getrain()
+			temp, hum = IN.getdht()
+			soil = IN.getsoil()
+			rain = IN.getrain()
 			DB.logdht (temp, hum)
 			DB.logsoil (soil)
 			DB.lograin (rain)
