@@ -45,44 +45,43 @@ rangeTime = 100
 # main route 
 @app.route("/")
 def index():
-	def run(*args):
-		global terbit
-		global terbenam
-		while True:
-			now = datetime.datetime.now()
-			timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
-			terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-			terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-			strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-			strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-			print timeRequest
-			if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-				IN.requestData()
-				IN.cekOwCode()
-				IN.cekWuCode()
-				if(now.minute==0 and now.second==0):
-					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-					if(now.hour == 0):
-							DB.addSunTime([strTerbit,strTerbenam])
-					code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
-					weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
-					wsp = "wunderground"
+	global terbit
+	global terbenam
+	while True:
+		now = datetime.datetime.now()
+		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
+		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+		print timeRequest
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			IN.requestData()
+			IN.cekOwCode()
+			IN.cekWuCode()
+			if(now.minute==0 and now.second==0):
+				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+				if(now.hour == 0):
+						DB.addSunTime([strTerbit,strTerbenam])
+				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
+				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
+				wsp = "wunderground"
+				DB.addForecast(code,weather,wsp,timeRequest)
+				if(now.hour%3==0):
+					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-					if(now.hour%3==0):
-						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)
-			try:
-				temp, hum = IN.getdht()
-				soil = IN.getsoil()
-				rain = IN.getrain()
-				DB.logdht (temp, hum)
-				DB.logsoil (soil)
-				DB.lograin (rain)
-				time.sleep(sampleFreq)
-			except Exception as e:
-				print e
+		try:
+			temp, hum = IN.getdht()
+			soil = IN.getsoil()
+			rain = IN.getrain()
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
+			time.sleep(sampleFreq)
+		except Exception as e:
+			print e
 
 	time, temp, hum, soil, rain = DB.getLastData()
 	templateData = {
