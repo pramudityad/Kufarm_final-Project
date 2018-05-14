@@ -276,36 +276,6 @@ def getrain():
 	rain = 1024-rain
 	return rain
 
-# log dht sensor data on database
-def logdht (temp, hum):
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO DHT_data (timestamp, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
-	conn.commit()
-	conn.close()
-
-# log spi sensor data on database
-def logsoil (soil):
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO soil (timestamp, value) values('"+currentTime+"', "+str(soil)+")")
-	conn.commit()
-	conn.close()
-
-# log spi sensor data on database
-def lograin (rain):
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
-	conn.commit()
-	conn.close()
-
 # main function
 def main():
 	print "Start"
@@ -343,9 +313,9 @@ def main():
 				temp, hum = getdht()
 				soil = getsoil()
 				rain = getrain()
-				logdht (temp, hum)
-				logsoil (soil)
-				lograin (rain)
+				DB.logdht (temp, hum)
+				DB.logsoil (soil)
+				DB.lograin (rain)
 				time.sleep(sampleFreq)
 			except Exception as e:
 				print e
