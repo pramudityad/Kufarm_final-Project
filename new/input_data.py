@@ -11,10 +11,6 @@ import database as DB
 import hisab as hisab
 import openweather as OW
 import wunderground as WU		
-dbname='kufarm.db'
-
-sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
-requestStatus = False;
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}

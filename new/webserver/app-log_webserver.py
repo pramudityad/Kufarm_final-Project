@@ -19,9 +19,6 @@ import sqlite3
 conn=sqlite3.connect('/kufarm.db')
 curs=conn.cursor()
 
-sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
-requestStatus = False;
-
 #initialize global variables
 global numSamples
 numSamples = DB.maxRowsTable()
@@ -33,6 +30,9 @@ freqSamples = DB.freqSample()
 
 global rangeTime
 rangeTime = 100	
+
+sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+requestStatus = False;
 
 print "Start"
 while (requestStatus == False):
