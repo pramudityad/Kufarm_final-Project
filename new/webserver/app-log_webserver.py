@@ -32,12 +32,12 @@ global rangeTime
 rangeTime = 100	
 
 sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
-requestStatus = False;
+requestStatus = False
 
 print "Start"
 while (requestStatus == False):
-		IN.requestData()
-		time.sleep(1)
+	IN.requestData()
+	time.sleep(1)
 IN.cekOwCode()
 IN.cekWuCode()	
 
