@@ -7,6 +7,7 @@ import math
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+import hisab as hisab
 import database as DB
 import openweather as openweather
 import wunderground as wunderground
