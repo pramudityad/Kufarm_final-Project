@@ -2,7 +2,6 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import time, datetime
 import io
-import time
 import math
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
