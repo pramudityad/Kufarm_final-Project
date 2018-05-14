@@ -196,6 +196,8 @@ def lograin (rain):
 
 # Retrieve LAST data from database
 def getLastData():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
 	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT 1"):
 		time = str(row[1])
 		temp = row[2]
@@ -206,6 +208,8 @@ def getLastData():
 	return time, temp, hum, soil, rain
 
 def getHistData(numSamples):
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
 	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
 	dates = []
@@ -238,6 +242,8 @@ def testeData(temps, hums, soils, rains):
 
 # Get Max number of rows (table size)
 def maxRowsTable():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
 	for row in curs.execute("select COUNT(temp) from  DHT_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
