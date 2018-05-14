@@ -34,12 +34,12 @@ freqSamples = DB.freqSample()
 global rangeTime
 rangeTime = 100	
 
-print "Start"
-while (requestStatus == False):
-	IN.requestData()
-	time.sleep(1)
-IN.cekOwCode()
-IN.cekWuCode()	
+#print "Start"
+#while (requestStatus == False):
+	#IN.requestData()
+	#time.sleep(1)
+#IN.cekOwCode()
+#IN.cekWuCode()	
 
 # main route 
 @app.route("/")
