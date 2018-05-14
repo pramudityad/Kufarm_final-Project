@@ -307,7 +307,7 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-			try:
+			#try:
 				#soil = SPI.readSensor(0)
 				#rain = SPI.readSensor(1)
 				#temp, hum = getdht()
@@ -317,8 +317,8 @@ def main():
 				#DB.logsoil (soil)
 				#DB.lograin (rain)
 				#time.sleep(sampleFreq)
-			except Exception as e:
-				print e
+			#except Exception as e:
+				#print e
 		
 # ------------ Execute program 
 main()
