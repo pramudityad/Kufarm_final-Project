@@ -310,13 +310,13 @@ def main():
 			try:
 				#soil = SPI.readSensor(0)
 				#rain = SPI.readSensor(1)
-				temp, hum = getdht()
-				soil = getsoil()
-				rain = getrain()
-				DB.logdht (temp, hum)
-				DB.logsoil (soil)
-				DB.lograin (rain)
-				time.sleep(sampleFreq)
+				#temp, hum = getdht()
+				#soil = getsoil()
+				#rain = getrain()
+				#DB.logdht (temp, hum)
+				#DB.logsoil (soil)
+				#DB.lograin (rain)
+				#time.sleep(sampleFreq)
 			except Exception as e:
 				print e
 		
