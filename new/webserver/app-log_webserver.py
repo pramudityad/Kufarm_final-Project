@@ -3,98 +3,85 @@ from matplotlib.figure import Figure
 import time, datetime
 import io
 import time
-import sqlite3
+import math
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-#import openweather as openweather
-#import wunderground as wunderground
-#import log_sensor as sensor
+import database as DB
+import openweather as openweather
+import wunderground as wunderground
+import input_data as IN
 
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-conn=sqlite3.connect('../kufarm.db')
+conn=sqlite3.connect('/kufarm.db')
 curs=conn.cursor()
 
-#sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
-
-# Retrieve LAST data from database
-def getLastData():
-	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT 1"):
-		time = str(row[1])
-		temp = row[2]
-		hum = row[3]
-		soil = row[6]
-		rain = row[9]
-	#conn.close()
-	return time, temp, hum, soil, rain
-
-def getHistData(numSamples):
-	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
-	data = curs.fetchall()
-	dates = []
-	temps = []
-	hums = []
-	soils = []
-	rains = []
-	for row in reversed(data):
-		dates.append(row[1])
-		temps.append(row[2])
-		hums.append(row[3])
-		soils.append(row[6])
-		rains.append(row[9])
-		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
-	return dates, temps, hums, soils, rains
-
-# Test data for cleanning possible "out of range" values
-def testeData(temps, hums, soils, rains):
-	n = len(temps)
-	for i in range(0, n-1):
-		if (temps[i] < -10 or temps[i] >50):
-			temps[i] = temps[i-2]
-		if (hums[i] < 0 or hums[i] >100):
-			hums[i] = temps[i-2]
-		if (soils[i] < 0 or soils[i] >1024):
-			soils[i] = temps[i-2]
-		if (rains[i] < 0 or rains[i] >1024):
-			rains[i] = temps[i-2]		
-	return temps, hums, soils, rains
-
-# Get Max number of rows (table size)
-def maxRowsTable():
-	for row in curs.execute("select COUNT(temp) from  DHT_data"):
-		maxNumberRows=row[0]
-	return maxNumberRows
-
-# Get sample frequency in minutes
-def freqSample():
-	times, temps, hums, soils, rains = getHistData(3)
-	fmt = '%Y-%m-%d %H:%M:%S'
-	tstamp0 = datetime.datetime.strptime(times[0], fmt)
-	tstamp1 = datetime.datetime.strptime(times[1], fmt)
-	freq = tstamp1-tstamp0
-	freq = int(round(freq.total_seconds()/60))
-	return (freq)
+sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
 
 #initialize global variables
 global numSamples
-numSamples = maxRowsTable()
+numSamples = DB.maxRowsTable()
 if (numSamples > 101):
 	numSamples = 100
 
 global freqSamples
-freqSamples = freqSample()
+freqSamples = DB.freqSample()
 
 global rangeTime
 rangeTime = 100	
-	
+
+print "Start"
+while (requestStatus == False):
+		IN.requestData()
+		time.sleep(1)
+IN.cekOwCode()
+IN.cekWuCode()	
+
 # main route 
 @app.route("/")
 def index():
-	#sensor.main()
-	time, temp, hum, soil, rain = getLastData()
+	global terbit
+	global terbenam
+	while True:
+		now = datetime.datetime.now()
+		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
+		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+		print timeRequest
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			IN.requestData()
+			IN.cekOwCode()
+			IN.cekWuCode()
+			if(now.minute==0 and now.second==0):
+				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+				if(now.hour == 0):
+						DB.addSunTime([strTerbit,strTerbenam])
+				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
+				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
+				wsp = "wunderground"
+				DB.addForecast(code,weather,wsp,timeRequest)
+				if(now.hour%3==0):
+					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+					wsp = "openweather"
+					DB.addForecast(code,weather,wsp,timeRequest)
+		try:
+			temp, hum = getdht()
+			soil = getsoil()
+			rain = getrain()
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
+			time.sleep(sampleFreq)
+		except Exception as e:
+			print e
+
+	time, temp, hum, soil, rain = DB.getLastData()
 	templateData = {
 	  'time'		: time,
 	  'temp'		: temp,
@@ -117,10 +104,10 @@ def my_form_post():
 	if (rangeTime < freqSamples):
 		rangeTime = freqSamples + 1
 	numSamples = rangeTime//freqSamples
-	numMaxSamples = maxRowsTable()
+	numMaxSamples = DB.maxRowsTable()
 	if (numSamples > numMaxSamples):
 		numSamples = (numMaxSamples-1)
-	time, temp, hum, soil, rain = getLastData()
+	time, temp, hum, soil, rain = DB.getLastData()
 	
 	templateData = {
 	  'time'		: time,
@@ -137,7 +124,7 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	times, temps, hums, soils, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = DB.getHistData(numSamples)
 	ys = temps
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -156,7 +143,7 @@ def plot_temp():
 #plot hum
 @app.route('/plot/hum')
 def plot_hum():
-	times, temps, hums, soils, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = DB.getHistData(numSamples)
 	ys = hums
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -175,7 +162,7 @@ def plot_hum():
 #plot soil
 @app.route('/plot/soil')
 def plot_soil():
-	times, temps, hums, soils, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = DB.getHistData(numSamples)
 	ys = soils
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)
@@ -194,7 +181,7 @@ def plot_soil():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	times, temps, hums, soils, rains = getHistData(numSamples)
+	times, temps, hums, soils, rains = DB.getHistData(numSamples)
 	ys = rains
 	fig = Figure()
 	axis = fig.add_subplot(1, 1, 1)

@@ -193,3 +193,61 @@ def lograin (rain):
 	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
 	conn.commit()
 	conn.close()
+
+# Retrieve LAST data from database
+def getLastData():
+	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT 1"):
+		time = str(row[1])
+		temp = row[2]
+		hum = row[3]
+		soil = row[6]
+		rain = row[9]
+	#conn.close()
+	return time, temp, hum, soil, rain
+
+def getHistData(numSamples):
+	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
+	data = curs.fetchall()
+	dates = []
+	temps = []
+	hums = []
+	soils = []
+	rains = []
+	for row in reversed(data):
+		dates.append(row[1])
+		temps.append(row[2])
+		hums.append(row[3])
+		soils.append(row[6])
+		rains.append(row[9])
+		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
+	return dates, temps, hums, soils, rains
+
+# Test data for cleanning possible "out of range" values
+def testeData(temps, hums, soils, rains):
+	n = len(temps)
+	for i in range(0, n-1):
+		if (temps[i] < -10 or temps[i] >50):
+			temps[i] = temps[i-2]
+		if (hums[i] < 0 or hums[i] >100):
+			hums[i] = temps[i-2]
+		if (soils[i] < 0 or soils[i] >1024):
+			soils[i] = temps[i-2]
+		if (rains[i] < 0 or rains[i] >1024):
+			rains[i] = temps[i-2]		
+	return temps, hums, soils, rains
+
+# Get Max number of rows (table size)
+def maxRowsTable():
+	for row in curs.execute("select COUNT(temp) from  DHT_data"):
+		maxNumberRows=row[0]
+	return maxNumberRows
+
+# Get sample frequency in minutes
+def freqSample():
+	times, temps, hums, soils, rains = getHistData(3)
+	fmt = '%Y-%m-%d %H:%M:%S'
+	tstamp0 = datetime.datetime.strptime(times[0], fmt)
+	tstamp1 = datetime.datetime.strptime(times[1], fmt)
+	freq = tstamp1-tstamp0
+	freq = int(round(freq.total_seconds()/60))
+	return (freq)

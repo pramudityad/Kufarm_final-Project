@@ -13,7 +13,7 @@ import openweather as OW
 import wunderground as WU		
 dbname='kufarm.db'
 
-sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 requestStatus = False;
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
@@ -276,15 +276,8 @@ def getrain():
 	rain = 1024-rain
 	return rain
 
-print "Start"
-while (requestStatus == False):
-		requestData()
-		time.sleep(1)
-cekOwCode()
-cekWuCode()
-
 # main function
-def main():
+#def main():
 	global terbit
 	global terbenam
 	while True:
