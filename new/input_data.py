@@ -10,6 +10,7 @@ import wunderground as WU
 dbname='kufarm.db'
 
 sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+requestStatus = False;
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -304,8 +305,9 @@ def lograin (rain):
 # main function
 def main():
 	print "Start"
-	while True:
+	while (requestStatus == False):
 		requestData()
+		time.sleep(1)
 		temp, hum = getdht()
 		soil = getsoil()
 		rain = getrain()
