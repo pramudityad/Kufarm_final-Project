@@ -12,6 +12,17 @@ import openweather as openweather
 import wunderground as wunderground
 import input_data as IN
 
+#Sensor
+str_sensor  = None;
+soil        = 0;
+rain        = 0;
+light       = None;
+sensor_status = None;
+statePenyiram = False;
+statePemupuk  = False;
+requestStatus = False;
+sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
@@ -31,11 +42,11 @@ freqSamples = DB.freqSample()
 global rangeTime
 rangeTime = 100	
 
-global sampleFreq
-sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+#global sampleFreq
+#sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 
-global requestStatus
-requestStatus = False
+#global requestStatus
+#requestStatus = False
 
 print "Start"
 while (requestStatus == False):
