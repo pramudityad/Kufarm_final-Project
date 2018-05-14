@@ -19,7 +19,8 @@ import sqlite3
 conn=sqlite3.connect('/kufarm.db')
 curs=conn.cursor()
 
-sampleFreq = 1*300 # time in seconds ==> Sample each 5 min
+sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
+requestStatus = False;
 
 #initialize global variables
 global numSamples
