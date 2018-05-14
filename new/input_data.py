@@ -1,6 +1,7 @@
 from datetime import timedelta
 from calendar import monthrange
 import time, datetime
+import io
 import math
 import sqlite3
 import Adafruit_DHT
