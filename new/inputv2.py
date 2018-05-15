@@ -311,16 +311,16 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		try:
-			temp, hum = getdht()
-			soil = getsoil()
-			rain = getrain()
+		#try:
+			#temp, hum = getdht()
+			#soil = getsoil()
+			#rain = getrain()
 			#DB.logdht (temp, hum)
 			#DB.logsoil (soil)
 			#DB.lograin (rain)
 			#time.sleep(sampleFreq)
-		except Exception as e:
-			print e
+		#except Exception as e:
+			#print e
 		
 # ------------ Execute program 
 if __name__ == "__main__":
