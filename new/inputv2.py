@@ -298,6 +298,9 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -315,9 +318,6 @@ def main():
 			temp, hum = getdht()
 			soil = getsoil()
 			rain = getrain()
-			DB.logdht (temp, hum)
-			DB.logsoil (soil)
-			DB.lograin (rain)
 			#time.sleep(sampleFreq)
 		except Exception as e:
 			print e
