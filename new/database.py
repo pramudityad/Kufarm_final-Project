@@ -24,7 +24,7 @@ def getLatitude():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -38,7 +38,7 @@ def getLongitude():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -52,7 +52,7 @@ def getTimezone():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -82,7 +82,7 @@ def getPlant():
 	val = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -96,7 +96,7 @@ def getPlantDetail(data):
 	val = ""
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT * FROM tanaman WHERE id = 1 AND deleted_at IS NULL"
+	sql = "SELECT * FROM tanaman WHERE ID = 1 AND deleted_at IS NULL"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -125,7 +125,7 @@ def getPerLiter():
 	val = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -139,7 +139,7 @@ def getPerMl():
 	val = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY id DESC LIMIT 1"
+	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():

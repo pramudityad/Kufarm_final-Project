@@ -14,6 +14,15 @@ import wunderground as WU
 
 sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 requestStatus = False;
+timeRequest = 'N/A';
+str_ow_data = 'N/A';
+str_wu_data = 'N/A';
+location    = 'N/A';
+latitude    = 'N/A';
+longitude   = 'N/A';
+timeForcast = 'N/A';
+weather     = 'N/A';
+code        = 'N/A';
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
