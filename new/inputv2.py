@@ -318,7 +318,7 @@ def main():
 			DB.logdht (temp, hum)
 			DB.logsoil (soil)
 			DB.lograin (rain)
-			time.sleep(sampleFreq)
+			#time.sleep(sampleFreq)
 		except Exception as e:
 			print e
 		
