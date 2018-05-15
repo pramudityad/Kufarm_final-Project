@@ -74,4 +74,4 @@ def main():
 		lograin (rain)
 		time.sleep(sampleFreq)
 # ------------ Execute program 
-#main()
+main()

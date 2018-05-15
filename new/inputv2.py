@@ -275,12 +275,12 @@ def getrain():
 	rain = 1024-rain
 	return rain
 
-print "Start"
-while (requestStatus == False):
-	requestData()
-	time.sleep(1)
-cekOwCode()
-cekWuCode()	
+#print "Start"
+#while (requestStatus == False):
+	#requestData()
+	#time.sleep(1)
+#cekOwCode()
+#cekWuCode()	
 
 # main function
 def main():
