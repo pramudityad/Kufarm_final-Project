@@ -1,9 +1,8 @@
 import datetime, time
 
-def calculate(soil,rain,forecast,forecast2):
+def calculate(soil,rain,temp,hum,forecast,forecast2):
 	# START FUZZIFIKASI
 	# inisialisasi linguistik
-
 	#soil
 	basah 	= 0;
 	sedang	= 0;
@@ -22,17 +21,18 @@ def calculate(soil,rain,forecast,forecast2):
 	lembab	= 0;
 	normal	= 0;
 	
-	#wunderground
+	#openweather
 	f_cerah	  = 0;
 	f_mendung = 0;
 	f_hujan   = 0;
 
-	#wsp
+	#wundergound
 	f2_cerah  = 0;
 	f2_mendung= 0;
 	f2_hujan  = 0;
 
 	#inisialisasi batas
+	#soil
 	l_kering = 0;
 	u_kering = 50;
 	l_sedang = 200;
@@ -40,10 +40,25 @@ def calculate(soil,rain,forecast,forecast2):
 	l_basah	 = 500;
 	u_basah  = 1024;
 
+	#rain
 	l_tdkhujan = 0;
 	u_tdkhujan = 200;
 	l_hujan	 = 400;
 	u_hujan	 = 1024;
+
+	#temp
+	l_dingin = 0;
+	u_dingin = 19;
+	l_sejuk = 20;
+	u_sejuk = 29;
+	l_panas = 30;
+	u_panas = 50;
+
+	#hum
+	l_lembab = 0;
+	u_lembab = 39;
+	l_normal = 40;
+	u_normal = 80;
 
 	# hitung linguistik
 	#soil
@@ -60,6 +75,20 @@ def calculate(soil,rain,forecast,forecast2):
 	elif soil >= l_basah:
 		basah = 1;
 
+	#temp
+	if temp < u_dingin:
+		dingin = 1;
+	elif temp >= u_dingin and temp <= l_sejuk:
+		dingin = (temp * (-1.0) + l_sejuk) / (l_sejuk - u_dingin);
+		sejuk = (temp - u_dingin) * 1.0 / (l_sejuk - u_dingin);
+	elif temp >= l_sejuk and temp < u_sejuk:
+		sejuk = 1;
+	elif temp >= u_sejuk and temp <= l_basah:
+		sejuk = (temp * (-1.0) + l_basah) / (l_basah - u_sejuk);
+		panas = (temp - u_sejuk) * 1.0 / (l_panas - u_sejuk);
+	elif temp >= l_panas:
+		panas = 1;
+
 	#rain
 	if rain < u_tdkhujan:
 		tdk_hujan = 1;
@@ -69,6 +98,16 @@ def calculate(soil,rain,forecast,forecast2):
 	elif rain > l_hujan:
 		hujan = 1;
 
+	#hum
+	if hum < u_lembab:
+		lembab = 1;
+	elif hum >= u_lembab and hum <= l_normal:
+		lembab = (hum * (-1.0) + l_normal) / (l_normal - u_lembab);
+		hujan  = (hum - u_lembab) * 1.0 / (l_normal - u_lembab);
+	elif hum > l_normal:
+		hujan = 1;
+
+	#openweather	
 	if forecast == 0:
 		f_cerah 	= 1;
 	elif forecast == 1:
@@ -76,6 +115,7 @@ def calculate(soil,rain,forecast,forecast2):
 	elif forecast == 2:
 		f_hujan 	= 1;
 	
+	#wundergound
 	if forecast2 == 0:
 		f2_cerah 	= 1;
 	elif forecast2 == 1:
@@ -92,16 +132,25 @@ def calculate(soil,rain,forecast,forecast2):
 	print "SEDANG : "+str(sedang);
 	print "KERING : "+str(kering);
 
-	print "-HUJAN-";
+	print "-RAIN-";
 	print "HUJAN  	 : "+str(hujan);
 	print "TDK_HUJAN : "+str(tdk_hujan);
 
-	print "-FORECAST 1-";
+	print "-TEMP = %d-" % (temp);
+	print "DINGIN  : "+str(basah);
+	print "SEJUK : "+str(sedang);
+	print "PANAS : "+str(kering);
+
+	print "-HUM = %d-" % (hum);
+	print "LEMBAB  	 : "+str(hujan);
+	print "NORMAL : "+str(tdk_hujan);
+
+	print "-openweather-";
 	print "CERAH  : "+str(f_cerah);
 	print "MENDUNG: "+str(f_mendung);
 	print "HUJAN  : "+str(f_hujan);
 
-	print "-FORECAST 2-";
+	print "-wundergound-";
 	print "CERAH  : "+str(f2_cerah);
 	print "MENDUNG: "+str(f2_mendung);
 	print "HUJAN  : "+str(f2_hujan);
