@@ -1,231 +1,192 @@
 import time, datetime
 import MySQLdb
-dbname=MySQLdb.connect(host="localhost",
-                     user="logger",
-                     passwd="password",
-                     db="kufarm");
 
-# add forecast into database	
-def addForecast(code,weather,wsp,dataTime):
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "INSERT INTO forecast(code,weather,wsp,date) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"')"
-	try:
-		curs.execute(sql)
-		conn.commit()
-		status = True
-		conn.close()
-		print "berhasil"
-	except Exception as e:
-		conn.rollback()
-		status = False;
-		print e
-	return status;
+db=MySQLdb.connect(host="localhost",
+					 user="logger",
+					 passwd="password",
+					 db="kufarm");
 
-def getLatitude():
-	val = 0
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
-
-def getLongitude():
-	val = 0
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
-
-def getTimezone():
-	val = 0
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val)
-
-def addSunTime(data):
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "INSERT INTO sun(sunrise,sunset,created_at) VALUES ('"+data[0]+"','"+data[1]+"','"+currentTime+"')"
-	try:
-		curs.execute(sql)
-		conn.commit();
-		status = True;
-		conn.close()
-	except Exception as e:
-		print e
-		conn.rollback()
-		status = False;
-	return status;
-
-def getPlant():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
-def getPlantDetail(data):
-	val = ""
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM tanaman WHERE ID = 1 AND deleted_at IS NULL"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
-def getAir(umur, id_tanaman):
-	val = {}
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM karakteristik WHERE id_tanaman = "+str(id_tanaman)+" AND umur > "+str(umur)+" AND deleted_at IS NULL ORDER BY umur ASC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val['air'] = row[3]
-			val['pupuk'] = row[4]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
-def getPerLiter():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
-	
-def getPerMl():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
-	
-def addPumpLog(device,status):
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
-	try:
-		curs.execute(sql)
-		conn.commit()
-		status = True;
-		conn.close()
-	except Exception as e:
-		conn.rollback()
-		status = False;
-	return status;
+def getDb():
+	cur = db.cursor()
+	cur.execute("SELECT * FROM soil")
+	for row in cur.fetchall():
+		print row[3];
+	#db.close();
 
 # log dht sensor data on database
 def logdht (temp, hum):
+	cur = db.cursor()
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO DHT_data (timestamp, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
-	conn.commit()
-	conn.close()
+	sql = ("INSERT INTO dht_11 (temp, hum, created_at) values((?), (?), '"+currentTime+"')", (temp, hum))
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
 
 # log spi sensor data on database
 def logsoil (soil):
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO soil (timestamp, value) values('"+currentTime+"', "+str(soil)+")")
-	conn.commit()
-	conn.close()
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO soil(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
 
 # log spi sensor data on database
 def lograin (rain):
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
-	conn.commit()
-	conn.close()
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO rain(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
 
 # Retrieve LAST data from database
 def getLastData():
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT 1"):
+	cur=db.cursor()
+	for row in cur.execute("SELECT * FROM dht_11, soil, rain ORDER BY created_at DESC LIMIT 1"):
 		time = str(row[1])
 		temp = row[2]
 		hum = row[3]
 		soil = row[6]
 		rain = row[9]
 	#conn.close()
-	return time, temp, hum, soil, rain
+	return time, temp, hum, soil, rain    
+
+# add forecast into database	
+def addForecast(code,weather,wsp,dataTime):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+		print "berhasil"
+	except Exception as e:
+		db.rollback()
+		status = False;
+		print e
+	return status;
+
+def addSunTime(data):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO sun(sunrise,sunset,created_at) VALUES ('"+data[0]+"','"+data[1]+"','"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		print e
+		db.rollback()
+		status = False;
+	return status;
+
+def getPlant():
+	val = None
+	cur = db.cursor()
+	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return val;
+
+def getPlantDetail(data):
+	val = ""
+	cur = db.cursor()
+	sql = "SELECT * FROM tanaman WHERE id = 1 AND deleted_at IS NULL"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return val;
+
+def getAir(umur, id_tanaman):
+	val = {}
+	cur = db.cursor()
+	sql = "SELECT * FROM karakteristik WHERE id_tanaman = "+str(id_tanaman)+" AND umur > "+str(umur)+" AND deleted_at IS NULL ORDER BY umur ASC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val['air'] = row[3]
+			val['pupuk'] = row[4]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return val;
+
+def getPerLiter():
+	val = None
+	cur = db.cursor()
+	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[0]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return float(val);
+	
+def getPerMl():
+	val = None
+	cur = db.cursor()
+	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[0]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return float(val);
+	
+def addPumpLog(device,status):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
 
 def getHistData(numSamples):
 	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
-	data = curs.fetchall()
+	cur = db.cursor()
+	cur.execute("SELECT * FROM dht_11, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
+	data = cur.fetchall()
 	dates = []
 	temps = []
 	hums = []
@@ -256,9 +217,8 @@ def testeData(temps, hums, soils, rains):
 
 # Get Max number of rows (table size)
 def maxRowsTable():
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	for row in curs.execute("select COUNT(temp) from  DHT_data"):
+	cur = db.cursor()
+	for row in cur.execute("select COUNT(temp) from  dht_11"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 

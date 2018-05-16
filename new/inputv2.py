@@ -9,6 +9,7 @@ import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import database as DB
 import hisab as hisab
+import fuzzy as fuzzy
 import openweather as OW
 import wunderground as WU		
 
@@ -334,6 +335,32 @@ def main():
 		except Exception as e:
 			print e
 		
+		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+            print "Nilai Kelayakan : " + str(NK)
+            print "F1 : " + str(ow_code)
+            print "F1 : " + ow_desc
+            print "---------------"
+            print "F2 : " + str(wu_code)
+            print "F2 : " + wu_desc
+            print "---------------"
+            print "Terbit : " + str(int(terbit))+":"+str(int((terbit%1)*60))
+            print "Terbenam : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+            print "---------------"
+            print "Soil :" + str(soil)
+            print "Raindrop : " + str(rain)
+                                
+            if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
+                                plant = DB.getPlant()
+                                umur = now - plant[4]
+                                nedded = DB.getAir(umur.days,plant[2])
+                                air       = nedded['air']
+                                pupuk = nedded['pupuk']
+                                readyPupuk = True
+                                if(NK>65):
+                                        readySiram = True
+                                        timeSiram = air * DB.getPerLiter()
+                                        maxTimeSiram = timeSiram
+                                        DB.addPumpLog('Pompa Penyiraman','ON')
 # ------------ Execute program 
 if __name__ == "__main__":
 	main()
