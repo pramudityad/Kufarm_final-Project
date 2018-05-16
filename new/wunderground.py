@@ -23,3 +23,4 @@ def getForcastByTime(data,dataTime):
 			res = var
 			break
 	return res 
+	#print getForcastByTime()
