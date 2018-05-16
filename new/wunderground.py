@@ -19,7 +19,7 @@ def getDataForecast(data):
 def getForcastByTime(data,dataTime):
 	res = ''
 	for var in data['hourly_forecast']:
-		if(dataTime == var['FCTTIME']['hour']):
+		if(dataTime == var[0]['FCTTIME']['hour']):
 			res = var
 			break
 	return res 
