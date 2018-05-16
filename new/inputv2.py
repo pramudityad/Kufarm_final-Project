@@ -192,15 +192,15 @@ def cekWuCode():
 				#myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Cerah'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Mendung'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Hujan'
 			if(wu_code_temp>wu_code):
@@ -215,15 +215,15 @@ def cekWuCode():
 			myTime = myTime.replace(hour=i)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Cerah'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Mendung'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Hujan'
 			if(wu_code_temp>wu_code):
@@ -241,15 +241,15 @@ def cekWuCode():
 			myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Cerah'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Mendung'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Hujan'
 			if(wu_code_temp>wu_code):
@@ -307,12 +307,15 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
 						DB.addSunTime([strTerbit,strTerbenam])
-				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
-				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
+				code = WU.getForcastByTime(str_wu_data, str(now.hour))[0]['fctcode']
+				weather = WU.getForcastByTime(str_wu_data, str(now.hour))[0]['condition']
 				wsp = "wunderground"
 				DB.addForecast(code,weather,wsp,timeRequest)
 				if(now.hour%3==0):
@@ -320,16 +323,16 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		#try:
-			#temp, hum = getdht()
-			#soil = getsoil()
-			#rain = getrain()
+		try:
+			temp, hum = getdht()
+			soil = getsoil()
+			rain = getrain()
 			#DB.logdht (temp, hum)
 			#DB.logsoil (soil)
 			#DB.lograin (rain)
 			#time.sleep(sampleFreq)
-		#except Exception as e:
-			#print e
+		except Exception as e:
+			print e
 		
 # ------------ Execute program 
 if __name__ == "__main__":
