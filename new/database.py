@@ -11,8 +11,9 @@ def addForecast(code,weather,wsp,dataTime):
 	sql = "INSERT INTO forecast(code,weather,wsp,date) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"')"
 	try:
 		curs.execute(sql)
-		conn.commit();
-		status = True;
+		conn.commit()
+		status = True
+		conn.close()
 		print "berhasil"
 	except Exception as e:
 		conn.rollback()
@@ -29,7 +30,8 @@ def getLatitude():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row[0]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -43,7 +45,8 @@ def getLongitude():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row[0]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -57,7 +60,8 @@ def getTimezone():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row[0]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val)
@@ -72,6 +76,7 @@ def addSunTime(data):
 		curs.execute(sql)
 		conn.commit();
 		status = True;
+		conn.close()
 	except Exception as e:
 		print e
 		conn.rollback()
@@ -87,7 +92,8 @@ def getPlant():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -101,7 +107,8 @@ def getPlantDetail(data):
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -116,7 +123,8 @@ def getAir(umur, id_tanaman):
 		for row in curs.fetchall():
 			val['air'] = row[3]
 			val['pupuk'] = row[4]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -130,7 +138,8 @@ def getPerLiter():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row[0]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -144,7 +153,8 @@ def getPerMl():
 		curs.execute(sql)
 		for row in curs.fetchall():
 			val = row[0]
-		conn.commit();
+		conn.commit()
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -157,8 +167,9 @@ def addPumpLog(device,status):
 	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
 	try:
 		curs.execute(sql)
-		conn.commit();
+		conn.commit()
 		status = True;
+		conn.close()
 	except Exception as e:
 		conn.rollback()
 		status = False;

@@ -103,9 +103,9 @@ if kering and tdk_hujan and dingin and lembab and f_mendung and f2_hujan:
 if kering and tdk_hujan and dingin and lembab and f_hujan and f2_cerah:
  		nkTinggi[51]=min(kering,tdk_hujan,dingin,lembab,f_hujan,f2_cerah)
 if kering and tdk_hujan and dingin and lembab and f_hujan and f2_mendung:
- 		nkTinggi[52]=min(kering,tdk_hujan,dingin,lembab,f_hujan,f2_mendung)
+ 		nkRendah[52]=min(kering,tdk_hujan,dingin,lembab,f_hujan,f2_mendung)
 if kering and tdk_hujan and dingin and lembab and f_hujan and f2_hujan:
- 		nkTinggi[53]=min(kering,tdk_hujan,dingin,lembab,f_hujan,f2_hujan)
+ 		nkRendah[53]=min(kering,tdk_hujan,dingin,lembab,f_hujan,f2_hujan)
 
 if kering and hujan and panas and normal and f_cerah and f2_cerah:
  		nkTinggi[54]=min(kering,hujan,panas,normal,f_cerah,f2_cerah)
@@ -435,221 +435,221 @@ if sedang and hujan and dingin and lembab and f_hujan and f2_hujan:
  		nkTinggi[215]=min(sedang,hujan,dingin,lembab,f_hujan,f2_hujan)
 
 if basah and tdk_hujan and panas and normal and f_cerah and f2_cerah:
- 		nkTinggi[216]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_cerah)
+ 		nkRendah[216]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_cerah)
 if basah and tdk_hujan and panas and normal and f_cerah and f2_mendung:
- 		nkTinggi[1]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_mendung)
+ 		nkRendah[1]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_mendung)
 if basah and tdk_hujan and panas and normal and f_cerah and f2_hujan:
- 		nkTinggi[2]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_hujan)
+ 		nkRendah[2]=min(basah,tdk_hujan,panas,normal,f_cerah,f2_hujan)
 if basah and tdk_hujan and panas and normal and f_mendung and f2_cerah:
- 		nkTinggi[3]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_cerah)
+ 		nkRendah[3]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_cerah)
 if basah and tdk_hujan and panas and normal and f_mendung and f2_mendung:
- 		nkTinggi[4]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_mendung)
+ 		nkRendah[4]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_mendung)
 if basah and tdk_hujan and panas and normal and f_mendung and f2_hujan:
- 		nkTinggi[5]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_hujan)
+ 		nkRendah[5]=min(basah,tdk_hujan,panas,normal,f_mendung,f2_hujan)
 if basah and tdk_hujan and panas and normal and f_hujan and f2_cerah:
- 		nkTinggi[6]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_cerah)
+ 		nkRendah[6]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_cerah)
 if basah and tdk_hujan and panas and normal and f_hujan and f2_mendung:
- 		nkTinggi[7]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_mendung)
+ 		nkRendah[7]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_mendung)
 if basah and tdk_hujan and panas and normal and f_hujan and f2_hujan:
- 		nkTinggi[8]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_hujan)
+ 		nkRendah[8]=min(basah,tdk_hujan,panas,normal,f_hujan,f2_hujan)
 if basah and tdk_hujan and panas and lembab and f_cerah and f2_cerah:
- 		nkTinggi[9]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_cerah) 		
+ 		nkRendah[9]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_cerah) 		
 if basah and tdk_hujan and panas and lembab and f_cerah and f2_mendung:
- 		nkTinggi[10]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_mendung)
+ 		nkRendah[10]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_mendung)
 if basah and tdk_hujan and panas and lembab and f_cerah and f2_hujan:
- 		nkTinggi[11]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_hujan)
+ 		nkRendah[11]=min(basah,tdk_hujan,panas,lembab,f_cerah,f2_hujan)
 if basah and tdk_hujan and panas and lembab and f_mendung and f2_cerah:
- 		nkTinggi[12]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_cerah)
+ 		nkRendah[12]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_cerah)
 if basah and tdk_hujan and panas and lembab and f_mendung and f2_mendung:
- 		nkTinggi[13]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_mendung)
+ 		nkRendah[13]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_mendung)
 if basah and tdk_hujan and panas and lembab and f_mendung and f2_hujan:
- 		nkTinggi[14]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_hujan)
+ 		nkRendah[14]=min(basah,tdk_hujan,panas,lembab,f_mendung,f2_hujan)
 if basah and tdk_hujan and panas and lembab and f_hujan and f2_cerah:
- 		nkTinggi[15]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_cerah)
+ 		nkRendah[15]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_cerah)
 if basah and tdk_hujan and panas and lembab and f_hujan and f2_mendung:
- 		nkTinggi[16]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_mendung)
+ 		nkRendah[16]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_mendung)
 if basah and tdk_hujan and panas and lembab and f_hujan and f2_hujan:
- 		nkTinggi[17]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_hujan)
+ 		nkRendah[17]=min(basah,tdk_hujan,panas,lembab,f_hujan,f2_hujan)
 if basah and tdk_hujan and sejuk and normal and f_cerah and f2_cerah:
- 		nkTinggi[18]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_cerah)
+ 		nkRendah[18]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_cerah)
 if basah and tdk_hujan and sejuk and normal and f_cerah and f2_mendung:
- 		nkTinggi[19]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_mendung)
+ 		nkRendah[19]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_mendung)
 if basah and tdk_hujan and sejuk and normal and f_cerah and f2_hujan:
- 		nkTinggi[20]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_hujan)
+ 		nkRendah[20]=min(basah,tdk_hujan,sejuk,normal,f_cerah,f2_hujan)
 if basah and tdk_hujan and sejuk and normal and f_mendung and f2_cerah:
- 		nkTinggi[21]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_cerah)
+ 		nkRendah[21]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_cerah)
 if basah and tdk_hujan and sejuk and normal and f_mendung and f2_mendung:
- 		nkTinggi[22]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_mendung)
+ 		nkRendah[22]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_mendung)
 if basah and tdk_hujan and sejuk and normal and f_mendung and f2_hujan:
- 		nkTinggi[23]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_hujan)
+ 		nkRendah[23]=min(basah,tdk_hujan,sejuk,normal,f_mendung,f2_hujan)
 if basah and tdk_hujan and sejuk and normal and f_hujan and f2_cerah:
- 		nkTinggi[24]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_cerah)
+ 		nkRendah[24]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_cerah)
 if basah and tdk_hujan and sejuk and normal and f_hujan and f2_mendung:
- 		nkTinggi[25]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_mendung)
+ 		nkRendah[25]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_mendung)
 if basah and tdk_hujan and sejuk and normal and f_hujan and f2_hujan:
- 		nkTinggi[26]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_hujan)
+ 		nkRendah[26]=min(basah,tdk_hujan,sejuk,normal,f_hujan,f2_hujan)
 if basah and tdk_hujan and sejuk and lembab and f_cerah and f2_cerah:
- 		nkTinggi[27]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_cerah)
+ 		nkRendah[27]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_cerah)
 if basah and tdk_hujan and sejuk and lembab and f_cerah and f2_mendung:
- 		nkTinggi[28]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_mendung)
+ 		nkRendah[28]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_mendung)
 if basah and tdk_hujan and sejuk and lembab and f_cerah and f2_hujan:
- 		nkTinggi[29]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_hujan) 		
+ 		nkRendah[29]=min(basah,tdk_hujan,sejuk,lembab,f_cerah,f2_hujan) 		
 if basah and tdk_hujan and sejuk and lembab and f_mendung and f2_cerah:
- 		nkTinggi[30]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_cerah)
+ 		nkRendah[30]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_cerah)
 if basah and tdk_hujan and sejuk and lembab and f_mendung and f2_mendung:
- 		nkTinggi[31]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_mendung)
+ 		nkRendah[31]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_mendung)
 if basah and tdk_hujan and sejuk and lembab and f_mendung and f2_hujan:
- 		nkTinggi[32]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_hujan)
+ 		nkRendah[32]=min(basah,tdk_hujan,sejuk,lembab,f_mendung,f2_hujan)
 if basah and tdk_hujan and sejuk and lembab and f_hujan and f2_cerah:
- 		nkTinggi[33]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_cerah)
+ 		nkRendah[33]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_cerah)
 if basah and tdk_hujan and sejuk and lembab and f_hujan and f2_mendung:
- 		nkTinggi[34]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_mendung)
+ 		nkRendah[34]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_mendung)
 if basah and tdk_hujan and sejuk and lembab and f_hujan and f2_hujan:
- 		nkTinggi[35]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_hujan)
+ 		nkRendah[35]=min(basah,tdk_hujan,sejuk,lembab,f_hujan,f2_hujan)
 if basah and tdk_hujan and dingin and normal and f_cerah and f2_cerah:
- 		nkTinggi[36]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_cerah)
+ 		nkRendah[36]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_cerah)
 if basah and tdk_hujan and dingin and normal and f_cerah and f2_mendung:
- 		nkTinggi[37]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_mendung)
+ 		nkRendah[37]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_mendung)
 if basah and tdk_hujan and dingin and normal and f_cerah and f2_hujan:
- 		nkTinggi[38]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_hujan)
+ 		nkRendah[38]=min(basah,tdk_hujan,dingin,normal,f_cerah,f2_hujan)
 if basah and tdk_hujan and dingin and normal and f_mendung and f2_cerah:
- 		nkTinggi[39]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_cerah)
+ 		nkRendah[39]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_cerah)
 if basah and tdk_hujan and dingin and normal and f_mendung and f2_mendung:
- 		nkTinggi[40]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_mendung)
+ 		nkRendah[40]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_mendung)
 if basah and tdk_hujan and dingin and normal and f_mendung and f2_hujan:
- 		nkTinggi[41]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_hujan)
+ 		nkRendah[41]=min(basah,tdk_hujan,dingin,normal,f_mendung,f2_hujan)
 if basah and tdk_hujan and dingin and normal and f_hujan and f2_cerah:
- 		nkTinggi[42]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_cerah)
+ 		nkRendah[42]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_cerah)
 if basah and tdk_hujan and dingin and normal and f_hujan and f2_mendung:
- 		nkTinggi[43]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_mendung)
+ 		nkRendah[43]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_mendung)
 if basah and tdk_hujan and dingin and normal and f_hujan and f2_hujan:
- 		nkTinggi[44]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_hujan)
+ 		nkRendah[44]=min(basah,tdk_hujan,dingin,normal,f_hujan,f2_hujan)
 if basah and tdk_hujan and dingin and lembab and f_cerah and f2_cerah:
- 		nkTinggi[45]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_cerah)
+ 		nkRendah[45]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_cerah)
 if basah and tdk_hujan and dingin and lembab and f_cerah and f2_mendung:
- 		nkTinggi[46]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_mendung)
+ 		nkRendah[46]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_mendung)
 if basah and tdk_hujan and dingin and lembab and f_cerah and f2_hujan:
- 		nkTinggi[47]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_hujan)
+ 		nkRendah[47]=min(basah,tdk_hujan,dingin,lembab,f_cerah,f2_hujan)
 if basah and tdk_hujan and dingin and lembab and f_mendung and f2_cerah:
- 		nkTinggi[48]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_cerah)
+ 		nkRendah[48]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_cerah)
 if basah and tdk_hujan and dingin and lembab and f_mendung and f2_mendung:
- 		nkTinggi[49]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_mendung) 		
+ 		nkRendah[49]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_mendung) 		
 if basah and tdk_hujan and dingin and lembab and f_mendung and f2_hujan:
- 		nkTinggi[50]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_hujan)
+ 		nkRendah[50]=min(basah,tdk_hujan,dingin,lembab,f_mendung,f2_hujan)
 if basah and tdk_hujan and dingin and lembab and f_hujan and f2_cerah:
- 		nkTinggi[51]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_cerah)
+ 		nkRendah[51]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_cerah)
 if basah and tdk_hujan and dingin and lembab and f_hujan and f2_mendung:
- 		nkTinggi[52]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_mendung)
+ 		nkRendah[52]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_mendung)
 if basah and tdk_hujan and dingin and lembab and f_hujan and f2_hujan:
- 		nkTinggi[269]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_hujan)
+ 		nkRendah[269]=min(basah,tdk_hujan,dingin,lembab,f_hujan,f2_hujan)
 
 if basah and hujan and panas and normal and f_cerah and f2_cerah:
- 		nkTinggi[270]=min(basah,hujan,panas,normal,f_cerah,f2_cerah)
+ 		nkRendah[270]=min(basah,hujan,panas,normal,f_cerah,f2_cerah)
 if basah and hujan and panas and normal and f_cerah and f2_mendung:
- 		nkTinggi[1]=min(basah,hujan,panas,normal,f_cerah,f2_mendung)
+ 		nkRendah[1]=min(basah,hujan,panas,normal,f_cerah,f2_mendung)
 if basah and hujan and panas and normal and f_cerah and f2_hujan:
- 		nkTinggi[2]=min(basah,hujan,panas,normal,f_cerah,f2_hujan)
+ 		nkRendah[2]=min(basah,hujan,panas,normal,f_cerah,f2_hujan)
 if basah and hujan and panas and normal and f_mendung and f2_cerah:
- 		nkTinggi[3]=min(basah,hujan,panas,normal,f_mendung,f2_cerah)
+ 		nkRendah[3]=min(basah,hujan,panas,normal,f_mendung,f2_cerah)
 if basah and hujan and panas and normal and f_mendung and f2_mendung:
- 		nkTinggi[4]=min(basah,hujan,panas,normal,f_mendung,f2_mendung)
+ 		nkRendah[4]=min(basah,hujan,panas,normal,f_mendung,f2_mendung)
 if basah and hujan and panas and normal and f_mendung and f2_hujan:
- 		nkTinggi[5]=min(basah,hujan,panas,normal,f_mendung,f2_hujan)
+ 		nkRendah[5]=min(basah,hujan,panas,normal,f_mendung,f2_hujan)
 if basah and hujan and panas and normal and f_hujan and f2_cerah:
- 		nkTinggi[6]=min(basah,hujan,panas,normal,f_hujan,f2_cerah)
+ 		nkRendah[6]=min(basah,hujan,panas,normal,f_hujan,f2_cerah)
 if basah and hujan and panas and normal and f_hujan and f2_mendung:
- 		nkTinggi[7]=min(basah,hujan,panas,normal,f_hujan,f2_mendung)
+ 		nkRendah[7]=min(basah,hujan,panas,normal,f_hujan,f2_mendung)
 if basah and hujan and panas and normal and f_hujan and f2_hujan:
- 		nkTinggi[8]=min(basah,hujan,panas,normal,f_hujan,f2_hujan)
+ 		nkRendah[8]=min(basah,hujan,panas,normal,f_hujan,f2_hujan)
 if basah and hujan and panas and lembab and f_cerah and f2_cerah:
- 		nkTinggi[9]=min(basah,hujan,panas,lembab,f_cerah,f2_cerah) 		
+ 		nkRendah[9]=min(basah,hujan,panas,lembab,f_cerah,f2_cerah) 		
 if basah and hujan and panas and lembab and f_cerah and f2_mendung:
- 		nkTinggi[10]=min(basah,hujan,panas,lembab,f_cerah,f2_mendung)
+ 		nkRendah[10]=min(basah,hujan,panas,lembab,f_cerah,f2_mendung)
 if basah and hujan and panas and lembab and f_cerah and f2_hujan:
- 		nkTinggi[11]=min(basah,hujan,panas,lembab,f_cerah,f2_hujan)
+ 		nkRendah[11]=min(basah,hujan,panas,lembab,f_cerah,f2_hujan)
 if basah and hujan and panas and lembab and f_mendung and f2_cerah:
- 		nkTinggi[12]=min(basah,hujan,panas,lembab,f_mendung,f2_cerah)
+ 		nkRendah[12]=min(basah,hujan,panas,lembab,f_mendung,f2_cerah)
 if basah and hujan and panas and lembab and f_mendung and f2_mendung:
- 		nkTinggi[13]=min(basah,hujan,panas,lembab,f_mendung,f2_mendung)
+ 		nkRendah[13]=min(basah,hujan,panas,lembab,f_mendung,f2_mendung)
 if basah and hujan and panas and lembab and f_mendung and f2_hujan:
- 		nkTinggi[14]=min(basah,hujan,panas,lembab,f_mendung,f2_hujan)
+ 		nkRendah[14]=min(basah,hujan,panas,lembab,f_mendung,f2_hujan)
 if basah and hujan and panas and lembab and f_hujan and f2_cerah:
- 		nkTinggi[15]=min(basah,hujan,panas,lembab,f_hujan,f2_cerah)
+ 		nkRendah[15]=min(basah,hujan,panas,lembab,f_hujan,f2_cerah)
 if basah and hujan and panas and lembab and f_hujan and f2_mendung:
- 		nkTinggi[16]=min(basah,hujan,panas,lembab,f_hujan,f2_mendung)
+ 		nkRendah[16]=min(basah,hujan,panas,lembab,f_hujan,f2_mendung)
 if basah and hujan and panas and lembab and f_hujan and f2_hujan:
- 		nkTinggi[17]=min(basah,hujan,panas,lembab,f_hujan,f2_hujan)
+ 		nkRendah[17]=min(basah,hujan,panas,lembab,f_hujan,f2_hujan)
 if basah and hujan and sejuk and normal and f_cerah and f2_cerah:
- 		nkTinggi[18]=min(basah,hujan,sejuk,normal,f_cerah,f2_cerah)
+ 		nkRendah[18]=min(basah,hujan,sejuk,normal,f_cerah,f2_cerah)
 if basah and hujan and sejuk and normal and f_cerah and f2_mendung:
- 		nkTinggi[19]=min(basah,hujan,sejuk,normal,f_cerah,f2_mendung)
+ 		nkRendah[19]=min(basah,hujan,sejuk,normal,f_cerah,f2_mendung)
 if basah and hujan and sejuk and normal and f_cerah and f2_hujan:
- 		nkTinggi[20]=min(basah,hujan,sejuk,normal,f_cerah,f2_hujan)
+ 		nkRendah[20]=min(basah,hujan,sejuk,normal,f_cerah,f2_hujan)
 if basah and hujan and sejuk and normal and f_mendung and f2_cerah:
- 		nkTinggi[21]=min(basah,hujan,sejuk,normal,f_mendung,f2_cerah)
+ 		nkRendah[21]=min(basah,hujan,sejuk,normal,f_mendung,f2_cerah)
 if basah and hujan and sejuk and normal and f_mendung and f2_mendung:
- 		nkTinggi[22]=min(basah,hujan,sejuk,normal,f_mendung,f2_mendung)
+ 		nkRendah[22]=min(basah,hujan,sejuk,normal,f_mendung,f2_mendung)
 if basah and hujan and sejuk and normal and f_mendung and f2_hujan:
- 		nkTinggi[23]=min(basah,hujan,sejuk,normal,f_mendung,f2_hujan)
+ 		nkRendah[23]=min(basah,hujan,sejuk,normal,f_mendung,f2_hujan)
 if basah and hujan and sejuk and normal and f_hujan and f2_cerah:
- 		nkTinggi[24]=min(basah,hujan,sejuk,normal,f_hujan,f2_cerah)
+ 		nkRendah[24]=min(basah,hujan,sejuk,normal,f_hujan,f2_cerah)
 if basah and hujan and sejuk and normal and f_hujan and f2_mendung:
- 		nkTinggi[25]=min(basah,hujan,sejuk,normal,f_hujan,f2_mendung)
+ 		nkRendah[25]=min(basah,hujan,sejuk,normal,f_hujan,f2_mendung)
 if basah and hujan and sejuk and normal and f_hujan and f2_hujan:
- 		nkTinggi[26]=min(basah,hujan,sejuk,normal,f_hujan,f2_hujan)
+ 		nkRendah[26]=min(basah,hujan,sejuk,normal,f_hujan,f2_hujan)
 if basah and hujan and sejuk and lembab and f_cerah and f2_cerah:
- 		nkTinggi[27]=min(basah,hujan,sejuk,lembab,f_cerah,f2_cerah)
+ 		nkRendah[27]=min(basah,hujan,sejuk,lembab,f_cerah,f2_cerah)
 if basah and hujan and sejuk and lembab and f_cerah and f2_mendung:
- 		nkTinggi[28]=min(basah,hujan,sejuk,lembab,f_cerah,f2_mendung)
+ 		nkRendah[28]=min(basah,hujan,sejuk,lembab,f_cerah,f2_mendung)
 if basah and hujan and sejuk and lembab and f_cerah and f2_hujan:
- 		nkTinggi[29]=min(basah,hujan,sejuk,lembab,f_cerah,f2_hujan) 		
+ 		nkRendah[29]=min(basah,hujan,sejuk,lembab,f_cerah,f2_hujan) 		
 if basah and hujan and sejuk and lembab and f_mendung and f2_cerah:
- 		nkTinggi[30]=min(basah,hujan,sejuk,lembab,f_mendung,f2_cerah)
+ 		nkRendah[30]=min(basah,hujan,sejuk,lembab,f_mendung,f2_cerah)
 if basah and hujan and sejuk and lembab and f_mendung and f2_mendung:
- 		nkTinggi[31]=min(basah,hujan,sejuk,lembab,f_mendung,f2_mendung)
+ 		nkRendah[31]=min(basah,hujan,sejuk,lembab,f_mendung,f2_mendung)
 if basah and hujan and sejuk and lembab and f_mendung and f2_hujan:
- 		nkTinggi[32]=min(basah,hujan,sejuk,lembab,f_mendung,f2_hujan)
+ 		nkRendah[32]=min(basah,hujan,sejuk,lembab,f_mendung,f2_hujan)
 if basah and hujan and sejuk and lembab and f_hujan and f2_cerah:
- 		nkTinggi[33]=min(basah,hujan,sejuk,lembab,f_hujan,f2_cerah)
+ 		nkRendah[33]=min(basah,hujan,sejuk,lembab,f_hujan,f2_cerah)
 if basah and hujan and sejuk and lembab and f_hujan and f2_mendung:
- 		nkTinggi[34]=min(basah,hujan,sejuk,lembab,f_hujan,f2_mendung)
+ 		nkRendah[34]=min(basah,hujan,sejuk,lembab,f_hujan,f2_mendung)
 if basah and hujan and sejuk and lembab and f_hujan and f2_hujan:
- 		nkTinggi[35]=min(basah,hujan,sejuk,lembab,f_hujan,f2_hujan)
+ 		nkRendah[35]=min(basah,hujan,sejuk,lembab,f_hujan,f2_hujan)
 if basah and hujan and dingin and normal and f_cerah and f2_cerah:
- 		nkTinggi[36]=min(basah,hujan,dingin,normal,f_cerah,f2_cerah)
+ 		nkRendah[36]=min(basah,hujan,dingin,normal,f_cerah,f2_cerah)
 if basah and hujan and dingin and normal and f_cerah and f2_mendung:
- 		nkTinggi[37]=min(basah,hujan,dingin,normal,f_cerah,f2_mendung)
+ 		nkRendah[37]=min(basah,hujan,dingin,normal,f_cerah,f2_mendung)
 if basah and hujan and dingin and normal and f_cerah and f2_hujan:
- 		nkTinggi[38]=min(basah,hujan,dingin,normal,f_cerah,f2_hujan)
+ 		nkRendah[38]=min(basah,hujan,dingin,normal,f_cerah,f2_hujan)
 if basah and hujan and dingin and normal and f_mendung and f2_cerah:
- 		nkTinggi[39]=min(basah,hujan,dingin,normal,f_mendung,f2_cerah)
+ 		nkRendah[39]=min(basah,hujan,dingin,normal,f_mendung,f2_cerah)
 if basah and hujan and dingin and normal and f_mendung and f2_mendung:
- 		nkTinggi[40]=min(basah,hujan,dingin,normal,f_mendung,f2_mendung)
+ 		nkRendah[40]=min(basah,hujan,dingin,normal,f_mendung,f2_mendung)
 if basah and hujan and dingin and normal and f_mendung and f2_hujan:
- 		nkTinggi[41]=min(basah,hujan,dingin,normal,f_mendung,f2_hujan)
+ 		nkRendah[41]=min(basah,hujan,dingin,normal,f_mendung,f2_hujan)
 if basah and hujan and dingin and normal and f_hujan and f2_cerah:
- 		nkTinggi[42]=min(basah,hujan,dingin,normal,f_hujan,f2_cerah)
+ 		nkRendah[42]=min(basah,hujan,dingin,normal,f_hujan,f2_cerah)
 if basah and hujan and dingin and normal and f_hujan and f2_mendung:
- 		nkTinggi[43]=min(basah,hujan,dingin,normal,f_hujan,f2_mendung)
+ 		nkRendah[43]=min(basah,hujan,dingin,normal,f_hujan,f2_mendung)
 if basah and hujan and dingin and normal and f_hujan and f2_hujan:
- 		nkTinggi[44]=min(basah,hujan,dingin,normal,f_hujan,f2_hujan)
+ 		nkRendah[44]=min(basah,hujan,dingin,normal,f_hujan,f2_hujan)
 if basah and hujan and dingin and lembab and f_cerah and f2_cerah:
- 		nkTinggi[45]=min(basah,hujan,dingin,lembab,f_cerah,f2_cerah)
+ 		nkRendah[45]=min(basah,hujan,dingin,lembab,f_cerah,f2_cerah)
 if basah and hujan and dingin and lembab and f_cerah and f2_mendung:
- 		nkTinggi[46]=min(basah,hujan,dingin,lembab,f_cerah,f2_mendung)
+ 		nkRendah[46]=min(basah,hujan,dingin,lembab,f_cerah,f2_mendung)
 if basah and hujan and dingin and lembab and f_cerah and f2_hujan:
- 		nkTinggi[47]=min(basah,hujan,dingin,lembab,f_cerah,f2_hujan)
+ 		nkRendah[47]=min(basah,hujan,dingin,lembab,f_cerah,f2_hujan)
 if basah and hujan and dingin and lembab and f_mendung and f2_cerah:
- 		nkTinggi[48]=min(basah,hujan,dingin,lembab,f_mendung,f2_cerah)
+ 		nkRendah[48]=min(basah,hujan,dingin,lembab,f_mendung,f2_cerah)
 if basah and hujan and dingin and lembab and f_mendung and f2_mendung:
- 		nkTinggi[49]=min(basah,hujan,dingin,lembab,f_mendung,f2_mendung) 		
+ 		nkRendah[49]=min(basah,hujan,dingin,lembab,f_mendung,f2_mendung) 		
 if basah and hujan and dingin and lembab and f_mendung and f2_hujan:
- 		nkTinggi[50]=min(basah,hujan,dingin,lembab,f_mendung,f2_hujan)
+ 		nkRendah[50]=min(basah,hujan,dingin,lembab,f_mendung,f2_hujan)
 if basah and hujan and dingin and lembab and f_hujan and f2_cerah:
- 		nkTinggi[51]=min(basah,hujan,dingin,lembab,f_hujan,f2_cerah)
+ 		nkRendah[51]=min(basah,hujan,dingin,lembab,f_hujan,f2_cerah)
 if basah and hujan and dingin and lembab and f_hujan and f2_mendung:
- 		nkTinggi[52]=min(basah,hujan,dingin,lembab,f_hujan,f2_mendung)
+ 		nkRendah[52]=min(basah,hujan,dingin,lembab,f_hujan,f2_mendung)
 if basah and hujan and dingin and lembab and f_hujan and f2_hujan:
- 		nkTinggi[323]=min(basah,hujan,dingin,lembab,f_hujan,f2_hujan)
+ 		nkRendah[323]=min(basah,hujan,dingin,lembab,f_hujan,f2_hujan)
 
 
