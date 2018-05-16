@@ -1,5 +1,3 @@
-import datetime, time
-
 def calculate(soil,rain,temp,hum,forecast,forecast2):
 	# START FUZZIFIKASI
 	# inisialisasi linguistik
@@ -49,8 +47,8 @@ def calculate(soil,rain,temp,hum,forecast,forecast2):
 	#temp
 	l_dingin = 0;
 	u_dingin = 19;
-	l_sejuk = 20;
-	u_sejuk = 29;
+	l_sejuk = 21;
+	u_sejuk = 28;
 	l_panas = 30;
 	u_panas = 50;
 
@@ -103,9 +101,9 @@ def calculate(soil,rain,temp,hum,forecast,forecast2):
 		lembab = 1;
 	elif hum >= u_lembab and hum <= l_normal:
 		lembab = (hum * (-1.0) + l_normal) / (l_normal - u_lembab);
-		hujan  = (hum - u_lembab) * 1.0 / (l_normal - u_lembab);
+		normal  = (hum - u_lembab) * 1.0 / (l_normal - u_lembab);
 	elif hum > l_normal:
-		hujan = 1;
+		normal = 1;
 
 	#openweather	
 	if forecast == 0:
@@ -136,14 +134,14 @@ def calculate(soil,rain,temp,hum,forecast,forecast2):
 	print "HUJAN  	 : "+str(hujan);
 	print "TDK_HUJAN : "+str(tdk_hujan);
 
-	print "-TEMP = %d-" % (temp);
+	print "-TEMP = %d " % (temp)+"C-";
 	print "DINGIN  : "+str(basah);
 	print "SEJUK : "+str(sedang);
 	print "PANAS : "+str(kering);
 
 	print "-HUM = %d-" % (hum);
-	print "LEMBAB  	 : "+str(hujan);
-	print "NORMAL : "+str(tdk_hujan);
+	print "LEMBAB  	 : "+str(lembab);
+	print "NORMAL : "+str(normal);
 
 	print "-openweather-";
 	print "CERAH  : "+str(f_cerah);
@@ -825,7 +823,7 @@ def calculate(soil,rain,temp,hum,forecast,forecast2):
 	print "======================"
 	print "FUZZY OUTPUT";
 	print "======================"
-	for i in range(54):
+	for i in range(324):
 		if nkRendah[i]>0:
 			print "Rule "+str(i+1)+ " Rendah : "+str(nkRendah[i]);
 			if nkRendah[i]>rendah:

@@ -1,10 +1,10 @@
 import rule_py as fuzzy
 
-soil	= 145
-rain	= 220
-temp	= 30
-hum		= 75
-ow_code = 2
+soil	= 70
+rain	= 230
+temp	= 29
+hum		= 70
+ow_code = 1
 wu_code = 1
 
 NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
