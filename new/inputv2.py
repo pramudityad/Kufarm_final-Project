@@ -373,14 +373,14 @@ def main():
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "Nilai Kelayakan : " + str(NK)
-		print "F1 : " + str(ow_code)
-		print "F1 : " + ow_desc
+		print "openweather : " + str(ow_code)
+		print "description : " + ow_desc
 		print "---------------"
-		print "F2 : " + str(wu_code)
-		print "F2 : " + wu_desc
+		print "wunderground : " + str(wu_code)
+		print "description  : " + wu_desc
 		print "---------------"
-		print "Terbit : " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Terbenam : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunset  : " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunrise : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
 		print "Soil 		: " + str(soil)
 		print "Raindrop 	: " + str(rain)
