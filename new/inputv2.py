@@ -30,8 +30,10 @@ pinwatering		= 18
 #pinfertilizing	= 
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(pin, GPIO.OUT)
-GPIO.output(pin, GPIO.LOW)
+
+#gpio watering
+GPIO.setup(pinwatering, GPIO.OUT)
+GPIO.output(pinwatering, False)
 #time.sleep(7)
 #GPIO.cleanup()
 
