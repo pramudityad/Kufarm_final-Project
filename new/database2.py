@@ -18,7 +18,7 @@ def logdht (temp, hum):
 	cur = db.cursor()
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	sql = ("INSERT INTO dht_11 (temp, hum, created_at) values((?), (?), '"+currentTime+"')", (temp, hum))
+	sql = ("INSERT INTO dht11 (temp, hum, created_at) values((?), (?), '"+currentTime+"')", (temp, hum))
 	try:
 		cur.execute(sql)
 		db.commit();
@@ -33,7 +33,7 @@ def logsoil (soil):
 	cur = db.cursor()
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO soil(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
+	sql = "INSERT INTO soil(value,created_at) VALUES ("+str(soil)+",'"+currentTime+"')"
 	try:
 		cur.execute(sql)
 		db.commit();
@@ -48,7 +48,7 @@ def lograin (rain):
 	cur = db.cursor()
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO rain(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
+	sql = "INSERT INTO rain(value,created_at) VALUES ("+str(rain)+",'"+currentTime+"')"
 	try:
 		cur.execute(sql)
 		db.commit();
@@ -61,7 +61,7 @@ def lograin (rain):
 # Retrieve LAST data from database
 def getLastData():
 	cur=db.cursor()
-	for row in cur.execute("SELECT * FROM dht_11, soil, rain ORDER BY created_at DESC LIMIT 1"):
+	for row in cur.execute("SELECT * FROM dht11, soil, rain ORDER BY created_at DESC LIMIT 1"):
 		time = str(row[1])
 		temp = row[2]
 		hum = row[3]
@@ -224,7 +224,7 @@ def addPumpLog(device,status):
 def getHistData(numSamples):
 	conn=sqlite3.connect(dbname)
 	cur = db.cursor()
-	cur.execute("SELECT * FROM dht_11, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
+	cur.execute("SELECT * FROM dht11, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
 	data = cur.fetchall()
 	dates = []
 	temps = []
@@ -257,7 +257,7 @@ def testeData(temps, hums, soils, rains):
 # Get Max number of rows (table size)
 def maxRowsTable():
 	cur = db.cursor()
-	for row in cur.execute("select COUNT(temp) from  dht_11"):
+	for row in cur.execute("select COUNT(temp) from  dht11"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
