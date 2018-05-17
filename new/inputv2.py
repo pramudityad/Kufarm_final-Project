@@ -6,8 +6,9 @@ import math
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
+import RPi.GPIO as GPIO
 import Adafruit_MCP3008
-import database as DB
+import database2 as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather as OW
@@ -24,6 +25,30 @@ longitude   = 'N/A';
 timeForcast = 'N/A';
 weather     = 'N/A';
 code        = 'N/A';
+
+pinwatering		= 18
+#pinfertilizing	= 
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(pin, GPIO.OUT)
+GPIO.output(pin, GPIO.LOW)
+#time.sleep(7)
+#GPIO.cleanup()
+
+#sensor
+stateWatering = False;
+statePemupuk  = False;
+requestStatus = False;
+readyWatering    = False;
+readyPupuk    = False;
+timewatering     = 0;
+timePupuk     = 0;
+overrideSiram = False;
+overridePupuk = False;
+delaySecond   = 1;
+maxtimewatering  = 1;
+maxTimePupuk  = 1;
+
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -296,6 +321,14 @@ cekWuCode()
 def main():
 	global terbit
 	global terbenam
+	global soil
+	global rain
+	global temp
+	global hum
+	global readyWatering
+	global timewatering
+	global maxtimewatering
+	global overrideSiram
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
@@ -308,9 +341,10 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			#DB.logdht (temp, hum)
-			#DB.logsoil (soil)
-			#DB.lograin (rain)
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
+			soil,rain,temp,hum = DB.getLastData()
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -336,31 +370,57 @@ def main():
 			print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-            print "Nilai Kelayakan : " + str(NK)
-            print "F1 : " + str(ow_code)
-            print "F1 : " + ow_desc
-            print "---------------"
-            print "F2 : " + str(wu_code)
-            print "F2 : " + wu_desc
-            print "---------------"
-            print "Terbit : " + str(int(terbit))+":"+str(int((terbit%1)*60))
-            print "Terbenam : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
-            print "---------------"
-            print "Soil :" + str(soil)
-            print "Raindrop : " + str(rain)
-                                
-            if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
-                                plant = DB.getPlant()
-                                umur = now - plant[4]
-                                nedded = DB.getAir(umur.days,plant[2])
-                                air       = nedded['air']
-                                pupuk = nedded['pupuk']
-                                readyPupuk = True
-                                if(NK>65):
-                                        readySiram = True
-                                        timeSiram = air * DB.getPerLiter()
-                                        maxTimeSiram = timeSiram
-                                        DB.addPumpLog('Pompa Penyiraman','ON')
+			print "Nilai Kelayakan : " + str(NK)
+			print "F1 : " + str(ow_code)
+			print "F1 : " + ow_desc
+			print "---------------"
+			print "F2 : " + str(wu_code)
+			print "F2 : " + wu_desc
+			print "---------------"
+			print "Terbit : " + str(int(terbit))+":"+str(int((terbit%1)*60))
+			print "Terbenam : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+			print "---------------"
+			print "Soil 		: " + str(soil)
+			print "Raindrop 	: " + str(rain)
+			print "Temperature 	: " + str(temp) +"C"
+			print "Humidity		: " + str(hum) +"%"
+								
+			if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
+								plant = DB.getPlant()
+								umur = now - plant[4]
+								nedded = DB.getAir(umur.days,plant[2])
+								air       = nedded['air']
+								pupuk = nedded['pupuk']
+								readyPupuk = True
+								if(NK>65):
+										readyWatering = True
+										timewatering = air * DB.getPerLiter()
+										maxtimewatering = timewatering
+										DB.addPumpLog('Pompa Penyiraman','ON')
+
+			if(overrideSiram == True):
+								plant = DB.getPlant()
+								umur = now - plant[4]
+								nedded = DB.getAir(umur.days,plant[2])
+								print nedded
+								air = nedded['air']
+								readyWatering = True
+								timewatering = air * DB.getPerLiter()
+								maxtimewatering = timewatering
+								overrideSiram = False
+								DB.addPumpLog('Pompa Penyiraman','ON')
+
+			if(readyWatering == True):
+								timewatering = timewatering-delaySecond
+								GPIO.output(pinwatering,True)
+								stateWatering = True
+								print timewatering
+								if(timewatering < 0):
+										readyWatering=False
+										GPIO.output(pinwatering,False)
+										stateWatering = False
+										DB.addPumpLog('Pompa Penyiraman','OFF')
+
 # ------------ Execute program 
 if __name__ == "__main__":
 	main()
