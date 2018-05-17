@@ -56,13 +56,13 @@ ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,3
 ow_mendung_code = {803,804}
 ow_cerah_code   = {800,801,802}
 ow_code = 0
-ow_desc = 'Cerah'
+ow_desc = 'Sunny'
 
 wu_hujan_code   = {13,14,15,16,17,18,19,20,21,22,}
 wu_mendung_code = {3,4,5,6,7,8,9,10,11,12}
 wu_cerah_code   = {1,2}
 wu_code = 0
-wu_desc = 'Cerah'
+wu_desc = 'Sunny'
 
 terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
@@ -127,15 +127,15 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
@@ -153,15 +153,15 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
@@ -178,15 +178,15 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
@@ -222,15 +222,15 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
@@ -245,15 +245,15 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
@@ -271,15 +271,15 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
@@ -372,56 +372,56 @@ def main():
 			print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-		print "Nilai Kelayakan : " + str(NK)
-		print "openweather : " + str(ow_code)
-		print "description : " + ow_desc
+		print "Nilai Kelayakan 	: " + str(NK)
+		print "openweather 		: " + str(ow_code)
+		print "description 		: " + ow_desc
 		print "---------------"
-		print "wunderground : " + str(wu_code)
-		print "description  : " + wu_desc
+		print "wunderground 	: " + str(wu_code)
+		print "description  	: " + wu_desc
 		print "---------------"
-		print "Sunset  : " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Sunrise : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunset  			: " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunrise 			: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
-		print "Soil 		: " + str(soil)
-		print "Raindrop 	: " + str(rain)
-		print "Temperature 	: " + str(temp) +"C"
-		print "Humidity		: " + str(hum) +"%"
+		print "Soil 			: " + str(soil)
+		print "Raindrop 		: " + str(rain)
+		print "Temperature 		: " + str(temp) +"C"
+		print "Humidity			: " + str(hum) +"%"
 							
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
-							plant = DB.getPlant()
-							umur = now - plant[4]
-							nedded = DB.getAir(umur.days,plant[2])
-							air       = nedded['air']
-							pupuk = nedded['pupuk']
-							readyPupuk = True
-							if(NK>65):
-									readyWatering = True
-									timewatering = air * DB.getPerLiter()
-									maxtimewatering = timewatering
-									DB.addPumpLog('Pompa Penyiraman','ON')
+			plant = DB.getPlant()
+			umur = now - plant[4]
+			nedded = DB.getAir(umur.days,plant[2])
+			air       = nedded['air']
+			pupuk = nedded['pupuk']
+			readyPupuk = True
+			if(NK>65):
+					readyWatering = True
+					timewatering = air * DB.getPerLiter()
+					maxtimewatering = timewatering
+					DB.addPumpLog('Pompa Penyiraman','ON')
 
 		if(overrideSiram == True):
-							plant = DB.getPlant()
-							umur = now - plant[4]
-							nedded = DB.getAir(umur.days,plant[2])
-							print nedded
-							air = nedded['air']
-							readyWatering = True
-							timewatering = air * DB.getPerLiter()
-							maxtimewatering = timewatering
-							overrideSiram = False
-							DB.addPumpLog('Pompa Penyiraman','ON')
+			plant = DB.getPlant()
+			umur = now - plant[4]
+			nedded = DB.getAir(umur.days,plant[2])
+			print nedded
+			air = nedded['air']
+			readyWatering = True
+			timewatering = air * DB.getPerLiter()
+			maxtimewatering = timewatering
+			overrideSiram = False
+			DB.addPumpLog('Pompa Penyiraman','ON')
 
 		if(readyWatering == True):
-							timewatering = timewatering-delaySecond
-							GPIO.output(pinwatering,True)
-							stateWatering = True
-							print timewatering
-							if(timewatering < 0):
-									readyWatering=False
-									GPIO.output(pinwatering,False)
-									stateWatering = False
-									DB.addPumpLog('Pompa Penyiraman','OFF')
+			timewatering = timewatering-delaySecond
+			GPIO.output(pinwatering,True)
+			stateWatering = True
+			print timewatering
+			if(timewatering < 0):
+					readyWatering=False
+					GPIO.output(pinwatering,False)
+					stateWatering = False
+					DB.addPumpLog('Pompa Penyiraman','OFF')
 
 # ------------ Execute program 
 if __name__ == "__main__":
