@@ -68,7 +68,46 @@ def getLastData():
 		soil = row[6]
 		rain = row[9]
 	#conn.close()
-	return time, temp, hum, soil, rain    
+	return time, temp, hum, soil, rain
+
+def getLatitude():
+	val = 0
+	cur = db.cursor()
+	sql = "SELECT value FROM setting WHERE parameter = 'latitude' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[0]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return float(val);
+
+def getLongitude():
+	val = 0
+	cur = db.cursor()
+	sql = "SELECT value FROM setting WHERE parameter = 'longitude' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[0]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return float(val);
+
+def getTimezone():
+	val = 0
+	cur = db.cursor()
+	sql = "SELECT value FROM setting WHERE parameter = 'timezone' ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[0]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return float(val); 
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):
