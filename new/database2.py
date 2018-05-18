@@ -16,11 +16,11 @@ def getDb():
 # log dht sensor data on database
 def logdht (temp, hum):
 	cur = db.cursor()
-	unix = int(time.time())
-	date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
-	#myTime  	= datetime.datetime.now()
-	#currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	sql = "INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, date)
+	#unix = int(time.time())
+	#date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+	myTime  	= datetime.datetime.now()
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	sql = "INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime)
 	try:
 		cur.execute(sql)
 		db.commit();
