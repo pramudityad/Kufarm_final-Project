@@ -18,7 +18,7 @@ def logdht (temp, hum):
 	cur = db.cursor()
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	sql = "INSERT INTO dht11(temp, hum,created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime)
+	sql = "INSERT INTO dht11(temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime)
 	try:
 		cur.execute(sql)
 		db.commit();
