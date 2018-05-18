@@ -368,8 +368,8 @@ def main():
 			#DB.logsoil (soil)
 			#DB.lograin (rain)
 			#time.sleep(sampleFreq)
-		except Exception as e:
-			print e
+		except KeyboardInterrupt:
+			GPIO.cleanup() # cleanup all GPI
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "Nilai Kelayakan 	: " + str(NK)
