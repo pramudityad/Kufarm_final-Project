@@ -220,15 +220,15 @@ def cekWuCode():
 				#myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
@@ -243,15 +243,15 @@ def cekWuCode():
 			myTime = myTime.replace(hour=i)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
@@ -269,15 +269,15 @@ def cekWuCode():
 			myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))[0]['fctcode']) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
