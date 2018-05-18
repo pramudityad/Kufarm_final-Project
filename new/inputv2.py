@@ -343,9 +343,9 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			DB.logdht (temp, hum)
-			DB.logsoil (soil)
-			DB.lograin (rain)
+			#DB.logdht (temp, hum)
+			#DB.logsoil (soil)
+			#DB.lograin (rain)
 			soil,rain,temp,hum = DB.getLastData()
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
@@ -364,10 +364,10 @@ def main():
 			temp, hum = getdht()
 			soil = getsoil()
 			rain = getrain()
-			#DB.logdht (temp, hum)
-			#DB.logsoil (soil)
-			#DB.lograin (rain)
-			#time.sleep(sampleFreq)
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
+			time.sleep(sampleFreq)
 		except KeyboardInterrupt:
 			GPIO.cleanup() # cleanup all GPI
 		
@@ -379,13 +379,13 @@ def main():
 		print "wunderground 	: " + str(wu_code)
 		print "description  	: " + wu_desc
 		print "---------------"
-		print "Sunset  			: " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Sunrise 			: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunset  		: " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunrise 		: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
 		print "Soil 			: " + str(soil)
 		print "Raindrop 		: " + str(rain)
 		print "Temperature 		: " + str(temp) +"C"
-		print "Humidity			: " + str(hum) +"%"
+		print "Humidity		: " + str(hum) +"%"
 							
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
 			plant = DB.getPlant()
