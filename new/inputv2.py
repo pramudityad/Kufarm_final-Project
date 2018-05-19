@@ -343,7 +343,7 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print timeRequest
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%34.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()
