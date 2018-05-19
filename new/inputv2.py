@@ -38,6 +38,10 @@ GPIO.output(pinwatering, False)
 #GPIO.cleanup()
 
 #sensor
+soil        = 0;
+rain        = 0;
+temp 		= 0;
+rain 		= 0;
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
