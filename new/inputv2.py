@@ -293,10 +293,9 @@ def getdht():
 	if hum is not None and temp is not None:
 		try:
 			temp ='{0:0.1f}C'.format(temp, hum)
-			pass
 			hum='{1:0.1f}%'.format(temp, hum)
-		#hum = round.format(hum)
-		#temp = round.format(temp, 1)
+		#hum = round.(hum)
+		#temp = round.(temp, 1)
 	return temp, hum
 
 # get data from spi sensor
