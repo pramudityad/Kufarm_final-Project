@@ -38,13 +38,13 @@ GPIO.output(pinwatering, False)
 #GPIO.cleanup()
 
 #sensor
-#soil        = 0;
-#rain        = 0;
-#temp 		= 0;
-#hum 		= 0;
-temp, hum = getdht()
-soil = getsoil()
-rain = getrain()
+soil        = 0;
+rain        = 0;
+temp 		= 0;
+hum 		= 0;
+#temp, hum = getdht()
+#soil = getsoil()
+#rain = getrain()
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
@@ -369,9 +369,9 @@ def main():
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
 		try:
-			#temp, hum = getdht()
-			#soil = getsoil()
-			#rain = getrain()
+			temp, hum = getdht()
+			soil = getsoil()
+			rain = getrain()
 			DB.logdht (temp, hum)
 			DB.logsoil (soil)
 			DB.lograin (rain)
