@@ -27,5 +27,11 @@ def logdht(temp, hum):
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	cur.execute("INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime))
-	db.commit()
-	db.close()
+	try:
+		db.commit()
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
+	
