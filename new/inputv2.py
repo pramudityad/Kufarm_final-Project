@@ -42,9 +42,6 @@ soil        = 0;
 rain        = 0;
 temp 		= 0;
 hum 		= 0;
-#temp, hum = getdht()
-#soil = getsoil()
-#rain = getrain()
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
@@ -339,6 +336,9 @@ def main():
 	global maxtimewatering
 	global overrideSiram
 	while True:
+		temp, hum = getdht()
+		soil = getsoil()
+		rain = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
@@ -369,9 +369,9 @@ def main():
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
 		try:
-			temp, hum = getdht()
-			soil = getsoil()
-			rain = getrain()
+			#temp, hum = getdht()
+			#soil = getsoil()
+			#rain = getrain()
 			DB.logdht (temp, hum)
 			DB.logsoil (soil)
 			DB.lograin (rain)
