@@ -41,7 +41,7 @@ GPIO.output(pinwatering, False)
 soil        = 0;
 rain        = 0;
 temp 		= 0;
-rain 		= 0;
+hum 		= 0;
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
