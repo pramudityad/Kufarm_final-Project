@@ -22,16 +22,10 @@ def getdht():
 
 def logdht(temp, hum):
 	#cur = db.cursor()
-	unix = int(time.time())
-	date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+	#unix = int(time.time())
+	#date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	sql = "INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, date)
-	try:
-		cur.execute(sql)
-		db.commit();
-		status = True;
-	except Exception as e:
-		db.rollback()
-		status = False;
-	return status;
+	cur.execute("INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, date))
+	db.commit()
+	db.close()
