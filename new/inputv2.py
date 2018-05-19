@@ -291,8 +291,8 @@ def getdht():
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
 	if hum is not None and temp is not None:
-		hum = round(hum)
-		temp = round(temp, 1)
+		hum = round.format(hum)
+		temp = round.format(temp, 1)
 	return temp, hum
 
 # get data from spi sensor
