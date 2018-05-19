@@ -293,7 +293,7 @@ def getdht():
 	if hum is not None and temp is not None:
 		try:
 				temp ='{0:0.1f}C'.format(temp, hum)
-				pass
+			pass
 			hum='{1:0.1f}%'.format(temp, hum)
 		#hum = round.(hum)
 		#temp = round.(temp, 1)
@@ -372,8 +372,8 @@ def main():
 			DB.logsoil (soil)
 			DB.lograin (rain)
 			time.sleep(sampleFreq)
-		except KeyboardInterrupt:
-			GPIO.cleanup() # cleanup all GPI
+		except Exception as e:
+			raise e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "Nilai Kelayakan 	: " + str(NK)
