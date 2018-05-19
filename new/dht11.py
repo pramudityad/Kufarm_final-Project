@@ -16,8 +16,8 @@ def getdht():
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
 	if hum is not None and temp is not None:
-		hum = float(hum)
-		temp = float(temp)
+		hum = round(hum)
+		temp = round(temp, 1)
 	return temp, hum
 
 def logdht(temp, hum):
