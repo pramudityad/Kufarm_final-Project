@@ -290,13 +290,11 @@ def cekWuCode():
 			# print str(i) + " : " + str(wu_code_temp)    
 
 # get data from DHT sensor
-def getdht():	
+def getdht():   
 	Sensor = Adafruit_DHT.DHT11
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
 	if hum is not None and temp is not None:
-		#hum = 'Humidity={1:0.1f}%'.format(hum)
-		#temp = 'Temperature={0:0.1f}C'.format(temp, 1)
 		hum = round(hum)
 		temp = round(temp, 1)
 	return temp, hum
@@ -374,9 +372,9 @@ def main():
 			#temp, hum = getdht()
 			#soil = getsoil()
 			#rain = getrain()
-			DB.logdht (temp, hum)
-			DB.logsoil (soil)
-			DB.lograin (rain)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			time.sleep(sampleFreq)
 		except Exception as e:
 			print e

@@ -21,9 +21,6 @@ def getdht():
 	return temp, hum
 
 def logdht(temp, hum):
-	#cur = db.cursor()
-	#unix = int(time.time())
-	#date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	cur.execute("INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime))
