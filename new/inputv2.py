@@ -369,7 +369,7 @@ def main():
 			DB.lograin (rain)
 			time.sleep(sampleFreq)
 		except Exception as e:
-			raise e
+			print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "Nilai Kelayakan 	: " + str(NK)
