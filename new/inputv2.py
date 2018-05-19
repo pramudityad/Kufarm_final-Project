@@ -292,7 +292,7 @@ def getdht():
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
 	if hum is not None and temp is not None:
 		'Temperature={0:0.1f}C'.format(temp, hum)
-	    pass
+	    	pass
 	    'Humidity={1:0.1f}%'.format(temp, hum)
 		#hum = round.format(hum)
 		#temp = round.format(temp, 1)
