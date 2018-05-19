@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import sys
 import Adafruit_DHT
-#import MySQLdb
+import MySQLdb
 import datetime
 
 db = MySQLdb.connect(host="localhost",
