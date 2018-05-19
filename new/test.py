@@ -1,4 +1,5 @@
 import dht11 as DT 
+import time
 sampleFreq = 60
 
 def main():
