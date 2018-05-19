@@ -2,7 +2,7 @@ import dht11 as DT
 import time
 sampleFreq = 60
 
-def main():
+#def main():
 	while True:
 		temp, hum = DT.getdht()
 		pass
@@ -10,4 +10,5 @@ def main():
 		time.sleep(sampleFreq)
 
 # ------------ Execute program 
-main()
+#main()
+print DT.getdht()
