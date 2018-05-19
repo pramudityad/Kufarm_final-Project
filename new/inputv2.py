@@ -38,10 +38,13 @@ GPIO.output(pinwatering, False)
 #GPIO.cleanup()
 
 #sensor
-soil        = 0;
-rain        = 0;
-temp 		= 0;
-hum 		= 0;
+#soil        = 0;
+#rain        = 0;
+#temp 		= 0;
+#hum 		= 0;
+temp, hum = getdht()
+soil = getsoil()
+rain = getrain()
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
@@ -347,11 +350,11 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			DB.logdht (temp, hum)
-			DB.logsoil (soil)
-			DB.lograin (rain)
+			#DB.logdht (temp, hum)
+			#DB.logsoil (soil)
+			#DB.lograin (rain)
 			#soil,rain,temp,hum = DB.getLastData()
-			soil = DB.getLastSoil()
+			#soil = DB.getLastSoil()
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -366,13 +369,13 @@ def main():
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
 		try:
-			temp, hum = getdht()
-			soil = getsoil()
-			rain = getrain()
-			#DB.logdht (temp, hum)
-			#DB.logsoil (soil)
-			#DB.lograin (rain)
-			#time.sleep(sampleFreq)
+			#temp, hum = getdht()
+			#soil = getsoil()
+			#rain = getrain()
+			DB.logdht (temp, hum)
+			DB.logsoil (soil)
+			DB.lograin (rain)
+			time.sleep(sampleFreq)
 		except Exception as e:
 			print e
 		
