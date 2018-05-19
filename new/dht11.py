@@ -8,7 +8,7 @@ import datetime
 db = MySQLdb.connect(host="localhost",
 					 user="logger",
 					 passwd="password",
-					 db="gfarm");
+					 db="kufarm");
 cur = db.cursor()
 
 def getdht():   
@@ -22,11 +22,11 @@ def getdht():
 
 def logdht(temp, hum):
 	#cur = db.cursor()
-	#unix = int(time.time())
-	#date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+	unix = int(time.time())
+	date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
-	sql = "INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime)
+	sql = "INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, date)
 	try:
 		cur.execute(sql)
 		db.commit();
