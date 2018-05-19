@@ -3,9 +3,9 @@ sampleFreq = 60
 
 def main():
 	while True:
-		temp, hum = getdht()
+		temp, hum = DT.getdht()
 		pass
-		logdht(temp, hum)
+		DT.logdht(temp, hum)
 		time.sleep(sampleFreq)
 
 # ------------ Execute program 
