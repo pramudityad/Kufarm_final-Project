@@ -14,7 +14,7 @@ def getDb():
 	#db.close();
 
 # log dht sensor data on database
-def logdht (temp, hum):
+def logdht(temp, hum):
 	cur = db.cursor()
 	#unix = int(time.time())
 	#date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
@@ -71,7 +71,7 @@ def getLastData():
 		rain = row[9]
 	#conn.close()
 	return time, temp, hum, soil, rain
-	
+
 def getLastSoil():
 	val = 0
 	cur = db.cursor()

@@ -1,11 +1,12 @@
-import rule_py as fuzzy
+import dht11 as DT 
+sampleFreq = 60
 
-soil	= 70
-rain	= 230
-temp	= 29
-hum		= 70
-ow_code = 1
-wu_code = 1
+def main():
+	while True:
+		temp, hum = getdht()
+		pass
+		logdht(temp, hum)
+		time.sleep(sampleFreq)
 
-NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-print (NK)
+# ------------ Execute program 
+main()
