@@ -350,9 +350,9 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			#DB.logdht (temp, hum)
-			#DB.logsoil (soil)
-			#DB.lograin (rain)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			#soil,rain,temp,hum = DB.getLastData()
 			#soil = DB.getLastSoil()
 			if(now.minute==0 and now.second==0):
@@ -368,16 +368,13 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		try:
+		#try:
 			#temp, hum = getdht()
 			#soil = getsoil()
 			#rain = getrain()
-			DB.logdht(temp, hum)
-			DB.logsoil(soil)
-			DB.lograin(rain)
-			time.sleep(sampleFreq)
-		except Exception as e:
-			print e
+			#time.sleep(sampleFreq)
+		#except Exception as e:
+			#print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "Nilai Kelayakan 	: " + str(NK)
