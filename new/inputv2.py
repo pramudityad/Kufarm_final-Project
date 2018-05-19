@@ -297,7 +297,7 @@ def getdht():
 			hum='{1:0.1f}%'.format(temp, hum)
 		#hum = round.format(hum)
 		#temp = round.format(temp, 1)
-		return temp, hum
+	return temp, hum
 
 # get data from spi sensor
 def getsoil():
