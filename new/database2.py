@@ -71,6 +71,32 @@ def getLastData():
 		rain = row[9]
 	#conn.close()
 	return time, temp, hum, soil, rain
+	
+def getLastSoil():
+	val = 0
+	cur = db.cursor()
+	sql = "SELECT * FROM soil ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[1]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return val;
+
+def getLastRaindrop():
+	val = 0
+	cur = db.cursor()
+	sql = "SELECT * FROM raindrop ORDER BY id DESC LIMIT 1"
+	try:
+		cur.execute(sql)
+		for row in cur.fetchall():
+			val = row[1]
+		db.commit();
+	except Exception as e:
+		db.rollback()
+	return val;
 
 def getLatitude():
 	val = 0
