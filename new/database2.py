@@ -15,6 +15,7 @@ def getDb():
 
 # log dht sensor data on database
 def logdht(temp, hum):
+	cur = db.cursor()
 	myTime  	= datetime.datetime.now()
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	cur.execute("INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime))
