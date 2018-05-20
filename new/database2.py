@@ -135,18 +135,18 @@ def getTimezone():
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):
+	myTime  	= datetime.datetime.now()
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	cur = db.cursor()
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
 	sql = ("INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')")
 	try:
 		cur.execute(sql)
-		db.commit();
-		status = True;
+		db.commit()
+		status = True
 		print "berhasil"
 	except Exception as e:
 		db.rollback()
-		status = False;
+		status = False
 		print e
 	return status;
 
