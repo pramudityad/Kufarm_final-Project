@@ -160,5 +160,5 @@ def main():
 
 # ------------ Execute program 
 if __name__ == "__main__":
-	log_sensor.sensor()
 	main()
+	log_sensor.sensor()
