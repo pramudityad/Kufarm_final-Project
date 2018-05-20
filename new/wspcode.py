@@ -156,6 +156,7 @@ def cekOwCode():
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
 			# print str(i) + " : " + str(ow_code_temp)
+	return ow_code, ow_desc
 
 def cekWuCode():
 	print "CEK WU CODE"
@@ -248,7 +249,8 @@ def cekWuCode():
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
-			# print str(i) + " : " + str(wu_code_temp)    
+			# print str(i) + " : " + str(wu_code_temp)
+	return wu_code, wu_desc    
 
 def startwsp():
 	print "Start"
