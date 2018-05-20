@@ -73,6 +73,8 @@ def getrain():
 	rain = 1024-rain
 	return rain	
 
+WSP.startwsp()
+
 # main function
 def main():
 	global terbit
@@ -86,7 +88,7 @@ def main():
 	global maxtimewatering
 	global overrideSiram
 	while True:
-		WSP.startwsp()
+		#WSP.startwsp()
 		temp, hum = getdht()
 		soil = getsoil()
 		rain = getrain()
