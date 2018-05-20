@@ -138,7 +138,7 @@ def addForecast(code,weather,wsp,dataTime):
 	cur = db.cursor()
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')"
+	sql = ("INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')")
 	try:
 		cur.execute(sql)
 		db.commit();
