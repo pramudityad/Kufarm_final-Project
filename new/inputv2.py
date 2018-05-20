@@ -384,8 +384,8 @@ def main():
 		print "openweather 		: " + str(ow_code)
 		print "description 		: " + ow_desc
 		print "---------------"
-		print "wunderground 	: " + str(wu_code)
-		print "description  	: " + wu_desc
+		print "wunderground 		: " + str(wu_code)
+		print "description  		: " + wu_desc
 		print "---------------"
 		print "Sunset  		: " + str(int(terbit))+":"+str(int((terbit%1)*60))
 		print "Sunrise 		: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
