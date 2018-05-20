@@ -73,8 +73,7 @@ def getrain():
 	rain = 1024-rain
 	return rain	
 
-def pump_on():
-
+#def pump_on():
 
 WSP.startwsp()
 
