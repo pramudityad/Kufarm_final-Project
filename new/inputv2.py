@@ -134,7 +134,7 @@ def main():
 			#print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-		print timeRequest
+		print "Time 			: " + timeRequest
 		print "Nilai Kelayakan 	: " + str(NK)
 		print "openweather 		: " + str(ow_code)
 		print "description 		: " + str(ow_desc)
