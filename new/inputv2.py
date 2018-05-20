@@ -345,14 +345,13 @@ def main():
 		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print timeRequest
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			#DB.logdht(temp, hum)
-			#DB.logsoil(soil)
-			#DB.lograin(rain)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			#soil,rain,temp,hum = DB.getLastData()
 			#soil = DB.getLastSoil()
 			if(now.minute==0 and now.second==0):
@@ -368,18 +367,19 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		try:
-			DB.logdht(temp, hum)
-			DB.logsoil(soil)
-			DB.lograin(rain)
+		#try:
+			#DB.logdht(temp, hum)
+			#DB.logsoil(soil)
+			#DB.lograin(rain)
 			#temp, hum = getdht()
 			#soil = getsoil()
 			#rain = getrain()
 			#time.sleep(sampleFreq)
-		except Exception as e:
-			print e
+		#except Exception as e:
+			#print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		print timeRequest
 		print "Nilai Kelayakan 	: " + str(NK)
 		print "openweather 		: " + str(ow_code)
 		print "description 		: " + ow_desc
