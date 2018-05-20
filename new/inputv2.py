@@ -1,6 +1,7 @@
 from datetime import timedelta
 from calendar import monthrange
 import time, datetime
+import log_sensor 
 import io
 import math
 import sqlite3
@@ -20,10 +21,11 @@ sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 pinwatering		= 18
 #pinfertilizing	= 
 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 #gpio watering
-#GPIO.setup(pinwatering, GPIO.OUT)
+GPIO.setup(pinwatering, GPIO.OUT)
 #GPIO.output(pinwatering, False)
 #time.sleep(7)
 #GPIO.cleanup()
@@ -36,42 +38,15 @@ hum 		= 0;
 stateWatering = False;
 statePemupuk  = False;
 requestStatus = False;
-readyWatering    = False;
+readyWatering = False;
 readyPupuk    = False;
-timewatering     = 0;
+timewatering  = 0;
 timePupuk     = 0;
 overrideSiram = False;
 overridePupuk = False;
 delaySecond   = 1;
-maxtimewatering  = 1;
+maxtimewatering = 1;
 maxTimePupuk  = 1;
-
-# get data from DHT sensor
-def getdht():   
-	Sensor = Adafruit_DHT.DHT11
-	DHTpin = 4
-	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
-	if hum is not None and temp is not None:
-		hum = round(hum)
-		temp = round(temp, 1)
-	return temp, hum
-
-# get data from spi sensor
-def getsoil():
-	SPI_PORT   = 0
-	SPI_DEVICE = 0
-	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	soil = mcp.read_adc(5)
-	soil = 1024-soil
-	return soil
-
-def getrain():
-	SPI_PORT   = 0
-	SPI_DEVICE = 0
-	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	rain = mcp.read_adc(6)
-	rain = 1024-rain
-	return rain	
 
 #def pump_on():
 
@@ -90,9 +65,9 @@ def main():
 	global maxtimewatering
 	global overrideSiram
 	while True:
-		temp, hum = getdht()
-		soil = getsoil()
-		rain = getrain()
+		temp, hum = log_sensor.getdht()
+		soil = log_sensor.getsoil()
+		rain = log_sensor.getrain()
 		ow_code, ow_desc = WSP.cekOwCode()
 		wu_code, wu_desc = WSP.cekWuCode()
 		now = datetime.datetime.now()
@@ -101,13 +76,10 @@ def main():
 		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		if(now.hour%1==0 and now.minute%33.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			WSP.requestData()
 			WSP.cekOwCode()
 			WSP.cekWuCode()
-			DB.logdht(temp, hum)
-			DB.logsoil(soil)
-			DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -154,9 +126,9 @@ def main():
 			plant = DB.getPlant()
 			umur = now - plant[4]
 			nedded = DB.getAir(umur.days,plant[2])
-			air       = nedded['air']
+			air    = nedded['air']
 			pupuk = nedded['pupuk']
-			readyPupuk = True
+			#readyPupuk = True
 			if(NK>65):
 					readyWatering = True
 					timewatering = air * DB.getPerLiter()
@@ -188,4 +160,5 @@ def main():
 
 # ------------ Execute program 
 if __name__ == "__main__":
+	log_sensor.sensor()
 	main()
