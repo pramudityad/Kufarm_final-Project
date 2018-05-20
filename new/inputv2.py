@@ -23,8 +23,8 @@ pinwatering		= 18
 GPIO.setmode(GPIO.BCM)
 
 #gpio watering
-GPIO.setup(pinwatering, GPIO.OUT)
-GPIO.output(pinwatering, False)
+#GPIO.setup(pinwatering, GPIO.OUT)
+#GPIO.output(pinwatering, False)
 #time.sleep(7)
 #GPIO.cleanup()
 
@@ -73,6 +73,9 @@ def getrain():
 	rain = 1024-rain
 	return rain	
 
+def pump_on():
+
+
 WSP.startwsp()
 
 # main function
@@ -88,7 +91,6 @@ def main():
 	global maxtimewatering
 	global overrideSiram
 	while True:
-		#WSP.startwsp()
 		temp, hum = getdht()
 		soil = getsoil()
 		rain = getrain()
@@ -107,8 +109,6 @@ def main():
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
-			#soil,rain,temp,hum = DB.getLastData()
-			#soil = DB.getLastSoil()
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -134,8 +134,9 @@ def main():
 			#print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		print "---------------"
 		print "Time 			: " + timeRequest
-		print "Nilai Kelayakan 	: " + str(NK)
+		print "Eligibility Value: " + str(NK)
 		print "openweather 		: " + str(ow_code)
 		print "description 		: " + str(ow_desc)
 		print "---------------"
