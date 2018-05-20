@@ -247,3 +247,11 @@ def cekWuCode():
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
 			# print str(i) + " : " + str(wu_code_temp)    
+
+def startwsp():
+	print "Start"
+	while (requestStatus == False):
+		requestData()
+		time.sleep(1)
+	cekOwCode()
+	cekWuCode()

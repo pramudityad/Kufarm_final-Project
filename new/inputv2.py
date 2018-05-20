@@ -71,14 +71,7 @@ def getrain():
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	rain = mcp.read_adc(6)
 	rain = 1024-rain
-	return rain
-
-print "Start"
-while (requestStatus == False):
-	WSP.requestData()
-	time.sleep(1)
-WSP.cekOwCode()
-WSP.cekWuCode()	
+	return rain	
 
 # main function
 def main():
@@ -93,6 +86,7 @@ def main():
 	global maxtimewatering
 	global overrideSiram
 	while True:
+		WSP.startwsp()
 		temp, hum = getdht()
 		soil = getsoil()
 		rain = getrain()
