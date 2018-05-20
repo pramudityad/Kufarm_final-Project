@@ -25,7 +25,7 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 #gpio watering
-GPIO.setup(pinwatering, GPIO.OUT)
+#GPIO.setup(pinwatering, GPIO.OUT)
 #GPIO.output(pinwatering, False)
 #time.sleep(7)
 #GPIO.cleanup()
