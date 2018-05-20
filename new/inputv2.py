@@ -90,6 +90,8 @@ def main():
 		temp, hum = getdht()
 		soil = getsoil()
 		rain = getrain()
+		ow_code = WSP.cekOwCode()
+		wu_code = WSP.cekWuCode()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
