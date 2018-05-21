@@ -34,11 +34,11 @@ def getrain():
 	return rain
 
 def sensor():
-	while True:
-		temp,hum = getdht()
-		soil = getsoil()
-		rain = getrain()
-		DB.logdht(temp, hum)
-		DB.logsoil(soil)
-		DB.lograin(rain)
-		#time.sleep(sampleFreq)
+	#while True:
+	temp,hum = getdht()
+	soil = getsoil()
+	rain = getrain()
+	DB.logdht(temp, hum)
+	DB.logsoil(soil)
+	DB.lograin(rain)
+	#time.sleep(sampleFreq)
