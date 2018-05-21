@@ -93,16 +93,13 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		#try:
+		try:
 			#DB.logdht(temp, hum)
 			#DB.logsoil(soil)
 			#DB.lograin(rain)
-			#temp, hum = getdht()
-			#soil = getsoil()
-			#rain = getrain()
-			#time.sleep(sampleFreq)
-		#except Exception as e:
-			#print e
+			log_sensor.sensor()
+		except Exception as e:
+			print e
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
@@ -161,4 +158,4 @@ def main():
 # ------------ Execute program 
 if __name__ == "__main__":
 	main()
-	log_sensor.sensor()
+	#log_sensor.sensor()
