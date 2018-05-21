@@ -64,6 +64,7 @@ def main():
 	global timewatering
 	global maxtimewatering
 	global overrideSiram
+	c_i = 0
 	while True:
 		temp, hum = log_sensor.getdht()
 		soil = log_sensor.getsoil()

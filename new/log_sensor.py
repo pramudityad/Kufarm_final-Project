@@ -41,4 +41,4 @@ def sensor():
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
-		time.sleep(sampleFreq)
+		#time.sleep(sampleFreq)
