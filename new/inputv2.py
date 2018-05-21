@@ -81,6 +81,7 @@ def main():
 			WSP.requestData()
 			WSP.cekOwCode()
 			WSP.cekWuCode()
+			log_sensor.sensor()
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -94,14 +95,14 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		try:
+		#try:
 			#DB.logdht(temp, hum)
 			#DB.logsoil(soil)
 			#DB.lograin(rain)
-			log_sensor.sensor()
-		except Exception as e:
-			raise e
-			
+			#log_sensor.sensor()
+		#except Exception as e:
+			#raise e
+
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
 		print "Time 			: " + timeRequest
