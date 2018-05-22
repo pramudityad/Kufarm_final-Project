@@ -42,3 +42,6 @@ def sensor():
 		DB.logsoil(soil)
 		DB.lograin(rain)
 		time.sleep(sampleFreq)
+
+if __name__ == '__main__':
+	sensor()
