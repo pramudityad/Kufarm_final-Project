@@ -2,8 +2,8 @@ import MySQLdb as dbapi
 import sys
 import csv
 
-QUERY='SELECT * FROM mydb.people;'
-db=dbapi.connect(host='localhost',user='logger',passwd='password')
+QUERY='SELECT * FROM kufarm.soil.value, kufarm.rain.value, kufarm.dht11;'
+db=dbapi.connect(host='localhost',user='root',passwd='')
 
 cur=db.cursor()
 cur.execute(QUERY)
