@@ -22,10 +22,12 @@ def getCityLatitude(data):
 
 def getCityLongitude(data):
 	return data['city']['coord']['lon'];
+
 def getList(data):
 	#for var in data['list']:
 		#print(var['dt_txt']);
 	return data['list'];
+
 def getForecastNext(data):
 	myTime  = datetime.datetime.now();
 	hour    = myTime.hour;
