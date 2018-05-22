@@ -36,19 +36,30 @@ rain        = 0;
 temp 		= 0;
 hum 		= 0;
 stateWatering = False;
-statePemupuk  = False;
+
 requestStatus = False;
 readyWatering = False;
-readyPupuk    = False;
+
 timewatering  = 0;
 timePupuk     = 0;
 overrideSiram = False;
-overridePupuk = False;
+
 delaySecond   = 1;
 maxtimewatering = 1;
-maxTimePupuk  = 1;
 
-#def pump_on():
+
+
+def init_output(pinwatering):
+    GPIO.setup(pinwatering, GPIO.OUT)
+    GPIO.output(pinwatering, GPIO.LOW)
+	GPIO.output(pinwatering, GPIO.HIGH)
+
+def pump_on():
+	init_output(pinwatering)
+	DB.addPumpLog('Pompa Penyiraman','ON')
+	GPIO.output(pinwatering, GPIO.LOW)
+    time.sleep(1)
+	GPIO.output(pinwatering, GPIO.HIGH)
 
 WSP.startwsp()
 
@@ -126,13 +137,14 @@ def main():
 			umur = now - plant[4]
 			nedded = DB.getAir(umur.days,plant[2])
 			air    = nedded['air']
-			pupuk = nedded['pupuk']
+			#pupuk = nedded['pupuk']
 			#readyPupuk = True
 			if(NK>65):
-					readyWatering = True
-					timewatering = air * DB.getPerLiter()
-					maxtimewatering = timewatering
-					DB.addPumpLog('Pompa Penyiraman','ON')
+					#readyWatering = True
+					#timewatering = air * DB.getPerLiter()
+					#maxtimewatering = timewatering
+					#DB.addPumpLog('Pompa Penyiraman','ON')
+					pump_on()
 
 		if(overrideSiram == True):
 			plant = DB.getPlant()
