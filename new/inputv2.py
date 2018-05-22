@@ -119,16 +119,16 @@ def main():
 		print "openweather      : " + str(ow_code)
 		print "description      : " + str(ow_desc)
 		print "---------------"
-		print "wunderground         : " + str(wu_code)
-		print "description          : " + str(wu_desc)
+		print "wunderground     : " + str(wu_code)
+		print "description      : " + str(wu_desc)
 		print "---------------"
-		print "Sunset       : " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Sunrise      : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunrise      	: " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunset      	 	: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
 		print "Soil             : " + str(soil)
 		print "Raindrop         : " + str(rain)
 		print "Temperature      : " + str(temp) +"C"
-		print "Humidity     : " + str(hum) +"%"
+		print "Humidity     	: " + str(hum) +"%"
 							
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
 			plant = DB.getPlant()
