@@ -14,12 +14,12 @@ import hisab as hisab
 import fuzzy as fuzzy
 import wspcode as WSP
 import openweather as OW
-import wunderground as WU		
+import wunderground as WU       
 
 sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
 
-pinwatering		= 18
-#pinfertilizing	= 
+pinwatering     = 18
+#pinfertilizing = 
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -33,8 +33,8 @@ GPIO.setmode(GPIO.BCM)
 #sensor
 soil        = 0;
 rain        = 0;
-temp 		= 0;
-hum 		= 0;
+temp        = 0;
+hum         = 0;
 stateWatering = False;
 
 requestStatus = False;
@@ -47,18 +47,16 @@ overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
 
-
-
 def init_output(pinwatering):
-    GPIO.setup(pinwatering, GPIO.OUT)
-    GPIO.output(pinwatering, GPIO.LOW)
+	GPIO.setup(pinwatering, GPIO.OUT)
+	GPIO.output(pinwatering, GPIO.LOW)
 	GPIO.output(pinwatering, GPIO.HIGH)
 
 def pump_on():
 	init_output(pinwatering)
 	DB.addPumpLog('Pompa Penyiraman','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-    time.sleep(1)
+	time.sleep(1)
 	GPIO.output(pinwatering, GPIO.HIGH)
 
 WSP.startwsp()
@@ -116,21 +114,21 @@ def main():
 
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
-		print "Time 			: " + timeRequest
-		print "Eligibility Value	: " + str(NK)
-		print "openweather 		: " + str(ow_code)
-		print "description 		: " + str(ow_desc)
+		print "Time             : " + timeRequest
+		print "Eligibility Value    : " + str(NK)
+		print "openweather      : " + str(ow_code)
+		print "description      : " + str(ow_desc)
 		print "---------------"
-		print "wunderground 		: " + str(wu_code)
-		print "description  		: " + str(wu_desc)
+		print "wunderground         : " + str(wu_code)
+		print "description          : " + str(wu_desc)
 		print "---------------"
-		print "Sunset  		: " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Sunrise 		: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunset       : " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunrise      : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
-		print "Soil 			: " + str(soil)
-		print "Raindrop 		: " + str(rain)
-		print "Temperature 		: " + str(temp) +"C"
-		print "Humidity		: " + str(hum) +"%"
+		print "Soil             : " + str(soil)
+		print "Raindrop         : " + str(rain)
+		print "Temperature      : " + str(temp) +"C"
+		print "Humidity     : " + str(hum) +"%"
 							
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
 			plant = DB.getPlant()
