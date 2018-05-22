@@ -22,7 +22,9 @@ pinwatering     = 18
 #pinfertilizing = 
 
 GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(pinwatering, GPIO.OUT)
+GPIO.output(pinwatering,False)
 
 #sensor
 soil        = 0;
@@ -40,16 +42,16 @@ maxtimewatering = 1;
 ow_code, ow_desc = WSP.cekOwCode()
 wu_code, wu_desc = WSP.cekWuCode()
 
-def init_output(pinwatering):
-	GPIO.setup(pinwatering, GPIO.OUT)
-	GPIO.output(pinwatering, GPIO.LOW)
-	GPIO.output(pinwatering, GPIO.HIGH)
+#def init_output(pinwatering):
+	#GPIO.setup(pinwatering, GPIO.OUT)
+	#GPIO.output(pinwatering, GPIO.LOW)
+	#GPIO.output(pinwatering, GPIO.HIGH)
 
 def pump_on():
-	init_output(pinwatering)
+	#init_output(pinwatering)
 	DB.addPumpLog('Pompa Penyiraman','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(1)
+	time.sleep(5)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	GPIO.cleanup()
 
@@ -141,13 +143,13 @@ def main():
 		print "wunderground     : " + str(wu_code)
 		print "description      : " + str(wu_desc)
 		print "---------------"
-		print "Sunrise      	: " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunrise          : " + str(int(terbit))+":"+str(int((terbit%1)*60))
 		print "Sunset           : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
 		print "Soil             : " + str(soil)
 		print "Raindrop         : " + str(rain)
 		print "Temperature      : " + str(temp) +"C"
-		print "Humidity     	: " + str(hum) +"%"
+		print "Humidity         : " + str(hum) +"%"
 							
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute) or (math.floor(terbenam) == now.hour and int((terbenam%1)*60) == now.minute)):
 			if(NK>65):
