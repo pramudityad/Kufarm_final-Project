@@ -37,6 +37,8 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
+ow_code, ow_desc = WSP.cekOwCode()
+wu_code, wu_desc = WSP.cekWuCode()
 
 def init_output(pinwatering):
 	GPIO.setup(pinwatering, GPIO.OUT)
@@ -93,8 +95,8 @@ def main():
 	global hum
 	c_i = 0
 	while True:
-		ow_code, ow_desc = WSP.cekOwCode()
-		wu_code, wu_desc = WSP.cekWuCode()
+		#ow_code, ow_desc = WSP.cekOwCode()
+		#wu_code, wu_desc = WSP.cekWuCode()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
@@ -102,6 +104,9 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			WSP.requestData()
+			WSP.cekOwCode()
+			WSP.cekWuCode()
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
