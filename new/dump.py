@@ -11,4 +11,4 @@ result=cur.fetchall()
 
 c = csv.writer(open('dbdump01.csv', 'wb'))
 for x in result:
-c.writerow(x)
+	c.writerow(x)
