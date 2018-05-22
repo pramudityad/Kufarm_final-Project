@@ -91,7 +91,7 @@ def main():
 			WSP.cekOwCode()
 			WSP.cekWuCode()
 			log_sensor.sensor()
-			
+
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
 		print "Time             : " + timeRequest
@@ -114,7 +114,7 @@ def main():
 			plant = DB.getPlant()
 			umur = now - plant[4]
 			nedded = DB.getAir(umur.days,plant[2])
-			air    = nedded['air']
+			#air    = nedded['air']
 			#pupuk = nedded['pupuk']
 			#readyPupuk = True
 			if(NK>65):
@@ -129,7 +129,7 @@ def main():
 			umur = now - plant[4]
 			nedded = DB.getAir(umur.days,plant[2])
 			print nedded
-			air = nedded['air']
+			#air = nedded['air']
 			readyWatering = True
 			timewatering = air * DB.getPerLiter()
 			maxtimewatering = timewatering
