@@ -1,19 +1,87 @@
-#!/usr/bin/python
+import time, datetime
 import MySQLdb
-import datetime, time
-from datetime import timedelta
-from decimal import Decimal
 
-db = MySQLdb.connect(host="localhost",
-                     user="logger",
-                     passwd="password",
-                     db="kufarm");
+db=MySQLdb.connect(host="localhost",
+					 user="logger",
+					 passwd="password",
+					 db="kufarm");
+
+con = sql.connect (host = "localhost", user = "logger", passwd = "password", db = "kufarm")
+con.autocommit(True)
+c = con.cursor(sql.cursors.DictCursor)
+c_np = con.cursor()
+
+def get_training_csv():
+	csv_names = ['wins','elo','score','momentum','vs','rating','ts','outcome']
+	df = pd.read_csv('/training.csv', names=csv_names)
+	array = df.values
+	X = array[:,0:-1]
+	y = array[:,-1]
+	return X,y
+
 def getDb():
-    cur = db.cursor()
-    cur.execute("SELECT * FROM soil")
-    for row in cur.fetchall():
-        print((row[3]));
-    #db.close();
+	cur = db.cursor()
+	cur.execute("SELECT * FROM soil")
+	for row in cur.fetchall():
+		print row[3];
+	#db.close();
+
+# log dht sensor data on database
+def logdht(temp, hum):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now()
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	cur.execute("INSERT INTO dht11 (temp, hum, created_at) VALUES (%s, %s, %s)", (temp, hum, currentTime))
+	try:
+		db.commit()
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
+
+# log spi sensor data on database
+def logsoil (soil):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO soil(value,created_at) VALUES ("+str(soil)+",'"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
+
+# log spi sensor data on database
+def lograin (rain):
+	cur = db.cursor()
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	sql = "INSERT INTO rain(value,created_at) VALUES ("+str(rain)+",'"+currentTime+"')"
+	try:
+		cur.execute(sql)
+		db.commit();
+		status = True;
+	except Exception as e:
+		db.rollback()
+		status = False;
+	return status;
+
+
+# Retrieve LAST data from database
+def getLastData():
+	cur=db.cursor()
+	for row in cur.execute("SELECT * FROM dht11, soil, rain ORDER BY created_at DESC LIMIT 1"):
+		time = str(row[1])
+		temp = row[2]
+		hum = row[3]
+		soil = row[6]
+		rain = row[9]
+	#conn.close()
+	return time, temp, hum, soil, rain
 
 def getLastSoil():
 	val = 0
@@ -40,73 +108,6 @@ def getLastRaindrop():
 	except Exception as e:
 		db.rollback()
 	return val;
-
-def getLastdht11():
-	val = 0
-	cur = db.cursor()
-	sql = "SELECT * FROM dht11 ORDER BY id DESC LIMIT 1"
-	try:
-		cur.execute(sql)
-		for row in cur.fetchall():
-			val = row[1]
-		db.commit();
-	except Exception as e:
-		db.rollback()
-	return val;
-
-def getLastWeather():
-	val = 0
-	cur = db.cursor()
-	sql = "SELECT * FROM soil ORDER BY id DESC LIMIT 1"
-	try:
-		cur.execute(sql)
-		for row in cur.fetchall():
-			val = row[1]
-		db.commit();
-	except Exception as e:
-		db.rollback()
-	return val;
-
-def getLastForecast():
-	val = 0
-	cur = db.cursor()
-	sql = "SELECT * FROM soil ORDER BY id DESC LIMIT 1"
-	try:
-		cur.execute(sql)
-		for row in cur.fetchall():
-			val = row[1]
-		db.commit();
-	except Exception as e:
-		db.rollback()
-	return val;
-
-def addSoil(data):
-	cur = db.cursor()
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO soil(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
-	try:
-		cur.execute(sql)
-		db.commit();
-		status = True;
-	except Exception as e:
-		db.rollback()
-		status = False;
-	return status;
-
-def addRaindrop(data):
-	cur = db.cursor()
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO raindrop(value,created_at) VALUES ("+str(data)+",'"+currentTime+"')"
-	try:
-		cur.execute(sql)
-		db.commit();
-		status = True;
-	except Exception as e:
-		db.rollback()
-		status = False;
-	return status;
 
 def getLatitude():
 	val = 0
@@ -145,22 +146,23 @@ def getTimezone():
 		db.commit();
 	except Exception as e:
 		db.rollback()
-	return float(val);
+	return float(val); 
 
+# add forecast into database	
 def addForecast(code,weather,wsp,dataTime):
+	myTime  	= datetime.datetime.now()
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	cur = db.cursor()
-	myTime  	= datetime.datetime.now();
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
-	sql = "INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')"
+	sql = ("INSERT INTO forecast(code,weather,wsp,date,created_at) VALUES ("+str(code)+",'"+str(weather)+"','"+str(wsp)+"','"+str(dataTime)+"','"+currentTime+"')")
 	try:
 		cur.execute(sql)
-		db.commit();
-		status = True;
-		print("berhasil")
+		db.commit()
+		status = True
+		print "berhasil"
 	except Exception as e:
 		db.rollback()
-		status = False;
-		print(e)
+		status = False
+		print e
 	return status;
 
 def addSunTime(data):
@@ -173,7 +175,7 @@ def addSunTime(data):
 		db.commit();
 		status = True;
 	except Exception as e:
-		print(e)
+		print e
 		db.rollback()
 		status = False;
 	return status;
@@ -230,7 +232,7 @@ def getPerLiter():
 	except Exception as e:
 		db.rollback()
 	return float(val);
-    
+	
 def getPerMl():
 	val = None
 	cur = db.cursor()
@@ -257,3 +259,53 @@ def addPumpLog(device,status):
 		db.rollback()
 		status = False;
 	return status;
+
+def getHistData(numSamples):
+	conn=sqlite3.connect(dbname)
+	cur = db.cursor()
+	cur.execute("SELECT * FROM dht11, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
+	data = cur.fetchall()
+	dates = []
+	temps = []
+	hums = []
+	soils = []
+	rains = []
+	for row in reversed(data):
+		dates.append(row[1])
+		temps.append(row[2])
+		hums.append(row[3])
+		soils.append(row[6])
+		rains.append(row[9])
+		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
+	return dates, temps, hums, soils, rains
+
+# Test data for cleanning possible "out of range" values
+def testeData(temps, hums, soils, rains):
+	n = len(temps)
+	for i in range(0, n-1):
+		if (temps[i] < -10 or temps[i] >50):
+			temps[i] = temps[i-2]
+		if (hums[i] < 0 or hums[i] >100):
+			hums[i] = temps[i-2]
+		if (soils[i] < 0 or soils[i] >1024):
+			soils[i] = temps[i-2]
+		if (rains[i] < 0 or rains[i] >1024):
+			rains[i] = temps[i-2]		
+	return temps, hums, soils, rains
+
+# Get Max number of rows (table size)
+def maxRowsTable():
+	cur = db.cursor()
+	for row in cur.execute("select COUNT(temp) from  dht11"):
+		maxNumberRows=row[0]
+	return maxNumberRows
+
+# Get sample frequency in minutes
+def freqSample():
+	times, temps, hums, soils, rains = getHistData(3)
+	fmt = '%Y-%m-%d %H:%M:%S'
+	tstamp0 = datetime.datetime.strptime(times[0], fmt)
+	tstamp1 = datetime.datetime.strptime(times[1], fmt)
+	freq = tstamp1-tstamp0
+	freq = int(round(freq.total_seconds()/60))
+	return (freq)

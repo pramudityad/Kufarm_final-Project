@@ -1,12 +1,12 @@
-import datetime, time
-import hisab as hisab
-import database as DB
-import openweather as OW
-import wunderground as WU
+import time, datetime
 from datetime import timedelta
 from calendar import monthrange
+import openweather as OW
+import wunderground as WU
+import database2 as DB
+import hisab as hisab
 
-#request wsp
+requestStatus = False;
 timeRequest = 'N/A';
 str_ow_data = 'N/A';
 str_wu_data = 'N/A';
@@ -16,68 +16,53 @@ longitude   = 'N/A';
 timeForcast = 'N/A';
 weather     = 'N/A';
 code        = 'N/A';
-lastSoil    = DB.getLastSoil();
-lastRain    = DB.getLastRaindrop();
 
-#code openweather
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
 ow_cerah_code   = {800,801,802}
 ow_code = 0
-ow_desc = 'Cerah'
+ow_desc = 'Sunny'
 
-#code wunderground
 wu_hujan_code   = {13,14,15,16,17,18,19,20,21,22,}
 wu_mendung_code = {3,4,5,6,7,8,9,10,11,12}
 wu_cerah_code   = {1,2}
 wu_code = 0
-wu_desc = 'Cerah'
+wu_desc = 'Sunny'
 
-#sunrise&sunset
 terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 
-#request wsp using restAPI
 def requestData():
-	now = datetime.datetime.now()
-	timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
-	print('Request Data')
-	try:
-		global str_ow_data;
-		global str_wu_data;
-		global location;
-		global latitude;
-		global longitude;
-		global timeForcast;
-		global weather;
-		global code;
-		global requestStatus
-		str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
-		str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
-		location    = OW.getCityName(str_ow_data);
-		latitude    = str(OW.getCityLatitude(str_ow_data));
-		longitude   = str(OW.getCityLongitude(str_ow_data));
-		timeForcast = str(OW.getForecastNext(str_ow_data)['dt_txt']);
-		weather     = str(OW.getForecastNext(str_ow_data)['weather'][0]['description']);
-		code        = str(OW.getForecastNext(str_ow_data)['weather'][0]['id']);
-		requestStatus = True;
-		print('Request Success')
-	except Exception as e:
-		requestStatus = False;
-		print('Error Connection')
-	return str_ow_data;
-	return str_wu_data;
-	return location;
-	return latitude;
-	return longitude;
-	return timeForcast;
-	return weather;
-	return code;	
-	return requestStatus
+		now = datetime.datetime.now()
+		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
+		print 'Request Data'
+		try:
+				global str_ow_data;
+				global str_wu_data;
+				global location;
+				global latitude;
+				global longitude;
+				global timeForcast;
+				global weather;
+				global code;
+				global requestStatus
 
-#cek openweather code
+				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
+				str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
+				location    = OW.getCityName(str_ow_data);
+				latitude    = str(OW.getCityLatitude(str_ow_data));
+				longitude   = str(OW.getCityLongitude(str_ow_data));
+				timeForcast = str(OW.getForecastNext(str_ow_data)['dt_txt']);
+				weather     = str(OW.getForecastNext(str_ow_data)['weather'][0]['description']);
+				code        = str(OW.getForecastNext(str_ow_data)['weather'][0]['id']);
+				requestStatus = True;
+				print 'Request Success'
+		except Exception as e:
+				requestStatus = False;
+				print 'Error Connection'
+
 def cekOwCode():
-	print("CEK OW CODE")
+	print "CEK OW CODE"
 	global ow_code
 	global ow_desc
 	global str_ow_data
@@ -107,19 +92,19 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
-	#print (str(i) + " : " + str(ow_code_temp))
+			# print str(i) + " : " + str(ow_code_temp)
 	elif(now.hour>terbit and now.hour<terbenam):
 		hour1 = terbenam
 		hour2 = terbit
@@ -133,19 +118,19 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
-	#print (str(i) + " : " + str(ow_code_temp))
+			# print str(i) + " : " + str(ow_code_temp)
 
 		for i in range(0,hour2,3):
 			myTime = datetime.datetime.now()
@@ -158,26 +143,23 @@ def cekOwCode():
 			for dt in ow_cerah_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 0
-					ow_desc_temp = 'Cerah'
+					ow_desc_temp = 'Sunny'
 			for dt in ow_mendung_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 1
-					ow_desc_temp = 'Mendung'
+					ow_desc_temp = 'Cloudy'
 			for dt in ow_hujan_code:
 				if(OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id'] == dt):
 					ow_code_temp = 2
-					ow_desc_temp = 'Hujan'
+					ow_desc_temp = 'Rain'
 			if(ow_code_temp>ow_code):
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
-	#print (str(i) + " : " + str(ow_code_temp))
-	return ow_code
-	return ow_desc
-	return str_ow_data
+			# print str(i) + " : " + str(ow_code_temp)
+	return ow_code, ow_desc
 
-#cek wundergound 
 def cekWuCode():
-	print("CEK WU CODE")
+	print "CEK WU CODE"
 	global wu_code
 	global wu_desc
 	global str_wu_data
@@ -206,15 +188,15 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
@@ -229,15 +211,15 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
@@ -255,19 +237,25 @@ def cekWuCode():
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 0
-					wu_desc_temp = 'Cerah'
+					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 1
-					wu_desc_temp = 'Mendung'
+					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
 					wu_code_temp = 2
-					wu_desc_temp = 'Hujan'
+					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
 			# print str(i) + " : " + str(wu_code_temp)
-	return wu_code
-	return wu_desc
-	return str_wu_data
+	return wu_code, wu_desc    
+
+def startwsp():
+	print "Start"
+	while (requestStatus == False):
+		requestData()
+		time.sleep(1)
+	cekOwCode()
+	cekWuCode()
