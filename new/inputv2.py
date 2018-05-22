@@ -86,31 +86,6 @@ def main():
 		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-			WSP.requestData()
-			WSP.cekOwCode()
-			WSP.cekWuCode()
-			log_sensor.sensor()
-			if(now.minute==0 and now.second==0):
-				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-				if(now.hour == 0):
-						DB.addSunTime([strTerbit,strTerbenam])
-				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
-				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
-				wsp = "wunderground"
-				DB.addForecast(code,weather,wsp,timeRequest)
-				if(now.hour%3==0):
-					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-					wsp = "openweather"
-					DB.addForecast(code,weather,wsp,timeRequest)
-		#try:
-			#DB.logdht(temp, hum)
-			#DB.logsoil(soil)
-			#DB.lograin(rain)
-			#log_sensor.sensor()
-		#except Exception as e:
-			#raise e
 
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
