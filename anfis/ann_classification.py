@@ -1,7 +1,7 @@
 __author__ = 'm.bashari'
 import numpy as np
 from sklearn import datasets, linear_model
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
 
@@ -24,7 +24,7 @@ def visualize(X, y, model):
     # plt.scatter(X[:, 0], X[:, 1], s=40, c=y, cmap=plt.cm.Spectral)
     # plt.show()
     plot_decision_boundary(lambda x:predict(model,x), X, y)
-    plt.title("Logistic Regression")
+    matplotlib.pyplot.title("Logistic Regression")
 
 
 def plot_decision_boundary(pred_func, X, y):
@@ -38,9 +38,9 @@ def plot_decision_boundary(pred_func, X, y):
     Z = pred_func(np.c_[xx.ravel(), yy.ravel()])
     Z = Z.reshape(xx.shape)
     # Plot the contour and training examples
-    plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Spectral)
-    plt.show()
+    matplotlib.pyplot.contourf(xx, yy, Z, cmap=matplotlib.pyplot.cm.Spectral)
+    matplotlib.pyplot.scatter(X[:, 0], X[:, 1], c=y, cmap=matplotlib.pyplot.cm.Spectral)
+    matplotlib.pyplot.show()
 
 
 # Helper function to evaluate the total loss on the dataset
