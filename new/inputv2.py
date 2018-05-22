@@ -348,9 +348,9 @@ def main():
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print "Time             : " + timeRequest
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-			WSP.requestData()
-			WSP.cekOwCode()
-			WSP.cekWuCode()
+			requestData()
+			cekOwCode()
+			cekWuCode()
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
