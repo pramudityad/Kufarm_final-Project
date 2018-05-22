@@ -103,6 +103,7 @@ def main():
 		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+		print "Time             : " + timeRequest
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			WSP.requestData()
 			WSP.cekOwCode()
@@ -132,8 +133,8 @@ def main():
 
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		print "---------------"
-		print "Time             : " + timeRequest
-		print "Eligibility Value    : " + str(NK)
+		#print "Time             : " + timeRequest
+		print "Eligibility Value: " + str(NK)
 		print "openweather      : " + str(ow_code)
 		print "description      : " + str(ow_desc)
 		print "---------------"
@@ -141,7 +142,7 @@ def main():
 		print "description      : " + str(wu_desc)
 		print "---------------"
 		print "Sunrise      	: " + str(int(terbit))+":"+str(int((terbit%1)*60))
-		print "Sunset      	 	: " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "Sunset           : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
 		print "---------------"
 		print "Soil             : " + str(soil)
 		print "Raindrop         : " + str(rain)
