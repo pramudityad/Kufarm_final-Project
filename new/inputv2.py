@@ -12,7 +12,7 @@ import Adafruit_MCP3008
 import database2 as DB
 import hisab as hisab
 import fuzzy as fuzzy
-import wspcode as WSP
+#import wspcode as WSP
 import openweather as OW
 import wunderground as WU       
 
