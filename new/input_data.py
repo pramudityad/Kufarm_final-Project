@@ -273,7 +273,7 @@ def getrain():
 	return rain
 
 # main function
-#def main():
+def main():
 	global terbit
 	global terbenam
 	while True:
@@ -312,6 +312,10 @@ def getrain():
 		except Exception as e:
 			print e
 		
+		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)
+			if(NK>65):
+					pump_on()
 # ------------ Execute program 
 if __name__ == "__main__":
 	main()
