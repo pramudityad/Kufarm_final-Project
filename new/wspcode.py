@@ -67,7 +67,7 @@ def cekOwCode():
 	global ow_desc
 	global str_ow_data
 	ow_code = 0
-	ow_desc = 'Cerah'
+	ow_desc = 'Sunny'
 	terbit = int(hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
 	terbenam = int(hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
 	siang = int(hisab.siang(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
@@ -164,7 +164,7 @@ def cekWuCode():
 	global wu_desc
 	global str_wu_data
 	wu_code = 0
-	wu_desc = 'Cerah'
+	wu_desc = 'Sunny'
 	terbit  = int(hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
 	terbenam= int(hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
 	siang   = int(hisab.siang(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0))
