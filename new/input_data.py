@@ -25,10 +25,6 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 #sensor
-soil        = 0;
-rain        = 0;
-temp        = 0;
-hum         = 0;
 stateWatering = False;
 requestStatus = False;
 readyWatering = False;
@@ -324,12 +320,11 @@ cekWuCode()
 
 # main function
 def main():
+	temp, hum   = getdht()
+	soil        = getsoil()
+	rain        = getrain()
 	global terbit
 	global terbenam
-	global soil
-	global rain
-	global temp
-	global hum
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
@@ -339,13 +334,13 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print timeRequest
-		if(now.hour%1==0 and now.minute%02.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%10.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			#DB.logsoil(soil)
-			#DB.lograin(rain)
-			#DB.logdht(temp, hum)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
@@ -359,12 +354,12 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-		try:
-			soil = getsoil()
-			rain = getrain()
-			temp,hum = getdht()
-		except Exception as e:
-			print e
+		#ry:
+		#	soil = getsoil()
+		#	rain = getrain()
+		#	temp,hum = getdht()
+		#except Exception as e:
+		#	raise e
 		
 		#NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		#if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)
