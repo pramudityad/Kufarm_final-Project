@@ -343,9 +343,9 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
+			DB.logdht(temp, hum)
 			if(now.minute==0 and now.second==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
