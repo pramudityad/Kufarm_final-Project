@@ -123,16 +123,12 @@ def main():
 			temp,hum = getdht()
 		except Exception as e:
 			print e
-<<<<<<< HEAD
-
-
-=======
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)
 			if(NK>65):
 					pump_on()
->>>>>>> 56c02a3b494446bd37cb8c5a17bb57f56ae7d378
+
 # ------------ Execute program 
 if __name__ == "__main__":
 	main()
