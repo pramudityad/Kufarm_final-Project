@@ -41,7 +41,7 @@ def sensor():
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
 		print timeRequest
-		if(now.hour%1==0 and now.minute%36.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
