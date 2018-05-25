@@ -341,8 +341,8 @@ def main():
 		print timeRequest
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
-			cekWuCode()
 			cekOwCode()
+			cekWuCode()
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
