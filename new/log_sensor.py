@@ -2,7 +2,7 @@ import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 import database2 as DB
-import time
+import time, datetime
 
 sampleFreq = 60 # time in seconds
 
@@ -44,7 +44,7 @@ def sensor():
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
 		print timeRequest
-		if(now.hour%1==0 and now.minute%28.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%31.0==0 and now.second==0):
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
