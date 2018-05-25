@@ -38,16 +38,19 @@ def getrain():
 
 def sensor():
 	while True:
-		temp,hum = getdht()
-		soil = getsoil()
-		rain = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
 		print timeRequest
-		if(now.hour%1==0 and now.minute%31.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%36.0==0 and now.second==0):
 			DB.logdht(temp, hum)
 			DB.logsoil(soil)
 			DB.lograin(rain)
+		try:
+			temp,hum = getdht()
+			soil = getsoil()
+			rain = getrain()
+		except Exception as e:
+			raise e
 		#time.sleep(sampleFreq)
 
 if __name__ == '__main__':
