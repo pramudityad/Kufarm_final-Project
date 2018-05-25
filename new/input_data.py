@@ -1,7 +1,6 @@
 from datetime import timedelta
 from calendar import monthrange
 import time, datetime
-import log_sensor 
 import io
 import math
 import sqlite3

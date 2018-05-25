@@ -1,7 +1,7 @@
 import time, datetime
 import MySQLdb
 
-db=MySQLdb.connect(host="localhost",
+db=MySQLdb.connect(host="127.0.0.1",
 					 user="logger",
 					 passwd="password",
 					 db="kufarm");
