@@ -354,6 +354,23 @@ def main():
 						DB.addForecast(code,weather,wsp,timeRequest)
 		
 		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		print "---------------"
+		print "Time             : " + timeRequest
+		print "Eligibility Value: " + str(NK)
+		print "openweather      : " + str(ow_code)
+		print "description      : " + str(ow_desc)
+		print "---------------"
+		print "wunderground     : " + str(wu_code)
+		print "description      : " + str(wu_desc)
+		print "---------------"
+		print "Sunrise          : " + str(int(terbit))+":"+str(int((terbit%1)*60))
+		print "Sunset           : " + str(int(terbenam))+":"+str(int((terbenam%1)*60))
+		print "---------------"
+		print "Soil             : " + str(soil)
+		print "Raindrop         : " + str(rain)
+		print "Temperature      : " + str(temp) +"C"
+		print "Humidity         : " + str(hum) +"%"
+		
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			if(NK>65):
 				pump_on()
