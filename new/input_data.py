@@ -16,8 +16,6 @@ import wspcode as WSP
 import openweather as OW
 import wunderground as WU       
 
-sampleFreq = 1*60 # time in seconds ==> Sample each 1 min
-
 pinwatering     = 18
 #pinfertilizing = 
 
@@ -334,7 +332,7 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print timeRequest
-		if(now.hour%1==0 and now.minute%10.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()
@@ -354,17 +352,11 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-		#ry:
-		#	soil = getsoil()
-		#	rain = getrain()
-		#	temp,hum = getdht()
-		#except Exception as e:
-		#	raise e
 		
-		#NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-		#if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)
-			#if(NK>65):
-				#pump_on()
+		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)
+			if(NK>65):
+				pump_on()
 
 # ------------ Execute program 
 if __name__ == "__main__":
