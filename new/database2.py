@@ -1,7 +1,8 @@
 import time, datetime
 import MySQLdb
+import numpy as np
 
-db=MySQLdb.connect(host="127.0.0.1",
+db=MySQLdb.connect(host="localhost",
 					 user="logger",
 					 passwd="password",
 					 db="kufarm");
@@ -41,6 +42,16 @@ def logsoil (soil):
 		db.rollback()
 		status = False;
 	return status;
+
+#dump data soil into array
+def dumpsoil():
+	cur = db.cursor()
+	sql = "SELECT ID, value FROM soil"
+	numrows = cur.execute(sql)
+	soildata = np.fromiter(cur.fetchall(), count=numrows, dtype=('i4,i4'))
+	ids = soildata['f0']
+	soilsdata = soildata['f1']
+	return soilsdata
 
 # log spi sensor data on database
 def lograin (rain):
