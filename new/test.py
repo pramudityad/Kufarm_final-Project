@@ -1,15 +1,3 @@
-import dht11 as DT 
-import time
-sampleFreq = 60
+import db as DB 
 
-def main():
-	while True:
-		temp, hum = DT.getdht()
-		DT.logdht(temp, hum)
-		time.sleep(sampleFreq)
-
-# ------------ Execute program 
-main()
-#print DT.getdht()
-while :
-	pass
+DB.dumpsoil()

@@ -359,10 +359,10 @@ def main():
   np.set_printoptions(formatter = \
     {'float': '{: 0.2f}'.format})
   print("First four rows of rolling window data: ")
-  print(df[range(0,4),])
+  print(df)
 
-  numInput = 4    # rolling window size
-  numHidden = 12
+  numInput = 1    # rolling window size
+  numHidden = 4
   numOutput = 1   # predict next passenger count
   print("\nCreating a %d-%d-%d neural network " %
     (numInput, numHidden, numOutput) )

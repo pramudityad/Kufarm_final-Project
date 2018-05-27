@@ -2,10 +2,10 @@ import time, datetime
 import pymysql.cursors
 import numpy as np
 
-db=pymysql.connect(host="127.0.0.1",
+db=pymysql.connect(host="localhost",
 					 user="root",
 					 passwd="",
-					 db="gfa");
+					 db="kufarm");
 
 def getDb():
 	cur = db.cursor()
@@ -48,10 +48,11 @@ def dumpsoil():
 	cur = db.cursor()
 	sql = "SELECT value FROM soil ORDER BY id DESC LIMIT 100"
 	numrows = cur.execute(sql)
-	soildata = np.array(cur.fetchall(), count=numrows, dtype=('i4'))
+	soildata = np.array(cur.fetchall(), dtype=('i4'))
 	#ids = soildata['f0']
-	soilsdata = soildata['f0']
-	return soilsdata
+	#soilsdata = soildata['f0']
+	#return soildata
+	print(soildata)
 
 # log spi sensor data on database
 def lograin (rain):
