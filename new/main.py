@@ -31,6 +31,7 @@ db=pymysql.connect(host="localhost",
 					 user="root",
 					 passwd="",
 					 db="gfa");
+cur = db.cursor()
 
 pinwatering     = 18
 #pinfertilizing = 
@@ -382,8 +383,8 @@ def main():
 
 		if prediction > 0:
 			print (prediction)
-			new_row = [(prediction,)]
-			c.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+			new_row = str(prediction)
+			cur.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
 			db.commit()
 	
 		# fetch the recent readings
@@ -452,7 +453,7 @@ def main():
 		)
 		fig = go.Figure(data=data, layout=layout)
 		plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
-		time.sleep(60*60)# delay between stream posts
+		#time.sleep(60*60)# delay between stream posts
 
 # ------------ Execute program 
 if __name__ == "__main__":
