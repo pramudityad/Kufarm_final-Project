@@ -12,16 +12,15 @@ from plotly import tools
 import time, datetime
 import io
 import math
-import Adafruit_DHT
-import Adafruit_GPIO.SPI as SPI
-import RPi.GPIO as GPIO
-import Adafruit_MCP3008
-import database2 as DB
+#import Adafruit_DHT
+#import Adafruit_GPIO.SPI as SPI
+#import RPi.GPIO as GPIO
+#import Adafruit_MCP3008
+import db as DB
 import hisab as hisab
 import fuzzy as fuzzy
-import wspcode as WSP
-import openweather as OW
-import wunderground as WU  
+import openweather3 as OW
+import wunderground3 as WU  
 import plotly.plotly as py #plotly library
 import plotly.graph_objs as go
 import pymysql.cursors
@@ -31,8 +30,8 @@ import pandas as pd
 pinwatering     = 18
 #pinfertilizing = 
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
+#GPIO.setwarnings(False)
+#GPIO.setmode(GPIO.BCM)
 
 #sensor
 stateWatering = False;
@@ -62,7 +61,7 @@ terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 def requestData():
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
-		print 'Request Data'
+		print ('Request Data')
 		try:
 				global str_ow_data;
 				global str_wu_data;
@@ -82,13 +81,13 @@ def requestData():
 				weather     = str(OW.getForecastNext(str_ow_data)['weather'][0]['description']);
 				code        = str(OW.getForecastNext(str_ow_data)['weather'][0]['id']);
 				requestStatus = True;
-				print 'Request Success'
+				print ('Request Success')
 		except Exception as e:
 				requestStatus = False;
-				print 'Error Connection'
+				print ('Error Connection')
 
 def cekOwCode():
-	print "CEK OW CODE"
+	print ("CEK OW CODE")
 	global ow_code
 	global ow_desc
 	global str_ow_data
@@ -185,7 +184,7 @@ def cekOwCode():
 	#return ow_code, ow_desc
 
 def cekWuCode():
-	print "CEK WU CODE"
+	print ("CEK WU CODE")
 	global wu_code
 	global wu_desc
 	global str_wu_data
@@ -278,50 +277,50 @@ def cekWuCode():
 			# print str(i) + " : " + str(wu_code_temp)
 	#return wu_code, wu_desc    
 
-def init_output(pinwatering):
-	GPIO.setup(pinwatering, GPIO.OUT)
-	GPIO.output(pinwatering, GPIO.LOW)
-	GPIO.output(pinwatering, GPIO.HIGH)
+#def init_output(pinwatering):
+#	GPIO.setup(pinwatering, GPIO.OUT)
+#	GPIO.output(pinwatering, GPIO.LOW)
+#	GPIO.output(pinwatering, GPIO.HIGH)
 
-def pump_on():
-	init_output(pinwatering)
-	DB.addPumpLog('Pompa Penyiraman','ON')
-	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(1)
-	GPIO.output(pinwatering, GPIO.HIGH)
-	GPIO.cleanup()
+#def pump_on():
+#	init_output(pinwatering)
+#	DB.addPumpLog('Pompa Penyiraman','ON')
+#	GPIO.output(pinwatering, GPIO.LOW)
+#	time.sleep(1)
+#	GPIO.output(pinwatering, GPIO.HIGH)
+#	GPIO.cleanup()
 
 # get data from DHT sensor
-def getdht():   
-	Sensor = Adafruit_DHT.DHT11
-	DHTpin = 4
-	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
-	if hum is not None and temp is not None:
-		try:
-			hum = round(hum)
-			temp = round(temp, 1)
-		except Exception as e:
-			raise e
-	return temp, hum
+#def getdht():   
+#	Sensor = Adafruit_DHT.DHT11
+#	DHTpin = 4
+#	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
+#	if hum is not None and temp is not None:
+#		try:
+#			hum = round(hum)
+#			temp = round(temp, 1)
+#		except Exception as e:
+#			raise e
+#	return temp, hum
 
 # get data from spi sensor
-def getsoil():
-	SPI_PORT   = 0
-	SPI_DEVICE = 0
-	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	soil = mcp.read_adc(5)
-	soil = 1024-soil
-	return soil
+#def getsoil():
+#	SPI_PORT   = 0
+#	SPI_DEVICE = 0
+#	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+#	soil = mcp.read_adc(5)
+#	soil = 1024-soil
+#	return soil
 
-def getrain():
-	SPI_PORT   = 0
-	SPI_DEVICE = 0
-	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	rain = mcp.read_adc(6)
-	rain = 1024-rain
-	return rain
+#def getrain():
+#	SPI_PORT   = 0
+#	SPI_DEVICE = 0
+#	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+#	rain = mcp.read_adc(6)
+#	rain = 1024-rain
+#	return rain
 
-print "Start"
+print ("Start")
 while (requestStatus == False):
 		requestData()
 		time.sleep(1)
@@ -331,9 +330,9 @@ cekWuCode()
 # main function
 def main():
 	prediction = 0
-	temp, hum   = getdht()
-	soil        = getsoil()
-	rain        = getrain()
+#	temp, hum   = getdht()
+#	soil        = getsoil()
+#	rain        = getrain()
 	global terbit
 	global terbenam
 	c_i = 0
@@ -344,13 +343,13 @@ def main():
 		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print timeRequest
+		print (timeRequest)
 
 		if prediction > 0:
-		print (prediction)
-		new_row = [(prediction,)]
-		c.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-		db.commit()
+			print (prediction)
+			new_row = [(prediction,)]
+			c.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+			db.commit()
 	
 		# fetch the recent readings
 		df = pd.read_sql(
@@ -425,9 +424,9 @@ def main():
 			requestData()
 			cekOwCode()
 			cekWuCode()
-			DB.logdht(temp, hum)
-			DB.logsoil(soil)
-			DB.lograin(rain)
+#			DB.logdht(temp, hum)
+#			DB.logsoil(soil)
+#			DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):

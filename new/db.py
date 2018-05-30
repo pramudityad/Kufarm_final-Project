@@ -5,7 +5,7 @@ import numpy as np
 db=pymysql.connect(host="localhost",
 					 user="root",
 					 passwd="",
-					 db="kufarm");
+					 db="gfa");
 
 def getDb():
 	cur = db.cursor()
@@ -42,17 +42,6 @@ def logsoil (soil):
 		db.rollback()
 		status = False;
 	return status;
-
-#dump data soil into array
-def dumpsoil():
-	cur = db.cursor()
-	sql = "SELECT value FROM soil ORDER BY id DESC LIMIT 100"
-	numrows = cur.execute(sql)
-	soildata = np.array(cur.fetchall(), dtype=('i4'))
-	#ids = soildata['f0']
-	#soilsdata = soildata['f0']
-	#return soildata
-	print(soildata)
 
 # log spi sensor data on database
 def lograin (rain):
