@@ -14,6 +14,13 @@ def getDb():
 		print(row[3]);
 	#db.close();
 
+# fetch the recent readings
+def fetch_data():
+	cur = db.cursor()
+	sql = """SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150) AS X ORDER BY created_at ASC;"""
+	cur.execute(sql)
+	#return fetch
+
 # log dht sensor data on database
 def logdht(temp, hum):
 	cur = db.cursor()

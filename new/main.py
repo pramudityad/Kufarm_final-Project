@@ -27,6 +27,11 @@ import pymysql.cursors
 import numpy as np
 import pandas as pd
 
+db=pymysql.connect(host="localhost",
+					 user="root",
+					 passwd="",
+					 db="gfa");
+
 pinwatering     = 18
 #pinfertilizing = 
 
@@ -257,7 +262,7 @@ def cekWuCode():
 				myTime = myTime.replace(hour=i, day=1, month=myTime.month+1)
 			else:
 				myTime = myTime.replace(hour=i, day=myTime.day+1)
-			myTime = myTime.replace(hour=i,day=myTime.day+1)
+		#	myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
 				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
@@ -344,6 +349,36 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print (timeRequest)
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			requestData()
+			cekOwCode()
+			cekWuCode()
+#			DB.logdht(temp, hum)
+#			DB.logsoil(soil)
+#			DB.lograin(rain)
+			if(now.minute==0 and now.second==0):
+				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+				if(now.hour == 0):
+						DB.addSunTime([strTerbit,strTerbenam])
+				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
+				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
+				wsp = "wunderground"
+				DB.addForecast(code,weather,wsp,timeRequest)
+				if(now.hour%3==0):
+					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+					wsp = "openweather"
+					DB.addForecast(code,weather,wsp,timeRequest)
+		soil = 400
+		rain = 200
+		temp = 25
+		hum = 70
+
+		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+		
+		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+			if(NK>65):
+				pump_on()
 
 		if prediction > 0:
 			print (prediction)
@@ -352,18 +387,17 @@ def main():
 			db.commit()
 	
 		# fetch the recent readings
-		df = pd.read_sql(
-		"""SELECT *
+		df = pd.read_sql("""SELECT *
 		FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
 		AS X
-		ORDER BY created_at ASC;""", con = db)
+		ORDER BY created_at ASC;""", con=db)
 
 		df['date1'] = pd.to_datetime(df['created_at']).values
 		# df['day'] = df['date1'].dt.date
 		# df['time'] = df['date1'].dt.time
 		df.index = df.date1
 		df.index = pd.DatetimeIndex(df.index)
-		df = df.drop('forecast',axis=1)
+#		df = df.drop('forecast',axis=1)
 		df['upper'] = df['value']
 		df['lower'] = df['value']
 
@@ -419,33 +453,6 @@ def main():
 		fig = go.Figure(data=data, layout=layout)
 		plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
 		time.sleep(60*60)# delay between stream posts
-
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-			requestData()
-			cekOwCode()
-			cekWuCode()
-#			DB.logdht(temp, hum)
-#			DB.logsoil(soil)
-#			DB.lograin(rain)
-			if(now.minute==0 and now.second==0):
-					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-					if(now.hour == 0):
-							DB.addSunTime([strTerbit,strTerbenam])
-					code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
-					weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
-					wsp = "wunderground"
-					DB.addForecast(code,weather,wsp,timeRequest)
-					if(now.hour%3==0):
-						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)
-		
-		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-		
-		#if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-			#if(NK>65):
-				#pump_on()
 
 # ------------ Execute program 
 if __name__ == "__main__":
