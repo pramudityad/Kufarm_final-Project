@@ -12,7 +12,7 @@ def getForecast(latitude,longitude):
 	url    = host+'api/' + appid + '/hourly/q/'+lat+','+lon+'.json';
 	result = urllib.request.urlopen(url).read()
 	data   = json.loads(result.decode('utf-8'))
-	return data;
+	return data
 	#print (getForecast(-6.978887, 107.630328))
 
 def getDataForecast(data):
@@ -20,9 +20,12 @@ def getDataForecast(data):
 
 def getForcastByTime(data,dataTime):
 	res = ''
-	for var in data['hourly_forecast']:
-		if(dataTime == var['FCTTIME']['hour']):
-			res = var
-			break
+	try:
+		for var in data['hourly_forecast']:
+			if(dataTime == var['FCTTIME']['hour']):
+				res = var
+	except Exception as e:
+		res = "{\"status\":\"error\"}"
 	return res 
-	#print getForcastByTime()
+
+#print(getForcastByTime(getForecast(-6.978887, 107.630328),dataTime))
