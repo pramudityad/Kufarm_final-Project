@@ -16,22 +16,23 @@ import math
 #import Adafruit_GPIO.SPI as SPI
 #import RPi.GPIO as GPIO
 #import Adafruit_MCP3008
-import db as DB
+import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather3 as OW
 import wunderground3 as WU  
 import plotly.plotly as py #plotly library
 import plotly.graph_objs as go
-import pymysql.cursors
+import sqlite3
 import numpy as np
 import pandas as pd
 
-db=pymysql.connect(host="localhost",
-					 user="root",
-					 passwd="",
-					 db="gfa");
-cur = db.cursor()
+dbname='kufarm.db'
+conn=sqlite3.connect(dbname)
+curs = conn.cursor()
+
+curs.execute('''CREATE TABLE IF NOT EXISTS temperature
+                 (date text, inside real, outside real)''')
 
 pinwatering     = 18
 #pinfertilizing = 
@@ -298,6 +299,7 @@ def cekWuCode():
 
 # get data from DHT sensor
 #def getdht():   
+#	global temp, hum
 #	Sensor = Adafruit_DHT.DHT11
 #	DHTpin = 4
 #	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
@@ -311,6 +313,7 @@ def cekWuCode():
 
 # get data from spi sensor
 #def getsoil():
+#	global soil
 #	SPI_PORT   = 0
 #	SPI_DEVICE = 0
 #	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -319,6 +322,7 @@ def cekWuCode():
 #	return soil
 
 #def getrain():
+#	global rain
 #	SPI_PORT   = 0
 #	SPI_DEVICE = 0
 #	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -339,16 +343,18 @@ def main():
 #	temp, hum   = getdht()
 #	soil        = getsoil()
 #	rain        = getrain()
+	soil = 400
+	rain = 200
+	temp = 25
+	hum = 70
+	NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 	global terbit
-	global terbenam
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print (timeRequest)
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
@@ -370,35 +376,29 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-		soil = 400
-		rain = 200
-		temp = 25
-		hum = 70
 
-		NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
-		
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+			print("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60)))
 			if(NK>65):
 				pump_on()
 
 		if prediction > 0:
 			print (prediction)
-			new_row = str(prediction)
-			cur.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-			db.commit()
-	
+			new_row = [(prediction,)]
+			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+			conn.commit()
+			
 		# fetch the recent readings
-		df = pd.read_sql("""SELECT *
+		df = pd.read_sql_query("""SELECT *
 		FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
-		AS X
-		ORDER BY created_at ASC;""", con=db)
+		AS X ORDER BY created_at ASC;""", con=conn)
 
 		df['date1'] = pd.to_datetime(df['created_at']).values
 		# df['day'] = df['date1'].dt.date
 		# df['time'] = df['date1'].dt.time
 		df.index = df.date1
 		df.index = pd.DatetimeIndex(df.index)
-#		df = df.drop('forecast',axis=1)
+		#df = df.drop('forecast',axis=1)
 		df['upper'] = df['value']
 		df['lower'] = df['value']
 
@@ -409,7 +409,7 @@ def main():
 		t0 = df['date1'][-1]
 		new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
 		new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
-		df2 = pd.DataFrame(columns=['value','created_at','forecast'])
+		df2 = pd.DataFrame(columns=['created_at','value','forecast'])
 		df2.date = new_dates1
 		df2.forecast = forecast[0]
 		df2['upper'] = forecast[0]+forecast[1] #std error
@@ -428,7 +428,7 @@ def main():
 		y_lower = [j for j in recentreadings['lower']]
 		y_lower = y_lower[::-1]
 
-		trace1 = go.Scatter(
+		soil_graph = go.Scatter(
 		x = X,
 		y = [j for j in recentreadings['value'].values],
 			name = 'Soil Status',
@@ -436,24 +436,37 @@ def main():
 			color = ('rgb(22, 96, 167)'),
 			width = 4)
 		)
-		trace2 = go.Scatter(
+
+		forecast_graph = go.Scatter(
 		x=X,
 		y=[j for j in recentreadings['forecast'].values],
-			name = 'ARIMA Forecasted Temperature',
+			name = 'Forecasted Soil',
 			line = dict(
-			color = ('rgb(205, 12, 24)'),
+			color = ('rgb(22, 96, 167)'),
 			width = 4,
 			dash = 'dot')
 		)
-		
-		data = [trace1, trace2]
+
+		scatter_graph = go.Scatter(
+		x = X+X_rev,
+		y = y_upper+y_lower,
+	    fill='tozerox',
+	    fillcolor='rgba(231,107,243,0.2)',
+	    line=go.Line(color='transparent'),
+	    showlegend=True,
+	    name='Std Error'
+		)
+
+		data = [soil_graph, forecast_graph, scatter_graph]
+
 		layout = go.Layout(
 		title='Soil Graph',
 		yaxis = dict(title = 'Value')
 		)
+
 		fig = go.Figure(data=data, layout=layout)
-		plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
-		#time.sleep(60*60)# delay between stream posts
+		plot_url = py.plot(fig, filename='kufarm', auto_open = False)
+		time.sleep(60*60)# delay between stream posts
 
 # ------------ Execute program 
 if __name__ == "__main__":

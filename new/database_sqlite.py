@@ -13,12 +13,12 @@ def addForecast(code,weather,wsp,dataTime):
 		curs.execute(sql)
 		conn.commit()
 		status = True
-		conn.close()
-		print "berhasil"
+		#conn.close()
+		print("berhasil")
 	except Exception as e:
 		conn.rollback()
 		status = False;
-		print e
+		print(e)
 	return status;
 
 def getLatitude():
@@ -31,7 +31,7 @@ def getLatitude():
 		for row in curs.fetchall():
 			val = row[0]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -46,7 +46,7 @@ def getLongitude():
 		for row in curs.fetchall():
 			val = row[0]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -61,7 +61,7 @@ def getTimezone():
 		for row in curs.fetchall():
 			val = row[0]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val)
@@ -76,9 +76,9 @@ def addSunTime(data):
 		curs.execute(sql)
 		conn.commit();
 		status = True;
-		conn.close()
+		#conn.close()
 	except Exception as e:
-		print e
+		print(e)
 		conn.rollback()
 		status = False;
 	return status;
@@ -93,7 +93,7 @@ def getPlant():
 		for row in curs.fetchall():
 			val = row
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -108,7 +108,7 @@ def getPlantDetail(data):
 		for row in curs.fetchall():
 			val = row
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -124,7 +124,7 @@ def getAir(umur, id_tanaman):
 			val['air'] = row[3]
 			val['pupuk'] = row[4]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return val;
@@ -139,7 +139,7 @@ def getPerLiter():
 		for row in curs.fetchall():
 			val = row[0]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -154,7 +154,7 @@ def getPerMl():
 		for row in curs.fetchall():
 			val = row[0]
 		conn.commit()
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 	return float(val);
@@ -169,7 +169,7 @@ def addPumpLog(device,status):
 		curs.execute(sql)
 		conn.commit()
 		status = True;
-		conn.close()
+		#conn.close()
 	except Exception as e:
 		conn.rollback()
 		status = False;
@@ -181,9 +181,9 @@ def logdht (temp, hum):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO DHT_data (timestamp, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
+	curs.execute("INSERT INTO DHT_data (created_at, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
 	conn.commit()
-	conn.close()
+	#conn.close()
 
 # log spi sensor data on database
 def logsoil (soil):
@@ -191,9 +191,9 @@ def logsoil (soil):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO soil (timestamp, value) values('"+currentTime+"', "+str(soil)+")")
+	curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")
 	conn.commit()
-	conn.close()
+	#conn.close()
 
 # log spi sensor data on database
 def lograin (rain):
@@ -201,15 +201,15 @@ def lograin (rain):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO rain (timestamp, value) values('"+currentTime+"', "+str(rain)+")")
+	curs.execute("INSERT INTO rain (created_at, value) values('"+currentTime+"', "+str(rain)+")")
 	conn.commit()
-	conn.close()
+	#conn.close()
 
 # Retrieve LAST data from database
 def getLastData():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT 1"):
+	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY created_at DESC LIMIT 1"):
 		time = str(row[1])
 		temp = row[2]
 		hum = row[3]
@@ -221,7 +221,7 @@ def getLastData():
 def getHistData(numSamples):
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY timestamp DESC LIMIT "+str(numSamples))
+	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
 	data = curs.fetchall()
 	dates = []
 	temps = []
