@@ -2,17 +2,15 @@ import time, datetime
 import plotly.plotly as py #plotly library
 import plotly.graph_objs as go
 from plotly import tools
-import pymysql.cursors
+import sqlite3
 import numpy as np
 import pandas as pd
 from statsmodels.tsa.arima_model import ARIMA
 #import config
 
-db=pymysql.connect(host="localhost",
-					 user="root",
-					 passwd="",
-					 db="kufarm");
-cur = db.cursor()
+dbname='kufarm.db'
+conn=sqlite3.connect(dbname)
+curs = conn.cursor()
 prediction = 0
 
 while True :
@@ -29,14 +27,14 @@ while True :
 	"""SELECT *
 	FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
 	AS X
-	ORDER BY created_at ASC;""", con = db)
+	ORDER BY created_at ASC;""", con = conn)
 
 	df['date1'] = pd.to_datetime(df['created_at']).values
-	# df['day'] = df['date1'].dt.date
-	# df['time'] = df['date1'].dt.time
+	df['day'] = df['date1'].dt.date
+	df['time'] = df['date1'].dt.time
 	df.index = df.date1
 	df.index = pd.DatetimeIndex(df.index)
-	df = df.drop('forecast',axis=1)
+	#df = df.drop('forecast',axis=1)
 	df['upper'] = df['value']
 	df['lower'] = df['value']
 
@@ -60,7 +58,6 @@ while True :
 	recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 
 	# plot the recent readings
-
 	X=[str(i) for i in recentreadings['created_at'].values]
 	X_rev = X[::-1]
 	y_upper = [j for j in recentreadings['upper']]
@@ -96,3 +93,4 @@ while True :
 	fig = go.Figure(data=data, layout=layout)
 	plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
 	time.sleep(60*60)# delay between stream posts
+	

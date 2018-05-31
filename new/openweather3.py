@@ -60,6 +60,5 @@ def getForcastByTime(data,dataTime):
 				res = var
 	except Exception as e:
 		res = "{\"status\":\"error\"}"
-	
 	return res
 	
