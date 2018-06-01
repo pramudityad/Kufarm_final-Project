@@ -1,29 +1,18 @@
-#  -*- coding: utf-8 -*-
-"""
-Created on  May 2018
-
-@author: Damar Pramuditya
-
-"""
 from datetime import timedelta
 from calendar import monthrange
-from statsmodels.tsa.arima_model import ARIMA
-from plotly import tools
 import time, datetime
 import io
 import math
-#import Adafruit_DHT
-#import Adafruit_GPIO.SPI as SPI
-#import RPi.GPIO as GPIO
-#import Adafruit_MCP3008
 import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather3 as OW
-import wunderground3 as WU  
-import plotly.plotly as py #plotly library
-import plotly.graph_objs as go
+import wunderground3 as WU 
 import sqlite3
+import Adafruit_DHT
+import Adafruit_GPIO.SPI as SPI
+import RPi.GPIO as GPIO
+import Adafruit_MCP3008
 import numpy as np
 import pandas as pd
 
@@ -34,8 +23,8 @@ curs = conn.cursor()
 pinwatering     = 18
 #pinfertilizing = 
 
-#GPIO.setwarnings(False)
-#GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
 
 #sensor
 stateWatering = False;
@@ -185,7 +174,7 @@ def cekOwCode():
 				ow_code = ow_code_temp
 				ow_desc = ow_desc_temp
 			# print str(i) + " : " + str(ow_code_temp)
-	#return ow_code, ow_desc
+	return ow_code, ow_desc
 
 def cekWuCode():
 	print ("CEK WU CODE")
@@ -215,15 +204,15 @@ def cekWuCode():
 				myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
@@ -238,15 +227,15 @@ def cekWuCode():
 			myTime = myTime.replace(hour=i)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
@@ -264,68 +253,65 @@ def cekWuCode():
 		#	myTime = myTime.replace(hour=i,day=myTime.day+1)
 			timeRequest = myTime.strftime('%Y-%m-%d %H:00:00');
 			for dt in wu_cerah_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 0
 					wu_desc_temp = 'Sunny'
 			for dt in wu_mendung_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 1
 					wu_desc_temp = 'Cloudy'
 			for dt in wu_hujan_code:
-				if(int(WU.getForcastByTime(str_wu_data, str(myTime.hour))['fctcode']) == dt):
+				if(int(WU.getDataForecast(str_wu_data, str(myTime.hour))) == dt):
 					wu_code_temp = 2
 					wu_desc_temp = 'Rain'
 			if(wu_code_temp>wu_code):
 				wu_code = wu_code_temp
 				wu_desc = wu_desc_temp
 			# print str(i) + " : " + str(wu_code_temp)
-	#return wu_code, wu_desc    
+	return wu_code, wu_desc 
 
-#def init_output(pinwatering):
-#	GPIO.setup(pinwatering, GPIO.OUT)
-#	GPIO.output(pinwatering, GPIO.LOW)
-#	GPIO.output(pinwatering, GPIO.HIGH)
+def init_output(pinwatering):
+	GPIO.setup(pinwatering, GPIO.OUT)
+	GPIO.output(pinwatering, GPIO.LOW)
+	GPIO.output(pinwatering, GPIO.HIGH)
 
-#def pump_on():
-#	init_output(pinwatering)
-#	DB.addPumpLog('Pompa Penyiraman','ON')
-#	GPIO.output(pinwatering, GPIO.LOW)
-#	time.sleep(1)
-#	GPIO.output(pinwatering, GPIO.HIGH)
-#	GPIO.cleanup()
+def pump_on():
+	init_output(pinwatering)
+	DB.addPumpLog('Pompa Penyiraman','ON')
+	GPIO.output(pinwatering, GPIO.LOW)
+	time.sleep(1)
+	GPIO.output(pinwatering, GPIO.HIGH)
+	GPIO.cleanup()
 
 # get data from DHT sensor
-#def getdht():   
-#	global temp, hum
-#	Sensor = Adafruit_DHT.DHT11
-#	DHTpin = 4
-#	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
-#	if hum is not None and temp is not None:
-#		try:
-#			hum = round(hum)
-#			temp = round(temp, 1)
-#		except Exception as e:
-#			raise e
-#	return temp, hum
+def getdht():   
+	Sensor = Adafruit_DHT.DHT11
+	DHTpin = 4
+	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
+	if hum is not None and temp is not None:
+		try:
+			hum = round(hum)
+			temp = round(temp, 1)
+		except Exception as e:
+			raise e
+	return temp, hum
 
 # get data from spi sensor
-#def getsoil():
-#	global soil
-#	SPI_PORT   = 0
-#	SPI_DEVICE = 0
-#	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-#	soil = mcp.read_adc(5)
-#	soil = 1024-soil
-#	return soil
+def getsoil():
+	SPI_PORT   = 0
+	SPI_DEVICE = 0
+	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+	soil = mcp.read_adc(5)
+	soil = 1024-soil
+	return soil
 
-#def getrain():
-#	global rain
-#	SPI_PORT   = 0
-#	SPI_DEVICE = 0
-#	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-#	rain = mcp.read_adc(6)
-#	rain = 1024-rain
-#	return rain
+def getrain():
+	SPI_PORT   = 0
+	SPI_DEVICE = 0
+	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+	rain = mcp.read_adc(6)
+	rain = 1024-rain
+	return rain
 
 print ("Start")
 while (requestStatus == False):
@@ -334,37 +320,32 @@ while (requestStatus == False):
 cekOwCode()
 cekWuCode()
 
-# main function
 def main():
-	prediction = 0
-#	temp, hum   = getdht()
-#	soil        = getsoil()
-#	rain        = getrain()
-	soil = 400
-	rain = 200
-	temp = 25
-	hum = 70
-	NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
+	temp, hum   = getdht()
+	soil        = getsoil()
+	rain        = getrain()
 	global terbit
+	global terbenam
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print (timeRequest)
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()
-#			DB.logdht(temp, hum)
-#			DB.logsoil(soil)
-#			DB.lograin(rain)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
 						DB.addSunTime([strTerbit,strTerbenam])
-				code = WU.getForcastByTime(str_wu_data, str(now.hour))['fctcode']
+				code = WU.getDataForecast(str_wu_data, str(now.hour))
 				weather = WU.getForcastByTime(str_wu_data, str(now.hour))['condition']
 				wsp = "wunderground"
 				DB.addForecast(code,weather,wsp,timeRequest)
@@ -375,96 +356,11 @@ def main():
 					DB.addForecast(code,weather,wsp,timeRequest)
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-			print("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60)))
+			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code,wu_code)
 			if(NK>65):
+				DB.addPumpLog('watering pump','ON')
 				pump_on()
 
-		if prediction > 0:
-			print (prediction)
-			new_row = [(prediction,)]
-			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-			conn.commit()
-			
-		# fetch the recent readings
-		df = pd.read_sql_query("""SELECT *
-		FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
-		AS X ORDER BY created_at ASC;""", con=conn)
 
-		df['date1'] = pd.to_datetime(df['created_at']).values
-		# df['day'] = df['date1'].dt.date
-		# df['time'] = df['date1'].dt.time
-		df.index = df.date1
-		df.index = pd.DatetimeIndex(df.index)
-		#df = df.drop('forecast',axis=1)
-		df['upper'] = df['value']
-		df['lower'] = df['value']
-
-		model = ARIMA(df['value'], order=(5,1,0))
-		model_fit = model.fit(disp=0)
-		forecast = model_fit.forecast(5)
-		prediction = round(forecast[0][0],2)
-		t0 = df['date1'][-1]
-		new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
-		new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
-		df2 = pd.DataFrame(columns=['created_at','value','forecast'])
-		df2.date = new_dates1
-		df2.forecast = forecast[0]
-		df2['upper'] = forecast[0]+forecast[1] #std error
-		df2['lower'] = forecast[0]-forecast[1] #std error
-		# df2['upper'] = forecast[2][:,1] #95% confidence interval
-		# df2['lower'] = forecast[2][:,0] #95% confidence interval
-		df = df.append(df2)
-		df = df.reset_index()
-		recentreadings = df
-		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-
-		# plot the recent readings
-		X=[str(i) for i in recentreadings['created_at'].values]
-		X_rev = X[::-1]
-		y_upper = [j for j in recentreadings['upper']]
-		y_lower = [j for j in recentreadings['lower']]
-		y_lower = y_lower[::-1]
-
-		soil_graph = go.Scatter(
-		x = X,
-		y = [j for j in recentreadings['value'].values],
-			name = 'Soil Status',
-			line = dict(
-			color = ('rgb(22, 96, 167)'),
-			width = 4)
-		)
-
-		forecast_graph = go.Scatter(
-		x=X,
-		y=[j for j in recentreadings['forecast'].values],
-			name = 'Forecasted Soil',
-			line = dict(
-			color = ('rgb(22, 96, 167)'),
-			width = 4,
-			dash = 'dot')
-		)
-
-		scatter_graph = go.Scatter(
-		x = X+X_rev,
-		y = y_upper+y_lower,
-		fill='tozerox',
-		fillcolor='rgba(231,107,243,0.2)',
-		line=go.Line(color='transparent'),
-		showlegend=True,
-		name='Std Error'
-		)
-
-		data = [soil_graph, forecast_graph, scatter_graph]
-
-		layout = go.Layout(
-		title='Soil Graph',
-		yaxis = dict(title = 'Value')
-		)
-
-		fig = go.Figure(data=data, layout=layout)
-		plot_url = py.plot(fig, filename='kufarm', auto_open = False)
-		#time.sleep(60*60)# delay between stream posts
-
-# ------------ Execute program 
-if __name__ == "__main__":
+if __name__ == '__main__':
 	main()

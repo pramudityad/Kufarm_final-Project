@@ -16,22 +16,26 @@ def getForecast(latitude,longitude):
 	#print (getForecast(-6.978887, 107.630328))
 
 def getDataForecast(data,dataTime):
-	res = ''
-	try:
-		for var in data['hourly_forecast']:
-			if(data == var[0]):
-				res = var
-	except Exception as e:
-		res = "{\"status\":\"error\"}"
-	return res
-
-def getForcastByTime(data,dataTime):
 	res=''
 	try:
-		for var in data['hourly_forecast']:
+		for var in data['hourly_forecast'][0]['fctcode']:
 			res = var
 	except Exception as e:
 		raise e
+	#print(res)
 	return res
+	
 
-#print(getForcastByTime(getForecast(-6.978887, 107.630328),dataTime))
+def getForcastByTime(data,dataTime):
+	ap=''
+	try:
+		for var in data['hourly_forecast']:
+			ap = var
+	except Exception as e:
+		raise e
+	#print(ap)
+	return ap
+
+#getDataForecast(getForecast(-6.978887, 107.630328),1)
+#getForcastByTime(getForecast(-6.978887, 107.630328),1)
+#getForcastByTime(getForecast(-6.978887, 107.630328),1)['condition']

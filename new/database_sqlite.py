@@ -191,7 +191,7 @@ def addPumpLog(device,status):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "INSERT INTO pump(device,status,created_at) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
+	sql = "INSERT INTO pump (device,status) VALUES ('"+str(device)+"','"+str(status)+"')"
 	try:
 		curs.execute(sql)
 		conn.commit()
