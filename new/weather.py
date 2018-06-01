@@ -276,7 +276,7 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		print (timeRequest)
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%43.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
 			cekWuCode()

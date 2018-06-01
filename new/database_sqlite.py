@@ -113,6 +113,33 @@ def getPlantDetail(data):
 		conn.rollback()
 	return val;
 
+def getforecast_soil():
+	val = 0
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "SELECT created_at, forecast from soil where forecast < 400"
+	try:
+		curs.execute(sql)
+		for row in curs.fetchall():
+			val = row
+		conn.commit()
+		#conn.close()
+	except Exception as e:
+		conn.rollback()
+	return val;
+
+def getlast_rain():
+	val = None
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "SELECT created_at FROM rain WHERE value >=400 ORDER BY created_at DESC LIMIT 1"
+	try:
+		curs.execute(sql)
+		conn.commit()
+	except Exception as e:
+		conn.rollback()
+	return val
+
 def getAir(umur, id_tanaman):
 	val = {}
 	conn=sqlite3.connect(dbname)
