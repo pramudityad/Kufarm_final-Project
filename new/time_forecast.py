@@ -1,14 +1,21 @@
 import time
+import forecastio
 import database_sqlite as DB
 soil = 300
 wu_desc = 'Sunny'
 command = 'watering'
 
+api_key = "77eb864c8ec94685a5834e714c840e03"
+lat = DB.getLatitude()
+lng = DB.getLongitude()
+
+forecast = forecastio.load_forecast(api_key, lat, lng)
+
 t0 = time.time()
 print ("========================")
 print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
 print ("current soil		: "+ str(soil))
-print ("current weather		: "+ wu_desc)
+print ("current weather		: "+ str(forecast.currently()))
 print ("last rain		: "+ str(DB.getlast_rain()))
 print ("command			: "+ command)
 
@@ -17,7 +24,7 @@ print ("========================")
 print ("prediciton 1 hour ahead")
 print ("time +1 		: " +time.strftime("%I %M %p",time.localtime(t1)))
 print ("prediciton soil		: "+ str(soil))
-print ("forecast weather	: "+ wu_desc)
+print ("forecast weather	: "+ str(forecast.by_hour()))
 print ("last rain		: "+ str(DB.getlast_rain()))
 print ("command			: "+ command)
 

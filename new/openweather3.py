@@ -62,3 +62,4 @@ def getForcastByTime(data,dataTime):
 		res = "{\"status\":\"error\"}"
 	return res
 	
+print(getForcastByTime(getForecast(-6.978887, 107.630328),1))
