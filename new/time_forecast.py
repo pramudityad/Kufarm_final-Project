@@ -20,11 +20,12 @@ print ("last rain		: "+ str(DB.getlast_rain()))
 print ("command			: "+ command)
 
 t1 = t0 + 60*60
+by_hour = forecast.hourly()
 print ("========================")
 print ("prediciton 1 hour ahead")
 print ("time +1 		: " +time.strftime("%I %M %p",time.localtime(t1)))
 print ("prediciton soil		: "+ str(soil))
-print ("forecast weather	: "+ str(forecast.by_hour()))
+print ("forecast weather	: %s " % (by_hour.summary))
 print ("last rain		: "+ str(DB.getlast_rain()))
 print ("command			: "+ command)
 
