@@ -838,7 +838,6 @@ def calculate(soil,rain,temp,hum,forecast,forecast2):
 	if tinggi>0:
 	 	print("Tinggi("+str(tinggi)+")");
 
-
 	#DEFUZIFIKASI
 	#batas
 	print("======================")
