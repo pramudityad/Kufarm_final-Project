@@ -5,7 +5,7 @@ import io
 import math
 import database_sqlite as DB
 import hisab as hisab
-import fuzzy_v2 as fuzzy
+import fuzzy as fuzzy
 import openweather3 as OW
 import wunderground3 as WU 
 import sqlite3

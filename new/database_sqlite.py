@@ -128,6 +128,14 @@ def getforecast_soil():
 		conn.rollback()
 	return val;
 
+def getlast_soil():
+	val = 0
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "SELECT value FROM soil ORDER BY ID DESC LIMIT 1;"
+	curs.execute(sql)
+	return cursor.fetchone()[0]
+
 def getlast_rain():
 	val = None
 	conn=sqlite3.connect(dbname)
