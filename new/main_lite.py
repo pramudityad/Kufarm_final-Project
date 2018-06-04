@@ -13,8 +13,6 @@ import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
-import numpy as np
-import pandas as pd
 
 dbname='kufarm.db'
 conn=sqlite3.connect(dbname)
