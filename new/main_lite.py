@@ -174,7 +174,6 @@ def init_output(pinwatering):
 
 def pump_on():
 	init_output(pinwatering)
-	DB.addPumpLog('Pompa Penyiraman','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
 	time.sleep(4)
 	GPIO.output(pinwatering, GPIO.HIGH)

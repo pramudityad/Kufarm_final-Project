@@ -11,9 +11,12 @@ git clone https://github.com/pramudityad/forecast.git
 git clone https://github.com/adafruit/Adafruit_Python_DHT.git
 git clone https://github.com/adafruit/Adafruit_Python_MCP3008.git
 git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+git clone https://github.com/doceme/py-spidev.git
 sudo su
 wget https://bootstrap.pypa.io/ez_setup.py -O - | python3
 sudo python3 setup.py install
+
+pip3 install openpyxl
 
 sudo apt-get install build-essential libc6-dev
 sudo apt-get install libncurses5-dev libncursesw5-dev libreadline6-dev
