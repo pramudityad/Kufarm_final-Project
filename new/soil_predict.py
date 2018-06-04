@@ -19,8 +19,8 @@ while True :
 	if prediction > 0:
 		print (prediction)
 		new_row = [(prediction,)]
-		c.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-		db.commit()
+		curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+		conn.commit()
 	
 	# fetch the recent readings
 	df = pd.read_sql(
@@ -30,11 +30,11 @@ while True :
 	ORDER BY created_at ASC;""", con = conn)
 
 	df['date1'] = pd.to_datetime(df['created_at']).values
-	df['day'] = df['date1'].dt.date
-	df['time'] = df['date1'].dt.time
+	#df['day'] = df['date1'].dt.date
+	#df['time'] = df['date1'].dt.time
 	df.index = df.date1
 	df.index = pd.DatetimeIndex(df.index)
-	#df = df.drop('forecast',axis=1)
+	df = df.drop('forecast',axis=1)
 	df['upper'] = df['value']
 	df['lower'] = df['value']
 
@@ -57,7 +57,7 @@ while True :
 	recentreadings = df
 	recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 
-	# plot the recent readings
+	""" # plot the recent readings
 	X=[str(i) for i in recentreadings['created_at'].values]
 	X_rev = X[::-1]
 	y_upper = [j for j in recentreadings['upper']]
@@ -78,12 +78,22 @@ while True :
 	y=[j for j in recentreadings['forecast'].values],
 		name = 'ARIMA Forecasted Temperature',
 		line = dict(
-		color = ('rgb(205, 12, 24)'),
+		color = ('rgb(22, 96, 167)'),
 		width = 4,
 		dash = 'dot')
 	)
 
-	data = [trace1, trace2]
+	trace3 = go.Scatter(
+	x = X+X_rev,
+	y = y_upper+y_lower,
+	    fill='tozerox',
+	    fillcolor='rgba(231,107,243,0.2)',
+	    line=go.Line(color='transparent'),
+	    showlegend=True,
+	    name='Std Error'
+	)
+
+	data = [trace1, trace2, trace3]
 
 	layout = go.Layout(
 	title='Soil Graph',
@@ -92,5 +102,5 @@ while True :
 
 	fig = go.Figure(data=data, layout=layout)
 	plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
-	time.sleep(60*60)# delay between stream posts
+	time.sleep(60*60)# delay between stream posts """
 	

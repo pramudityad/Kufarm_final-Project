@@ -133,8 +133,15 @@ def getlast_soil():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	sql = "SELECT value FROM soil ORDER BY ID DESC LIMIT 1;"
-	curs.execute(sql)
-	return cursor.fetchone()[0]
+	try:
+		curs.execute(sql)
+		for row in curs.fetchall():
+			val = row[0]
+		conn.commit()
+		#conn.close()
+	except Exception as e:
+		conn.rollback()
+	return int(val);
 
 def getlast_rain():
 	val = None

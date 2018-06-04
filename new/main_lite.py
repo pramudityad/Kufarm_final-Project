@@ -59,7 +59,7 @@ def requestData():
 				global code;
 				global requestStatus
 				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
-				str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
+				#str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
 				longitude   = str(OW.getCityLongitude(str_ow_data));
