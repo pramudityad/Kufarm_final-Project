@@ -20,9 +20,8 @@ def decision():
     else:
         print('not_watering')
 
-def decision_future():
-    
-   
+#def decision_future():
+
 
 t0 = time.time()
 print ("========================")

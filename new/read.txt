@@ -1,0 +1,19 @@
+ssh+wifi
+sudo apt-get install sqlite3 libsqlite3-dev
+sudo apt-get update
+sudo nano /etc/apt/sources.list
+uncommend#
+sudo apt-get update
+sudo apt-get install git
+git clone https://github.com/pramudityad/forecast.git
+git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+git clone https://github.com/adafruit/Adafruit_Python_MCP3008.git
+git clone https://github.com/adafruit/Adafruit_Python_GPIO.git
+sudo python3 setup.py install
+
+sudo apt-get install build-essential libc6-dev
+sudo apt-get install libncurses5-dev libncursesw5-dev libreadline6-dev
+sudo apt-get install libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev
+sudo apt-get install libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev
+sudo apt-get install python3-pip
+
