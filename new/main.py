@@ -223,6 +223,7 @@ def main():
 	rain        = getrain()
 	global terbit
 	global terbenam
+	global prediction
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
