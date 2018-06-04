@@ -33,7 +33,7 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
-prediction    = 0;
+
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -221,9 +221,9 @@ def main():
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
+	prediction    = 0
 	global terbit
 	global terbenam
-	global prediction
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
