@@ -7,7 +7,6 @@ import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather3 as OW
-import wunderground3 as WU 
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
@@ -213,7 +212,7 @@ def getrain():
 print ("Start")
 while (requestStatus == False):
 		requestData()
-		time.sleep(1)
+		time.sleep(5)
 cekOwCode()
 
 def main():
