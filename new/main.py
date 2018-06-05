@@ -21,7 +21,6 @@ conn=sqlite3.connect(dbname)
 curs = conn.cursor()
 
 pinwatering     = 18
-
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
@@ -34,7 +33,6 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
-
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -177,10 +175,12 @@ def init_output(pinwatering):
 
 def pump_on():
 	init_output(pinwatering)
+	DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(4)
+	time.sleep(2)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	GPIO.cleanup()
+	DB.addPumpLog('watering pump','OFF')
 
 # get data from DHT sensor
 def getdht():   

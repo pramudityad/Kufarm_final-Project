@@ -7,6 +7,7 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install git
 sudo apt-get install build-essential python3-dev
+sudo apt update && sudo apt install libatlas-base-dev python3-pip
 git clone https://github.com/pramudityad/forecast.git
 git clone https://github.com/adafruit/Adafruit_Python_DHT.git
 git clone https://github.com/adafruit/Adafruit_Python_MCP3008.git
