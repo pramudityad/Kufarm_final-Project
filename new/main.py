@@ -195,7 +195,7 @@ def getdht():
 			raise e
 	return temp, hum
 
-# get data from spi sensor
+# get data from soil sensor
 def getsoil():
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
@@ -204,6 +204,7 @@ def getsoil():
 	soil = 1024-soil
 	return soil
 
+# get data from rain sensor
 def getrain():
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
@@ -223,7 +224,10 @@ def main():
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
-	prediction    = 0
+	prediction  = 0;
+	t0 = time.time()
+	t1 = t0 + 60*60
+	t2 = t1 + 60*60
 	global terbit
 	global terbenam
 	c_i = 0
@@ -233,18 +237,17 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print (timeRequest)
-		DB.logdht(temp, hum)
+		""" DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
-		time.sleep(sampleFreq)
-		
+		time.sleep(sampleFreq) """
+
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
-			#DB.logdht(temp, hum)
-			#DB.logsoil(soil)
-			#DB.lograin(rain)
+			DB.logdht(temp, hum)
+			DB.logsoil(soil)
+			DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -289,12 +292,25 @@ def main():
 				df = df.reset_index()
 				recentreadings = df
 				recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-				
+
 				if(now.hour%3==0):
 					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
+
+		print ("========================")
+		print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
+		print ("current soil		: "+ str(soil1))
+		print ("current weather		: "+ str(forecast.currently()))
+		print ("last rain		: "+ str(DB.getlast_rain()))
+
+		print ("========================")
+		print ("prediciton 2 hour ahead")
+		print ("time +2 		: " +time.strftime("%I %M %p",time.localtime(t2)))
+		print ("prediciton soil		: "+ str(soil2))
+		print ("forecast weather	: %s " % (by_hour.summary))
+		print ("last rain		: "+ str(DB.getlast_rain()))
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)

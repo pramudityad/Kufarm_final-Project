@@ -117,11 +117,11 @@ def getforecast_soil():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT forecast from soil where forecast < 400 ORDER BY ID DESC LIMIT 1"
+	sql = "SELECT * from soil where forecast < 400 ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
-			val = row
+			val = row[3]
 		conn.commit()
 		#conn.close()
 	except Exception as e:
@@ -132,16 +132,31 @@ def getlast_soil():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT value FROM soil ORDER BY ID DESC LIMIT 1;"
+	sql = "SELECT * FROM soil ORDER BY ID DESC LIMIT 1;"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
-			val = row[0]
+			val = row[2]
 		conn.commit()
 		#conn.close()
 	except Exception as e:
 		conn.rollback()
-	return int(val);
+	return val;
+
+def getlast_soil2():
+	val = 0
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "SELECT * FROM soil WHERE forecast ORDER BY ID DESC LIMIT 1;"
+	try:
+		curs.execute(sql)
+		for row in curs.fetchall():
+			val = row[3]
+		conn.commit()
+		#conn.close()
+	except Exception as e:
+		conn.rollback()
+	return val;
 
 def getlast_rain():
 	val = None
