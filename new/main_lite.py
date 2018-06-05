@@ -19,7 +19,6 @@ conn=sqlite3.connect(dbname)
 curs = conn.cursor()
 
 pinwatering     = 18
-
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 

@@ -3,6 +3,8 @@
 import database_sqlite as DB
 
 pinwatering     = 18
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
 
 def init_output(pinwatering):
 	GPIO.setup(pinwatering, GPIO.OUT)
