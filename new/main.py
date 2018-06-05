@@ -233,52 +233,11 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		#print (timeRequest)
+		print (timeRequest)
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
 		time.sleep(sampleFreq)
-
-		if prediction > 0:
-			print (prediction)
-			new_row = [(prediction,)]
-			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-			conn.commit()
-	
-		# fetch the recent readings
-		df = pd.read_sql(
-		"""SELECT *
-		FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
-		AS X
-		ORDER BY created_at ASC;""", con = conn)
-
-		df['date1'] = pd.to_datetime(df['created_at']).values
-		#df['day'] = df['date1'].dt.date
-		#df['time'] = df['date1'].dt.time
-		df.index = df.date1
-		df.index = pd.DatetimeIndex(df.index)
-		df = df.drop('forecast',axis=1)
-		df['upper'] = df['value']
-		df['lower'] = df['value']
-
-		model = ARIMA(df['value'], order=(5,1,0))
-		model_fit = model.fit(disp=0)
-		forecast = model_fit.forecast(5)
-		prediction = round(forecast[0][0],2)
-		t0 = df['date1'][-1]
-		new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
-		new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
-		df2 = pd.DataFrame(columns=['value','created_at','forecast'])
-		df2.date = new_dates1
-		df2.forecast = forecast[0]
-		df2['upper'] = forecast[0]+forecast[1] #std error
-		df2['lower'] = forecast[0]-forecast[1] #std error
-		# df2['upper'] = forecast[2][:,1] #95% confidence interval
-		# df2['lower'] = forecast[2][:,0] #95% confidence interval
-		df = df.append(df2)
-		df = df.reset_index()
-		recentreadings = df
-		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 		
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
@@ -290,6 +249,47 @@ def main():
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
 						DB.addSunTime([strTerbit,strTerbenam])
+				if prediction > 0:
+					print ("prediction = " +prediction)
+					new_row = [(prediction,)]
+					curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+					conn.commit()
+	
+				# fetch the recent readings
+				df = pd.read_sql(
+				"""SELECT *
+				FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
+				AS X
+				ORDER BY created_at ASC;""", con = conn)
+
+				df['date1'] = pd.to_datetime(df['created_at']).values
+				#df['day'] = df['date1'].dt.date
+				#df['time'] = df['date1'].dt.time
+				df.index = df.date1
+				df.index = pd.DatetimeIndex(df.index)
+				df = df.drop('forecast',axis=1)
+				df['upper'] = df['value']
+				df['lower'] = df['value']
+
+				model = ARIMA(df['value'], order=(5,1,0))
+				model_fit = model.fit(disp=0)
+				forecast = model_fit.forecast(5)
+				prediction = round(forecast[0][0],2)
+				t0 = df['date1'][-1]
+				new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
+				new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
+				df2 = pd.DataFrame(columns=['value','created_at','forecast'])
+				df2.date = new_dates1
+				df2.forecast = forecast[0]
+				df2['upper'] = forecast[0]+forecast[1] #std error
+				df2['lower'] = forecast[0]-forecast[1] #std error
+				# df2['upper'] = forecast[2][:,1] #95% confidence interval
+				# df2['lower'] = forecast[2][:,0] #95% confidence interval
+				df = df.append(df2)
+				df = df.reset_index()
+				recentreadings = df
+				recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
+				
 				if(now.hour%3==0):
 					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']

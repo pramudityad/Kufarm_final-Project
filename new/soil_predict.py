@@ -17,10 +17,10 @@ while True :
 	cur_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M')
 
 	if prediction > 0:
-		print (prediction)
-		new_row = [(prediction,)]
-		curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-		conn.commit()
+			print ("prediction = " +prediction)
+			new_row = [(prediction,)]
+			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+			conn.commit()
 	
 	# fetch the recent readings
 	df = pd.read_sql(

@@ -117,7 +117,7 @@ def getforecast_soil():
 	val = 0
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT created_at, forecast from soil where forecast < 400"
+	sql = "SELECT forecast from soil where forecast < 400 ORDER BY ID DESC LIMIT 1"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
@@ -186,20 +186,10 @@ def getPerLiter():
 		conn.rollback()
 	return float(val);
 	
-def getPerMl():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_ml' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		#conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
+def addpredict():
+	new_row = [(prediction,)]
+	curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+	conn.commit()
 	
 def addPumpLog(device,status):
 	myTime  	= datetime.datetime.now();
