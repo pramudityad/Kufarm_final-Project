@@ -2,23 +2,19 @@
 #import fuzzy_v2 as fuzzy
 import database_sqlite as DB
 
-soil = 300
-rain = 300
-temp = 29
-hum = 70
-ow_code = 2
+pinwatering     = 18
 
-#NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
-#print (NK)
+def init_output(pinwatering):
+	GPIO.setup(pinwatering, GPIO.OUT)
+	GPIO.output(pinwatering, GPIO.LOW)
+	GPIO.output(pinwatering, GPIO.HIGH)
 
-def decision():
-    watering = 'watering'
-    not_watering = 'no need water'
-    last_soil = DB.getlast_soil()
-    treshold = 300
-    if last_soil < treshold :
-        print('watering')
-    else:
-        print('not_watering')
+def pump_on():
+	init_output(pinwatering)
+	GPIO.output(pinwatering, GPIO.LOW)
+	time.sleep(1)
+	GPIO.output(pinwatering, GPIO.HIGH)
+	GPIO.cleanup()
 
-decision()
+DB.addPumpLog('watering pump','ON')
+pump_on()

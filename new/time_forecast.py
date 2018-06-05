@@ -40,7 +40,6 @@ print ("prediciton soil		: "+ str(soil))
 print ("forecast weather	: %s " % (by_hour.summary))
 print ("last rain		: "+ str(DB.getlast_rain()))
 
-
 t2 = t1 + 60*60
 print ("========================")
 print ("prediciton 2 hour ahead")
