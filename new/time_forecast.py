@@ -14,7 +14,7 @@ forecast = forecastio.load_forecast(api_key, lat, lng)
 
 def decision():
     last_soil = DB.getlast_soil()
-    treshold = 300
+    treshold = 350
     if last_soil < treshold :
         print('watering')
     else:

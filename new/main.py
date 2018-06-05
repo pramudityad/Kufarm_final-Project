@@ -219,6 +219,7 @@ while (requestStatus == False):
 cekOwCode()
 
 def main():
+	sampleFreq = 60
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
@@ -232,7 +233,11 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print (timeRequest)
+		#print (timeRequest)
+		DB.logdht(temp, hum)
+		DB.logsoil(soil)
+		DB.lograin(rain)
+		time.sleep(sampleFreq)
 
 		if prediction > 0:
 			print (prediction)
@@ -278,9 +283,9 @@ def main():
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
-			DB.logdht(temp, hum)
-			DB.logsoil(soil)
-			DB.lograin(rain)
+			#DB.logdht(temp, hum)
+			#DB.logsoil(soil)
+			#DB.lograin(rain)
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
