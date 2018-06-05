@@ -173,10 +173,12 @@ def init_output(pinwatering):
 
 def pump_on():
 	init_output(pinwatering)
+	DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(4)
+	time.sleep(2)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	GPIO.cleanup()
+	DB.addPumpLog('watering pump','OFF')
 
 # get data from DHT sensor
 def getdht():   
@@ -247,7 +249,6 @@ def main():
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
-				DB.addPumpLog('watering pump','ON')
 				pump_on()
 
 if __name__ == '__main__':
