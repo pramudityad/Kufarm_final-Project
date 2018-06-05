@@ -212,7 +212,7 @@ def getrain():
 print ("Start")
 while (requestStatus == False):
 		requestData()
-		time.sleep(5)
+		time.sleep(1)
 cekOwCode()
 
 def main():
