@@ -1,6 +1,8 @@
 # "test"
 #import fuzzy_v2 as fuzzy
 import database_sqlite as DB
+import RPi.GPIO as GPIO
+import time
 
 pinwatering     = 18
 GPIO.setwarnings(False)
@@ -14,9 +16,10 @@ def init_output(pinwatering):
 def pump_on():
 	init_output(pinwatering)
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(1)
+	time.sleep(5)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	GPIO.cleanup()
 
 DB.addPumpLog('watering pump','ON')
 pump_on()
+DB.addPumpLog('watering pump','OFF')
