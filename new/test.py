@@ -14,12 +14,12 @@ def init_output(pinwatering):
 	GPIO.output(pinwatering, GPIO.HIGH)
 
 def pump_on():
-	init_output(pinwatering)
+    init_output(pinwatering)
     DB.addPumpLog('watering pump','ON')
-	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(1)
-	GPIO.output(pinwatering, GPIO.HIGH)
-	GPIO.cleanup()
+    GPIO.output(pinwatering, GPIO.LOW)
+    time.sleep(1)
+    GPIO.output(pinwatering, GPIO.HIGH)
+    GPIO.cleanup()
     DB.addPumpLog('watering pump','OFF')
 
 pump_on()
