@@ -230,6 +230,7 @@ def decision():
 	treshold = 400
 	if last_soil < treshold :
 		pump_on()
+		print("watering")
 	else:
 		print('not_watering')
 
