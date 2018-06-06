@@ -251,7 +251,7 @@ def main():
 		DB.lograin(rain)
 
 		if prediction > 0:
-			print ("prediction = " +prediction)
+			print (prediction)
 			new_row = [(prediction,)]
 			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
 			conn.commit()
