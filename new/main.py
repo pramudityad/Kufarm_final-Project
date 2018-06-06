@@ -254,7 +254,8 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))		
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+				
 		print("retriving data")
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
