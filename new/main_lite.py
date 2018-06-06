@@ -255,7 +255,7 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		
+
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
@@ -322,7 +322,8 @@ def main():
 		print ("Chance of rain rain today : {}".format(x))
 		print ("Chance of rain rain tonight: {}".format(y))
 		print ("prediciton soil		: "+ str(soil2))
-		decision()			
+		decision()
+		time.sleep(2)			
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
