@@ -162,9 +162,11 @@ def getlast_rain():
 	val = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT created_at FROM rain WHERE value >=400 ORDER BY created_at DESC LIMIT 1"
+	sql = "SELECT * FROM rain WHERE value >=400 ORDER BY created_at DESC LIMIT 1"
 	try:
 		curs.execute(sql)
+		for row in curs.fetchall():
+			val = row[1]
 		conn.commit()
 	except Exception as e:
 		conn.rollback()
