@@ -254,19 +254,16 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))		
 		print("retriving data")
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
-
 		if prediction > 0:
 			print (prediction)
 			new_row = [(prediction,)]
 			curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
 			conn.commit()
-
 		# fetch the recent readings
 		df = pd.read_sql(
 		"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150) AS X ORDER BY created_at ASC;", con = conn)
@@ -314,9 +311,7 @@ def main():
 		print ("Chance of rain rain tonight: {}".format(y))
 		print ("prediciton soil		: "+ str(soil2))
 		decision()
-
 		time.sleep(sampleFreq)
-
 		try:
 			if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 				requestData()
