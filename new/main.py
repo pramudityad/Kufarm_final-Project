@@ -298,7 +298,9 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-
+					
+		soil1 = DB.getlast_soil()
+		soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
 		print ("current soil		: "+ str(soil1))
