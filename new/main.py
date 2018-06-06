@@ -318,8 +318,8 @@ def main():
 		print ("========================")
 		print ("-prediction-")
 		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	:  " )
-		print ("chance of rain		: "+ str(DB.getlast_rain()))
+		print ("forecast weather	:  ")
+		print ("chance of rain		: " )
 		decision()
 
 		time.sleep(sampleFreq)
