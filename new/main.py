@@ -244,8 +244,26 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print("retriving data")
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			requestData()
+			cekOwCode()
+			if(now.minute==0 and now.second==0):
+				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+				if(now.hour == 0):
+						DB.addSunTime([strTerbit,strTerbenam])
+				if(now.hour%3==0):
+					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+					wsp = "openweather"
+					DB.addForecast(code,weather,wsp,timeRequest)
 
+		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
+			if(NK>65):
+				DB.addPumpLog('watering pump','ON')
+				pump_on()
+
+		print("retriving data")
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
@@ -298,35 +316,16 @@ def main():
 		print ("humidity		: {}".format(hum))
 		print ("current weather		: ")
 		print ("last rain		: "+ str(DB.getlast_rain()))
-		decision()
-
 		print ("========================")
-		print ("prediciton 2 hour ahead")
-		print ("time +2 		: " )
+		print ("-prediction-")
 		print ("prediciton soil		: "+ str(soil2))
 		print ("forecast weather	:  " )
 		print ("chance of rain		: "+ str(DB.getlast_rain()))
+		decision()
 
 		time.sleep(sampleFreq)
 
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-			requestData()
-			cekOwCode()
-			if(now.minute==0 and now.second==0):
-				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-				if(now.hour == 0):
-						DB.addSunTime([strTerbit,strTerbenam])
-				if(now.hour%3==0):
-					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-					wsp = "openweather"
-					DB.addForecast(code,weather,wsp,timeRequest)
-
-		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
-			if(NK>65):
-				DB.addPumpLog('watering pump','ON')
-				pump_on()
+		
 
 if __name__ == '__main__':
 	main()
