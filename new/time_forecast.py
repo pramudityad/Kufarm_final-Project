@@ -59,19 +59,18 @@ def main():
 		by_hour = forecast.hourly()
 
 		print ("========================")
-		print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
-		print ("current soil		: "+ str(soil1))
-		print ("current weather		: "+ str(forecast.currently()))
-		print ("last rain		: "+ str(DB.getlast_rain()))
-		decision()
-
+		print (timeRequest)
+		print ("current soil		: ")
+		print ("current rain		: ")
+		print ("temperature		: ")
+		print ("humidity		: ")
+		print ("current weather		: ")
+		print ("last rain		: ")
 		print ("========================")
-		print ("prediciton 2 hour ahead")
-		print ("time +2 		: " +time.strftime("%I %M %p",time.localtime(t2)))
+		print ("-prediction-")
 		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	: %s " % (by_hour.summary))
+		print ("forecast weather	:  " )
 		print ("chance of rain		: "+ str(DB.getlast_rain()))
-		decision_future()
 
 if __name__ == '__main__':
 	main()

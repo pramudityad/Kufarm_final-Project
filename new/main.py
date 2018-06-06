@@ -306,7 +306,6 @@ def main():
 		recentreadings = df
 		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 
-		#soil1 = DB.getlast_soil()
 		soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print (timeRequest)
