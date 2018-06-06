@@ -259,6 +259,18 @@ def main():
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
+		if(now.hour%1==0 and now.minute%30.0==0):
+				requestData()
+				cekOwCode()
+				if(now.minute==0):
+					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+					if(now.hour == 0):
+							DB.addSunTime([strTerbit,strTerbenam])
+					if(now.hour%3==0):
+						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+						wsp = "openweather"
+						DB.addForecast(code,weather,wsp,timeRequest)
 		if prediction > 0:
 			print (prediction)
 			new_row = [(prediction,)]
@@ -312,27 +324,10 @@ def main():
 		print ("prediciton soil		: "+ str(soil2))
 		decision()
 		time.sleep(sampleFreq)
-		try:
-			if(now.hour%1==0 and now.minute%30.0==0):
-				requestData()
-				cekOwCode()
-				if(now.minute==0):
-					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-					if(now.hour == 0):
-							DB.addSunTime([strTerbit,strTerbenam])
-					if(now.hour%3==0):
-						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)
-
-			if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-				NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
-				if(NK>65):
-					DB.addPumpLog('watering pump','ON')
-					pump_on()
-		except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
-			GPIO.cleanup() # cleanup all GPI
-
+		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
+			if(NK>65):
+				DB.addPumpLog('watering pump','ON')
+				pump_on()
 if __name__ == '__main__':
 	main()
