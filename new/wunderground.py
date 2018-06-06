@@ -9,7 +9,7 @@ def getpop(a):
 	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
 	return pop
 
-x=getpop(0)
+""" x=getpop(0)
 print ("Chance of rain rain today : {}".format(x))
 y=getpop(1)
 print ("Chance of rain rain tonight: {}".format(y))
@@ -19,4 +19,4 @@ if int(x) >=9:
 elif int(y)>=9:
 	print ("Decent Chande of rain tonight")
 else:
-	print ("low Chance of rain call program.")
+	print ("low Chance of rain call program.") """

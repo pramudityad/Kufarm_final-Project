@@ -26,9 +26,11 @@ def decision():
 def decision_future():
 	global x
 	global y
+	soil2 = DB.getlast_soil2()
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
+	treshold = 350
 
 	x = WU.getpop(0)
 	y = WU.getpop(1)
@@ -40,6 +42,15 @@ def decision_future():
 	else:
 		not_rain = 1
 
+	if soil2 < treshold and rain_today:
+		pass
+	if soil2 < treshold and rain_tonight:
+		pass
+	if soil2 > treshold:
+		pass	
+	if soil2 < treshold and not_rain:
+		print("watering")	
+		
 def main():
 	while True:
 		t0 = time.time()
@@ -60,6 +71,7 @@ def main():
 		print ("prediciton soil		: "+ str(soil2))
 		print ("forecast weather	: %s " % (by_hour.summary))
 		print ("chance of rain		: "+ str(DB.getlast_rain()))
+		decision_future()
 
 if __name__ == '__main__':
 	main()

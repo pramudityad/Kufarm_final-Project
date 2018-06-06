@@ -232,7 +232,7 @@ def main():
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
-	prediction  = 0;
+	prediction  = 0
 	t0 = time.time()
 	t1 = t0 + 60*60
 	t2 = t1 + 60*60
@@ -245,17 +245,18 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		""" DB.logdht(temp, hum)
+		print("retrived data")
+		DB.logdht(temp, hum)
 		DB.logsoil(soil)
 		DB.lograin(rain)
-		time.sleep(sampleFreq) """
+		time.sleep(sampleFreq)
 
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 			requestData()
 			cekOwCode()
-			DB.logdht(temp, hum)
+			""" DB.logdht(temp, hum)
 			DB.logsoil(soil)
-			DB.lograin(rain)
+			DB.lograin(rain) """
 			if(now.minute==0 and now.second==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
@@ -268,10 +269,10 @@ def main():
 	
 				# fetch the recent readings
 				df = pd.read_sql(
-				"""SELECT *
+				SELECT *
 				FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150)
 				AS X
-				ORDER BY created_at ASC;""", con = conn)
+				ORDER BY created_at ASC;, con = conn)
 
 				df['date1'] = pd.to_datetime(df['created_at']).values
 				#df['day'] = df['date1'].dt.date
