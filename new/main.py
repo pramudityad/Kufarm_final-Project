@@ -306,7 +306,6 @@ def main():
 		recentreadings = df
 		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 
-		#soil1 = DB.getlast_soil()
 		soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print (timeRequest)
@@ -319,8 +318,8 @@ def main():
 		print ("========================")
 		print ("-prediction-")
 		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	:  " )
-		print ("chance of rain		: "+ str(DB.getlast_rain()))
+		print ("forecast weather	:  ")
+		print ("chance of rain		: " )
 		decision()
 
 		time.sleep(sampleFreq)
