@@ -288,18 +288,18 @@ def main():
 		recentreadings = df
 		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 
-		soil1 = DB.getlast_soil()
-		soil2 = DB.getlast_soil2()	
+		#soil1 = DB.getlast_soil()
+		#soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print (timeRequest)
-		print ("current soil		: "+ str(soil1))
+		print ("current soil		: "+ str(DB.getlast_soil()))
 		print ("current weather		: ")
 		print ("last rain		: "+ str(DB.getlast_rain()))
 		decision()
 
 		print ("========================")
 		print ("prediciton 2 hour ahead")
-		print ("time +2 			: " )
+		print ("time +2 		: " )
 		print ("prediciton soil		: "+ str(soil2))
 		print ("forecast weather	:  " )
 		print ("chance of rain		: "+ str(DB.getlast_rain()))
