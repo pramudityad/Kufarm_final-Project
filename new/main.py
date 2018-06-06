@@ -58,9 +58,13 @@ def requestData():
 				global timeForcast;
 				global weather;
 				global code;
+				global x
+				global y
 				global requestStatus
 				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				#str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
+				x=getpop(0)
+				y=getpop(1)
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
 				longitude   = str(OW.getCityLongitude(str_ow_data));
@@ -234,8 +238,6 @@ while (requestStatus == False):
 		requestData()
 		time.sleep(1)
 cekOwCode()
-x=getpop(0)
-y=getpop(1)
 
 def main():
 	sampleFreq = 60
@@ -323,11 +325,11 @@ def main():
 		print ("Chance of rain rain tonight: {}".format(y))
 		print ("prediciton soil		: "+ str(soil2))
 		decision()
-		time.sleep(sampleFreq)
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
 				DB.addPumpLog('watering pump','ON')
 				pump_on()
+		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()
