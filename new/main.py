@@ -335,7 +335,7 @@ def main():
 					DB.addPumpLog('watering pump','ON')
 					pump_on()
 		except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
-        	GPIO.cleanup() # cleanup all GPI
+			GPIO.cleanup() # cleanup all GPI
 
 if __name__ == '__main__':
 	main()
