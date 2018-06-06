@@ -298,21 +298,21 @@ def main():
 					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 					wsp = "openweather"
 					DB.addForecast(code,weather,wsp,timeRequest)
-					
+
 		soil1 = DB.getlast_soil()
 		soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
 		print ("current soil		: "+ str(soil1))
-		print ("current weather		: "+ str(forecast.currently()))
+		print ("current weather		: ")
 		print ("last rain		: "+ str(DB.getlast_rain()))
 
 		print ("========================")
 		print ("prediciton 2 hour ahead")
 		print ("time +2 		: " +time.strftime("%I %M %p",time.localtime(t2)))
 		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	: %s " % (by_hour.summary))
-		print ("last rain		: "+ str(DB.getlast_rain()))
+		print ("forecast weather	:  " )
+		print ("chance of rain		: "+ str(DB.getlast_rain()))
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
