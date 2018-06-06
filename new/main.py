@@ -213,7 +213,7 @@ def getrain():
 	return rain
 
 def decision():
-	last_soil = int(DB.getlast_soil())
+	last_soil = getsoil())
 	treshold = 400
 	if last_soil < treshold :
 		pump_on()
@@ -292,7 +292,10 @@ def main():
 		soil2 = DB.getlast_soil2()	
 		print ("========================")
 		print (timeRequest)
-		print ("current soil		: "+ str(DB.getlast_soil()))
+		print ("current soil		: "+ str(soil))
+		print ("current rain		: "+ str(rain))
+		print ("temperature		: {}"..format(temp))
+		print ("humidity		: {}"..format(hum))
 		print ("current weather		: ")
 		print ("last rain		: "+ str(DB.getlast_rain()))
 		decision()
