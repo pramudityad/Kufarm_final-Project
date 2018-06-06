@@ -256,7 +256,7 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%30.0==0):
 			requestData()
 			cekOwCode()
 			DB.logdht(temp, hum)
@@ -298,7 +298,7 @@ def main():
 			df = df.reset_index()
 			recentreadings = df
 			recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-			if(now.minute==0 and now.second==0):
+			if(now.minute==0):
 				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 				if(now.hour == 0):
 						DB.addSunTime([strTerbit,strTerbenam])

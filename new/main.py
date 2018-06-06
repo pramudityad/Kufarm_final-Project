@@ -313,10 +313,10 @@ def main():
 		decision()
 		time.sleep(sampleFreq)
 		try:
-			if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+			if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
 				cekOwCode()
-				if(now.minute==0 and now.second==0):
+				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
