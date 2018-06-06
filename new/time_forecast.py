@@ -34,13 +34,6 @@ print ("last rain		: "+ str(DB.getlast_rain()))
 decision()
 
 t1 = t0 + 60*60
-""" print ("========================")
-print ("prediciton 1 hour ahead")
-print ("time +1 		: " +time.strftime("%I %M %p",time.localtime(t1)))
-print ("prediciton soil		: "+ str(soil2))
-print ("forecast weather	: %s " % (by_hour.summary))
-print ("last rain		: "+ str(DB.getlast_rain())) """
-
 t2 = t1 + 60*60
 by_hour = forecast.hourly()
 print ("========================")
