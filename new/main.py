@@ -8,7 +8,7 @@ import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather3 as OW
-import wunderground3 as WU 
+#import wunderground3 as WU 
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
@@ -168,6 +168,13 @@ def cekOwCode():
 			# print str(i) + " : " + str(ow_code_temp)
 	#return ow_code, ow_desc
 
+def getpop(a):
+	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
+	result = urllib.request.urlopen(url).read()
+	data   = json.loads(result.decode('utf-8'))
+	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
+	return pop
+
 def init_output(pinwatering):
 	GPIO.setup(pinwatering, GPIO.OUT)
 	GPIO.output(pinwatering, GPIO.LOW)
@@ -225,6 +232,8 @@ while (requestStatus == False):
 		requestData()
 		time.sleep(1)
 cekOwCode()
+x=getpop(0)
+y=getpop(1)
 
 def main():
 	sampleFreq = 60
@@ -244,25 +253,7 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-			requestData()
-			cekOwCode()
-			if(now.minute==0 and now.second==0):
-				timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-				if(now.hour == 0):
-						DB.addSunTime([strTerbit,strTerbenam])
-				if(now.hour%3==0):
-					code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-					weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-					wsp = "openweather"
-					DB.addForecast(code,weather,wsp,timeRequest)
-
-		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
-			if(NK>65):
-				DB.addPumpLog('watering pump','ON')
-				pump_on()
-
+		
 		print("retriving data")
 		DB.logdht(temp, hum)
 		DB.logsoil(soil)
@@ -313,18 +304,38 @@ def main():
 		print ("current rain		: "+ str(rain))
 		print ("temperature		: {}".format(temp))
 		print ("humidity		: {}".format(hum))
-		print ("current weather		: ")
+		print ("current weather		: " + ow_desc)
 		print ("last rain		: "+ str(DB.getlast_rain()))
 		print ("========================")
 		print ("-prediction-")
+		print ("Chance of rain rain today : {}".format(x))
+		print ("Chance of rain rain tonight: {}".format(y))
 		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	:  ")
-		print ("chance of rain		: " )
 		decision()
 
 		time.sleep(sampleFreq)
 
-		
+		try:
+			if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+				requestData()
+				cekOwCode()
+				if(now.minute==0 and now.second==0):
+					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+					if(now.hour == 0):
+							DB.addSunTime([strTerbit,strTerbenam])
+					if(now.hour%3==0):
+						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+						wsp = "openweather"
+						DB.addForecast(code,weather,wsp,timeRequest)
+
+			if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+				NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
+				if(NK>65):
+					DB.addPumpLog('watering pump','ON')
+					pump_on()
+		except KeyboardInterrupt: # If CTRL+C is pressed, exit cleanly:
+        	GPIO.cleanup() # cleanup all GPI
 
 if __name__ == '__main__':
 	main()
