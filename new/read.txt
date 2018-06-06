@@ -25,4 +25,4 @@ sudo apt-get install libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev
 sudo apt-get install libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev
 sudo apt-get install python3-pip
 
-https://asciinema.org/a/QqRSFzz9i1ngSFuVawm9YGAec
+https://asciinema.org/a/Z40fIr29yMPG9FNqe2fIvCJNC
