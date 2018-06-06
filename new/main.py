@@ -213,6 +213,14 @@ def getrain():
 	rain = 1024-rain
 	return rain
 
+def decision():
+	last_soil = DB.getlast_soil()
+	treshold = 400
+	if last_soil < treshold :
+		pump_on()
+	else:
+		print('not_watering')
+
 print ("Start")
 while (requestStatus == False):
 		requestData()
@@ -302,14 +310,15 @@ def main():
 		soil1 = DB.getlast_soil()
 		soil2 = DB.getlast_soil2()	
 		print ("========================")
-		print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
+		print (timeRequest)
 		print ("current soil		: "+ str(soil1))
 		print ("current weather		: ")
 		print ("last rain		: "+ str(DB.getlast_rain()))
+		decision()
 
 		print ("========================")
 		print ("prediciton 2 hour ahead")
-		print ("time +2 		: " +time.strftime("%I %M %p",time.localtime(t2)))
+		print ("time +2 			: " )
 		print ("prediciton soil		: "+ str(soil2))
 		print ("forecast weather	:  " )
 		print ("chance of rain		: "+ str(DB.getlast_rain()))

@@ -7,7 +7,7 @@ def getpop(a):
 	result = urllib.request.urlopen(url).read()
 	data   = json.loads(result.decode('utf-8'))
 	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
-	#return pop
+	return pop
 
 	#predict_forecast(pop):
 	#wunderground
