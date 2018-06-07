@@ -255,12 +255,7 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-<<<<<<< HEAD
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
-=======
-
 		if(now.hour%1==0 and now.minute%30.0==0):
->>>>>>> d3a1d3331ad6de2403f5c5c0d3d1a6a1273d2f49
 			requestData()
 			cekOwCode()
 			DB.logdht(temp, hum)
