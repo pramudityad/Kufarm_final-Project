@@ -76,8 +76,8 @@ def calculate(soil,rain,temp,hum,forecast):
 		sejuk = (temp - u_dingin) * 1.0 / (l_sejuk - u_dingin);
 	elif temp >= l_sejuk and temp < u_sejuk:
 		sejuk = 1;
-	elif temp >= u_sejuk and temp <= l_basah:
-		sejuk = (temp * (-1.0) + l_basah) / (l_basah - u_sejuk);
+	elif temp >= u_sejuk and temp <= l_panas:
+		sejuk = (temp * (-1.0) + l_panas) / (l_panas - u_sejuk);
 		panas = (temp - u_sejuk) * 1.0 / (l_panas - u_sejuk);
 	elif temp >= l_panas:
 		panas = 1;
@@ -117,14 +117,14 @@ def calculate(soil,rain,temp,hum,forecast):
 	print("SEDANG : "+str(sedang));
 	print("KERING : "+str(kering));
 
-	print("-RAIN-");
+	print("-RAIN = %d-" % (rain));
 	print("HUJAN  	 : "+str(hujan));
 	print("TDK_HUJAN : "+str(tdk_hujan));
 
 	print("-TEMP = %d " % (temp)+"C-");
-	print("DINGIN  : "+str(basah));
-	print("SEJUK : "+str(sedang));
-	print("PANAS : "+str(kering));
+	print("DINGIN  : "+str(dingin));
+	print("SEJUK : "+str(sejuk));
+	print("PANAS : "+str(panas));
 
 	print("-HUM = %d-" % (hum));
 	print("LEMBAB  	 : "+str(lembab));

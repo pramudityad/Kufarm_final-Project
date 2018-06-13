@@ -329,8 +329,9 @@ def main():
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
-				DB.addPumpLog('watering pump','ON')
 				pump_on()
+			else:
+				pass
 		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()
