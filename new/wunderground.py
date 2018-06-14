@@ -16,6 +16,7 @@ print ("Chance of rain rain tonight: {}".format(y))
 
 if int(x) >=9:
 	print ("Decent Chance of rain today")
+	print ("no need watering")
 elif int(y)>=9:
 	print ("Decent Chande of rain tonight")
 else:

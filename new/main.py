@@ -35,6 +35,7 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
+treshold = 400
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -226,13 +227,17 @@ def getrain():
 	return rain
 
 def decision():
+	global treshold
 	last_soil = getsoil()
-	treshold = 400
 	if last_soil < treshold :
 		pump_on()
 		print("watering")
 	else:
 		print('not_watering')
+
+def decision2():
+	global treshold
+	if int(x) >=9 and 
 
 print ("Start")
 while (requestStatus == False):

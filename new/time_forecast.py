@@ -1,39 +1,37 @@
-import time
-import forecastio
+import time, datetime
 import database_sqlite as DB
-import wunderground as WU
-soil = 300
-wu_desc = 'Sunny'
-watering = 'watering'
-not_watering = 'no need water'
+import urllib.request
+import json
+treshold = 370;
+soil2 = 350
 
-api_key = "77eb864c8ec94685a5834e714c840e03"
-lat = DB.getLatitude()
-lng = DB.getLongitude()
+def getpop(a):
+	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
+	result = urllib.request.urlopen(url).read()
+	data   = json.loads(result.decode('utf-8'))
+	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
+	return pop
 
-forecast = forecastio.load_forecast(api_key, lat, lng)
-soil1 = DB.getlast_soil()
-soil2 = DB.getlast_soil2()
+x = 8
+y = 10
 
 def decision():
-	last_soil = DB.getlast_soil()
-	treshold = 350
+	global treshold
+	last_soil = 431
+	print("keputusan saat ini")
 	if last_soil < treshold :
-		print('watering')
+		print('Disiram')
 	else:
-		print('not_watering')
+		print('Tidak Disiram')
 
-def decision_future():
+def decision2():
+	global treshold
 	global x
 	global y
-	soil2 = DB.getlast_soil2()
+	global soil2
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
-	treshold = 350
-
-	x = WU.getpop(0)
-	y = WU.getpop(1)
 
 	if int(x) >=9:
 		rain_today = 1
@@ -43,34 +41,39 @@ def decision_future():
 		not_rain = 1
 
 	if soil2 < treshold and rain_today:
-		pass
+		print("tidak disiram, mungkin hari ini akan hujan")
 	if soil2 < treshold and rain_tonight:
-		pass
-	if soil2 > treshold:
-		pass	
+		print("tidak disiram, mungkin nanti malam akan hujan")
 	if soil2 < treshold and not_rain:
-		print("watering")	
+		print("watering")
+	else:
+		decision()
 		
 def main():
-	while True:
-		t0 = time.time()
-		t1 = t0 + 60*60
-		t2 = t1 + 60*60
-		by_hour = forecast.hourly()
+	global x
+	global y
+	global soil2
+	#while True:
+	now = datetime.datetime.now()
+	timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
+	t0 = time.time()
+	t1 = t0 + 60*60
+	t2 = t1 + 60*60
 
-		print ("========================")
-		print (timeRequest)
-		print ("current soil		: ")
-		print ("current rain		: ")
-		print ("temperature		: ")
-		print ("humidity		: ")
-		print ("current weather		: ")
-		print ("last rain		: ")
-		print ("========================")
-		print ("-prediction-")
-		print ("prediciton soil		: "+ str(soil2))
-		print ("forecast weather	:  " )
-		print ("chance of rain		: "+ str(DB.getlast_rain()))
+	print ("========================")
+	print (timeRequest)
+	print ("current soil		: ")
+	print ("current rain		: ")
+	print ("temperature		: ")
+	print ("humidity		: ")
+	print ("current weather		: ")
+	print ("last rain		: ")
+	print ("========================")
+	print ("-prediction-")
+	print ("Chance of rain rain today : {}".format(x) +"%")
+	print ("Chance of rain rain tonight: {}".format(y) +"%")
+	print ("prediciton soil		: "+ str(soil2))
+	decision2()
 
 if __name__ == '__main__':
 	main()
