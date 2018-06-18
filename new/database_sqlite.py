@@ -317,3 +317,10 @@ def freqSample():
 	freq = tstamp1-tstamp0
 	freq = int(round(freq.total_seconds()/60))
 	return (freq)
+
+def log_pump():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	curs.execute("SELECT * FROM pump")
+	pumplog = curs.fetchall()
+	return pumplog

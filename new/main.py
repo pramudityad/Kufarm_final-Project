@@ -10,7 +10,6 @@ import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather3 as OW
-#import wunderground3 as WU 
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
@@ -35,7 +34,11 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
-treshold = 400
+treshold 		= 400;
+last_soil 		= getsoil();
+soil2 			= DB.getlast_soil2();
+soil  			= getsoil();
+
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -45,6 +48,13 @@ ow_desc = 'Sunny'
 
 terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+
+def getpop(a):
+	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
+	result = urllib.request.urlopen(url).read()
+	data   = json.loads(result.decode('utf-8'))
+	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
+	return pop
 
 def requestData():
 		now = datetime.datetime.now()
@@ -175,13 +185,6 @@ def cekOwCode():
 			# print str(i) + " : " + str(ow_code_temp)
 	#return ow_code, ow_desc
 
-def getpop(a):
-	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
-	result = urllib.request.urlopen(url).read()
-	data   = json.loads(result.decode('utf-8'))
-	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
-	return pop
-
 def init_output(pinwatering):
 	GPIO.setup(pinwatering, GPIO.OUT)
 	GPIO.output(pinwatering, GPIO.LOW)
@@ -228,16 +231,41 @@ def getrain():
 
 def decision():
 	global treshold
-	last_soil = getsoil()
-	if last_soil < treshold :
+	global soil
+	print("-keputusan saat ini-")
+	if soil <= treshold :
+		print('Disiram')
 		pump_on()
-		print("watering")
 	else:
-		print('not_watering')
+		print('Tidak Disiram')
 
 def decision2():
 	global treshold
-	if int(x) >=9 and 
+	global x
+	global y
+	global soil2
+	rain_today = 0
+	rain_tonight = 0
+	not_rain    = 0
+
+	if int(x) >=10:
+		rain_today = 1
+	elif int(y)>=10:
+		rain_tonight = 1
+	else:
+		not_rain = 1
+
+	print("-keputusan-")	
+	if soil2 < treshold and rain_today:
+		print("tidak disiram, mungkin hari ini akan hujan")
+	if soil2 < treshold and rain_tonight:
+		print("tidak disiram, mungkin nanti malam akan hujan")
+	if soil2 > treshold:
+		print("tanah diprediksi tidak akan butuh air")
+	if soil2 < treshold and not_rain:
+		print("Disiram, tidak akan ada hujan")
+	else:
+		decision()
 
 print ("Start")
 while (requestStatus == False):
@@ -251,9 +279,7 @@ def main():
 	soil        = getsoil()
 	rain        = getrain()
 	prediction  = 0
-	t0 = time.time()
-	t1 = t0 + 60*60
-	t2 = t1 + 60*60
+	global soil2
 	global terbit
 	global terbenam
 	c_i = 0
@@ -315,28 +341,28 @@ def main():
 		df = df.reset_index()
 		recentreadings = df
 		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-
-		soil2 = DB.getlast_soil2()	
-		print ("========================")
+	
+		print ("=============================")
 		print (timeRequest)
-		print ("current soil		: "+ str(soil))
-		print ("current rain		: "+ str(rain))
-		print ("temperature		: {}".format(temp))
-		print ("humidity		: {}".format(hum))
-		print ("current weather		: " + ow_desc)
-		print ("last rain		: "+ str(DB.getlast_rain()))
-		print ("========================")
-		print ("-prediction-")
-		print ("Chance of rain rain today : {}".format(x))
-		print ("Chance of rain rain tonight: {}".format(y))
-		print ("prediciton soil		: "+ str(soil2))
-		decision()
+		print ("current soil			: ")
+		print ("current rain			: ")
+		print ("temperature			: ")
+		print ("humidity			: ")
+		print ("last rain			: ")
+		print ("=============================")
+		print ("-prediciton-")
+		print ("Chance of rain rain today 	: {}".format(x) +"%")
+		print ("Chance of rain rain tonight 	: {}".format(y) +"%")
+		print ("prediciton soil 		: "+ str(soil2))
+		decision2()
+
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
 				pump_on()
 			else:
-				pass
+				print('Tidak Disiram')
 		time.sleep(sampleFreq)
+
 if __name__ == '__main__':
 	main()

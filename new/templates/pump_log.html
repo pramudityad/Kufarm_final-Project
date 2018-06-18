@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>Pump Log</title>
+<style type="text/css">
+.table_titles {
+padding-right: 40px;
+padding-left: 40px;
+color: #000;
+}
+.table_titles {
+color: #FFF;
+background-color: #0000FF;
+}
+table {
+border: 2px solid #333;
+}
+body { font-family: "Trebuchet MS", Courier; }
+</style>
+</head>
+<body>
+<h1>Pump Log Kufarm</h1>
+<table border="4" cellspacing="4" cellpadding="2">
+<tr>
+<td class="table_titles">ID</td>
+<td class="table_titles">Device</td>
+<td class="table_titles">Status</td>
+<td class="table_titles">Event</td>
+</tr>
+ {% for row in pumplog %}
+        <tr>
+        {% for d in row %}
+            <td>{{ d }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

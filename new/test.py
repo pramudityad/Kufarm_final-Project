@@ -1,10 +1,10 @@
 # "test"
 #import fuzzy_v2 as fuzzy
-#import database_sqlite as DB
+import database_sqlite as DB
 #import RPi.GPIO as GPIO
 #import time, datetime
 #import hisab as hisab
-import fuzzy as fuzzy
+#import fuzzy as fuzzy
 #import math
 
 #pinwatering     = 18
@@ -28,19 +28,4 @@ def pump_on():
     GPIO.cleanup()
     DB.addPumpLog('watering pump','OFF')
  """
-def main():
-    soil = 386
-    rain = 3
-    temp = 47
-    hum = 80
-    ow_code = 2
-    
-    NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
-    print(NK)
-    if(NK>65): 
-        print("Disiram")
-    else:
-        print("Tidak Disiram")
-
-if __name__ == '__main__':
-    main()
+print(DB.log_pump())
