@@ -258,7 +258,7 @@ def lograin (rain):
 def getLastData():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY created_at DESC LIMIT 1"):
+	for row in curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT 1"):
 		time = str(row[1])
 		temp = row[2]
 		hum = row[3]
@@ -267,10 +267,12 @@ def getLastData():
 	#conn.close()
 	return time, temp, hum, soil, rain
 
-def getHistData(numSamples):
+#def getHistData(numSamples):
+def getHistData():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY created_at DESC LIMIT "+str(numSamples))
+	#curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT "+str(numSamples))
+	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT 500")
 	data = curs.fetchall()
 	dates = []
 	temps = []
@@ -282,7 +284,7 @@ def getHistData(numSamples):
 		temps.append(row[2])
 		hums.append(row[3])
 		soils.append(row[6])
-		rains.append(row[9])
+		rains.append(row[10])
 		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
 	return dates, temps, hums, soils, rains
 
@@ -304,13 +306,13 @@ def testeData(temps, hums, soils, rains):
 def maxRowsTable():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	for row in curs.execute("select COUNT(temp) from  DHT_data"):
+	for row in curs.execute("select COUNT(value) from  soil"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums, soils, rains = getHistData(3)
+	times, temps, hums, soils, rains = getHistData()
 	fmt = '%Y-%m-%d %H:%M:%S'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
@@ -324,3 +326,15 @@ def log_pump():
 	curs.execute("SELECT * FROM pump")
 	pumplog = curs.fetchall()
 	return pumplog
+
+def dateparser():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	curs.execute("SELECT * FROM soil")
+	data = curs.fetchall()
+	value_soil = []
+	timenow2 = []
+	for row in data:
+		value_soil.append(row[2])
+		timenow2.append(row[1])
+	return value_soil, timenow2

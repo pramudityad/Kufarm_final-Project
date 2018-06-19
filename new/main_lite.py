@@ -320,7 +320,7 @@ def main():
 		print ("Chance of rain rain today : {}".format(x))
 		print ("Chance of rain rain tonight: {}".format(y))
 		print ("prediciton soil		: "+ str(soil2))
-		decision()			
+		decision2()			
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):

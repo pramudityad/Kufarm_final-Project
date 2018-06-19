@@ -1,31 +1,3 @@
-# "test"
-#import fuzzy_v2 as fuzzy
-import database_sqlite as DB
-#import RPi.GPIO as GPIO
-#import time, datetime
-#import hisab as hisab
-#import fuzzy as fuzzy
-#import math
+import database_sqlite as DB 
 
-#pinwatering     = 18
-""" GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM) """
-
-#terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-#terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-
-""" def init_output(pinwatering):
-	GPIO.setup(pinwatering, GPIO.OUT)
-	GPIO.output(pinwatering, GPIO.LOW)
-	GPIO.output(pinwatering, GPIO.HIGH)
-
-def pump_on():
-    init_output(pinwatering)
-    DB.addPumpLog('watering pump','ON')
-    GPIO.output(pinwatering, GPIO.LOW)
-    time.sleep(1)
-    GPIO.output(pinwatering, GPIO.HIGH)
-    GPIO.cleanup()
-    DB.addPumpLog('watering pump','OFF')
- """
-print(DB.log_pump())
+print(DB.dateparser())
