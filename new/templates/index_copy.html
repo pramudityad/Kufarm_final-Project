@@ -1,70 +1,29 @@
 <!doctype html>
 <html>
-
 <head>
-    <title>DHT Data Sensor</title>
+    <title>Kufarm Monitoring System</title>
     <link rel="stylesheet" href='../static/style.css'/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <style>
+	<style>
 		body {
 			text-align: center;
 		}
-		#g1,
-		#g2 {
-			width: 200px;
-			height: 160px;
-			display: inline-block;
-			margin: 1em;
-		}
-    </style>
+	</style>    
 </head>
-
 <body>
-	<h1>DHT Sensor Data </h1>
-    <div id="g1"></div>
-    <div id="g2"></div>
+	<h1>Kufarm Monitoring System</h1>
     <hr>
-	<h3> Last Sensors Reading: {{ time }} ==> <a href="/"class="button">REFRESH</a></h3>	
+    	<form method="GET">
+			<h2> Last Watering: {{ time_watering }} ==> <a href="{{ url_for('pump_log') }}"class="button">Pump Log</a></h2>
+		</form>	
 	<hr>
-	<h3> HISTORICAL DATA </h3>
-		<p> Enter range of time to be retrieved in minutes (Sample Frequency: {{ freq }} minutes)
-		<form method="POST">
-			<input name="rangeTime" value= {{rangeTime}}>
-			<input type="submit">
-		</form></p>
-		<hr>
+	<h3> TREND DATA <a href="/"class="button">REFRESH</a></h3>		
 		<img src="/plot/temp" alt="Image Placeholder" width="40%">
 		<img src="/plot/rain" alt="Image Placeholder" width="40%">
-	
-	<p> @2018 Developed by MJRoBot.org</p>
-    
+    <p> @2018 Developed by kufarm</p>
+
     <script src="../static/raphael-2.1.4.min.js"></script>
     <script src="../static/justgage.js"></script>
-    <script>
-		var g1, g2;
-		document.addEventListener("DOMContentLoaded", function(event) {
-			g1 = new JustGage({
-				id: "g1",
-				value: {{temp}},
-				valueFontColor: "yellow",
-				titleFontColor: "yellow",
-				min: -10,
-				max: 50,
-				title: "Temperature",
-				label: "Celcius"
-			});
-			g2 = new JustGage({
-				id: "g2",
-				value: {{hum}},
-				valueFontColor: "yellow",
-				titleFontColor: "yellow",
-				min: 0,
-				max: 100,
-				title: "Humidity",
-				label: "%"
-			});
-		});
-    </script>
+    
 </body>
-
 </html>

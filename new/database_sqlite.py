@@ -267,12 +267,12 @@ def getLastData():
 	#conn.close()
 	return time, temp, hum, soil, rain
 
-#def getHistData(numSamples):
-def getHistData():
+def getHistData(numSamples):
+#def getHistData():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	#curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT "+str(numSamples))
-	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT 500")
+	curs.execute("SELECT * FROM DHT_data, soil, rain ORDER BY ID DESC LIMIT "+str(numSamples))
+	#curs.execute("SELECT * FROM soil")
 	data = curs.fetchall()
 	dates = []
 	temps = []
@@ -283,10 +283,10 @@ def getHistData():
 		dates.append(row[1])
 		temps.append(row[2])
 		hums.append(row[3])
-		soils.append(row[6])
+		soils.append(row[2])
 		rains.append(row[10])
 		temps, hums, soils, rains = testeData(temps, hums, soils, rains)
-	return dates, temps, hums, soils, rains
+	return temps, hums, soils, rains, dates
 
 # Test data for cleanning possible "out of range" values
 def testeData(temps, hums, soils, rains):
@@ -306,13 +306,13 @@ def testeData(temps, hums, soils, rains):
 def maxRowsTable():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	for row in curs.execute("select COUNT(value) from  soil"):
+	for row in curs.execute("select COUNT(temp) from DHT_data"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 
 # Get sample frequency in minutes
 def freqSample():
-	times, temps, hums, soils, rains = getHistData()
+	temps, hums, rains, soils, times = getHistData(5)
 	fmt = '%Y-%m-%d %H:%M:%S'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
@@ -338,3 +338,17 @@ def dateparser():
 		value_soil.append(row[2])
 		timenow2.append(row[1])
 	return value_soil, timenow2
+
+def getLastWatering():
+	time_watering = None
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "SELECT * FROM pump ORDER BY ID DESC LIMIT 1"
+	try:
+		curs.execute(sql)
+		for row in curs.fetchall():
+			time_watering = row[3]
+		conn.commit()
+	except Exception as e:
+		conn.rollback()
+	return time_watering

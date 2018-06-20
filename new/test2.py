@@ -9,7 +9,7 @@ import time, datetime
 from dateutil import parser
 
 import matplotlib
-matplotlib.use('Agg')
+#matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 
@@ -36,8 +36,9 @@ rangeTime = 100
 @app.route("/")
 def index():
 	time, temp, hum, soil, rain = DB.getLastData()
+	time_watering = DB.getLastWatering()
 	templateData = {
-	  'time'		: time,
+	  'time_watering' : time_watering,
 	  'temp'		: temp,
 	  'hum'			: hum,
 	  'soil'		: soil,
@@ -97,7 +98,7 @@ def plot_temp():
 	dates = [date2num(t) for t in timenow]
 	fig = Figure()
 	ax1 = fig.add_subplot(1, 1, 1)
-	ax1.set_title("Temperature & Humidity Trend Data")
+	ax1.set_title("Temperature & Humidity")
 
    	# Configure x-ticks
 	ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d.%m.%Y %H:%M'))
@@ -147,12 +148,12 @@ def plot_soil():
 	dates2 = [date2num(t) for t in timenow2]
 	fig = Figure()
 	ax1 = fig.add_subplot(1, 1, 1)
-	ax1.set_title("Rain Trend Data")
+	ax1.set_title("Raindrop")
 
 	ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d.%m.%Y %H:%M'))
 
 	ax1.set_ylabel("Value")
-	ax1.plot_date(dates2, value_rain, color='b')
+	ax1.plot_date(dates2, value_rain, '', color='b')
 
 	fig.autofmt_xdate(rotation=60)
 	fig.tight_layout()

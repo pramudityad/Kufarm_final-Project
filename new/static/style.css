@@ -3,6 +3,25 @@ body{
 	color: black;
 	padding:1%
 }
+
+h1 {
+    color: green;
+    font-family: verdana;
+    font-size: 190%;
+}
+
+h2 {
+    color: blue;
+    font-family: Arial;
+    font-size: 140%;
+}
+
+h3  {
+    color: grey;
+    font-family: courier;
+    font-size: 130%;
+}
+
 .button {
 	font: bold 15px Lucida Console;
 	text-decoration: none;

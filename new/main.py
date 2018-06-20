@@ -264,6 +264,7 @@ def decision2():
 		print("tanah diprediksi tidak akan butuh air")
 	if soil2 < treshold and not_rain:
 		print("Disiram, tidak akan ada hujan")
+		pump_on()
 	else:
 		decision()
 
@@ -344,11 +345,10 @@ def main():
 	
 		print ("=============================")
 		print (timeRequest)
-		print ("current soil			: ")
-		print ("current rain			: ")
-		print ("temperature			: ")
-		print ("humidity			: ")
-		print ("last rain			: ")
+		print ("current soil			: "+ str(soil))
+		print ("current rain			: "+ str(rain))
+		print ("temperature			: {}".format(temp))
+		print ("humidity			: {}".format(hum))
 		print ("=============================")
 		print ("-prediciton-")
 		print ("Chance of rain rain today 	: {}".format(x) +"%")

@@ -15,9 +15,9 @@ def getpop(a):
 	return pop
 
 x = getpop(0)
-#y = getpop(1)
+y = getpop(1)
 #x = 10
-y = 30
+#y = 30
 
 def decision():
 	global treshold

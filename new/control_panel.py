@@ -1,92 +1,172 @@
+import matplotlib.dates as mdates
+from matplotlib.dates import date2num
+from matplotlib.dates import DateFormatter
+from matplotlib import style
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
-import time, datetime
 import database_sqlite as DB
-import sqlite3
+import time, datetime
+from dateutil import parser
+
+import matplotlib
+#matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import io
 
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
-app.debug = True # Make this False if you are no longer debugging
 
 import sqlite3
-conn=sqlite3.connect('/kufarm.db')
+conn=sqlite3.connect('kufarm.db',check_same_thread=False)
 curs=conn.cursor()
 
+#initialize global variables
+global numSamples
+numSamples = DB.maxRowsTable()
+if (numSamples > 101):
+	numSamples = 100
+
+global freqSamples
+freqSamples = DB.freqSample()
+
+global rangeTime
+rangeTime = 100	
+
+# main route 
 @app.route("/")
-def hello():
-	return "Hello World!"
+def index():
+	time, temp, hum, soil, rain = DB.getLastData()
+	time_watering = DB.getLastWatering()
+	templateData = {
+	  'time_watering' : time_watering,
+	  'temp'		: temp,
+	  'hum'			: hum,
+	  'soil'		: soil,
+	  'rain'		: rain,
+	  'freq'		: freqSamples,
+	  'rangeTime'	: rangeTime
+	  #'numSamples'	: numSamples
+	}
+	return render_template('index_copy.html', **templateData)
 
-def get_records():
-	import sqlite3
-	import plotly.plotly as py #plotly library
-	import plotly.graph_objs as go
-
-	from_date_str 	= request.args.get('from',time.strftime("%Y-%m-%d 00:00")) #Get the from date value from the URL
-	to_date_str 	= request.args.get('to',time.strftime("%Y-%m-%d %H:%M"))   #Get the to date value from the URL
-	timezone 		= request.args.get('timezone','Etc/UTC');
-	range_h_form	= request.args.get('range_h','');  #This will return a string, if field range_h exists in the request
-	range_h_int 	= "nan"  #initialise this variable with not a number
-
-	print ("REQUEST:")
-	print (request.args)
+@app.route('/', methods=['POST'])
+def my_form_post():
+	global numSamples 
+	global freqSamples
+	global rangeTime
+	rangeTime = int (request.form['rangeTime'])
+	if (rangeTime < freqSamples):
+		rangeTime = freqSamples + 1
+	numSamples = rangeTime//freqSamples
+	numMaxSamples = DB.maxRowsTable()
+	if (numSamples > numMaxSamples):
+		numSamples = (numMaxSamples-1)
+	time, temp, hum, soil, rain = DB.getLastData()
 	
-	try: 
-		range_h_int	= int(range_h_form)
-	except:
-		print ("range_h_form not a number")
+	templateData = {
+	  'time'		: time,
+	  'temp'		: temp,
+	  'hum'			: hum,
+	  'soil'		: soil,
+	  'rain'		: rain,
+	  'freq'		: freqSamples,
+	  'rangeTime'	: rangeTime
+	  #'numSamples'	: numSamples
+	}
+	return render_template('index_copy.html', **templateData)
 
+#plot temp	
+@app.route('/plot/temp')
+def plot_temp():
+	c = conn.cursor()
+	now = datetime.datetime.now()
+	style.use('fivethirtyeight')
 
-	print ("Received from browser: %s, %s, %s, %s" % (from_date_str, to_date_str, timezone, range_h_int))
+	c.execute('SELECT * FROM DHT_data')
+	data = c.fetchall()
+
+	temperature = []
+	humidity = []
+	timenow = []
+
+	for row in data:
+		temperature.append(row[2])
+		humidity.append(row[3])
+		timenow.append(parser.parse(row[1]))
+
+	# Convert datetime.datetime to float days since 0001-01-01 UTC.
+	dates = [date2num(t) for t in timenow]
+	fig = Figure()
+	ax1 = fig.add_subplot(1, 1, 1)
+	ax1.set_title("Temperature & Humidity")
+
+   	# Configure x-ticks
+	ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d.%m.%Y %H:%M'))
+
+   	# Plot temperature data on left Y axis
+	ax1.set_ylabel("Temperature [°C]")
+	ax1.plot_date(dates, temperature, '-', label="Temperature", color='r')
 	
-	if not validate_date(from_date_str):			# Validate date before sending it to the DB
-		from_date_str 	= time.strftime("%Y-%m-%d 00:00")
-	if not validate_date(to_date_str):
-		to_date_str 	= time.strftime("%Y-%m-%d %H:%M")		# Validate date before sending it to the DB
-	print ('2. From: %s, to: %s, timezone: %s' % (from_date_str,to_date_str,timezone))
-	# Create datetime object so that we can convert to UTC from the browser's local time
-	from_date_obj       = datetime.datetime.strptime(from_date_str,'%Y-%m-%d %H:%M')
-	to_date_obj         = datetime.datetime.strptime(to_date_str,'%Y-%m-%d %H:%M')
+   	# Plot humidity data on right Y axis
+	ax2 = ax1.twinx()
+	ax2.set_ylabel("Humidity [%]")
+	ax2.plot_date(dates, humidity, '-', label="Humidity", color='g')
 
-	# If range_h is defined, we don't need the from and to times
-	if isinstance(range_h_int,int):	
-		arrow_time_from = arrow.utcnow().replace(hours=-range_h_int)
-		arrow_time_to   = arrow.utcnow()
-		from_date_utc   = arrow_time_from.strftime("%Y-%m-%d %H:%M")	
-		to_date_utc     = arrow_time_to.strftime("%Y-%m-%d %H:%M")
-		from_date_str   = arrow_time_from.to(timezone).strftime("%Y-%m-%d %H:%M")
-		to_date_str	    = arrow_time_to.to(timezone).strftime("%Y-%m-%d %H:%M")
-	else:
-		#Convert datetimes to UTC so we can retrieve the appropriate records from the database
-		from_date_utc   = arrow.get(from_date_obj, timezone).to('Etc/UTC').strftime("%Y-%m-%d %H:%M")	
-		to_date_utc     = arrow.get(to_date_obj, timezone).to('Etc/UTC').strftime("%Y-%m-%d %H:%M")
+   	# Format the x-axis for dates (label formatting, rotation)
+	fig.autofmt_xdate(rotation=60)
+	fig.tight_layout()
 
-	dbname = 'kufarm.db'	
-	conn 			    = sqlite3.connect(dbname)
-	curs 			    = conn.cursor()
+   	# Show grids and legends
+	ax1.grid(True)
+	ax1.legend(loc='best', framealpha=0.5)
+	ax2.legend(loc='best', framealpha=0.5)
+	ax1.plot()
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
 
-	#temp
-	curs.execute("SELECT * FROM DHT_data WHERE rDateTime BETWEEN ? AND ?", (from_date_utc.format('YYYY-MM-DD HH:mm'), to_date_utc.format('YYYY-MM-DD HH:mm')))
-	temperatures 	    = curs.fetchall()
+#plot rain
+@app.route('/plot/rain')
+def plot_soil():
+	c = conn.cursor()
+	now = datetime.datetime.now()
+	style.use('fivethirtyeight')
 
-	#hum
-	curs.execute("SELECT * FROM DHT_data WHERE rDateTime BETWEEN ? AND ?", (from_date_utc.format('YYYY-MM-DD HH:mm'), to_date_utc.format('YYYY-MM-DD HH:mm')))
-	humidities 		    = curs.fetchall()
+	c.execute('SELECT * FROM rain')
+	data = c.fetchall()
 
-	#rain
-	curs.execute("SELECT * FROM rain")
-	rains				= curs.fetchall()
+	value_rain = []
+	timenow2 = []
 
-	
-	conn.close()
+	for row in data:
+		value_rain.append(row[2])
+		timenow2.append(parser.parse(row[1]))
 
-	return [temperatures, humidities, rains, timezone, from_date_str, to_date_str]
+	dates2 = [date2num(t) for t in timenow2]
+	fig = Figure()
+	ax1 = fig.add_subplot(1, 1, 1)
+	ax1.set_title("Raindrop")
 
-def validate_date(d):
-	try:
-		datetime.datetime.strptime(d, '%Y-%m-%d %H:%M')
-		return True
-	except ValueError:
-		return False
+	ax1.xaxis.set_major_formatter(mdates.DateFormatter('%d.%m.%Y %H:%M'))
+
+	ax1.set_ylabel("Value")
+	ax1.plot_date(dates2, value_rain, '', color='b')
+
+	fig.autofmt_xdate(rotation=60)
+	fig.tight_layout()
+
+	ax1.grid(True)
+	ax1.legend(loc='best', framealpha=0.5)
+	ax1.plot()
+	canvas = FigureCanvas(fig)
+	output = io.BytesIO()
+	canvas.print_png(output)
+	response = make_response(output.getvalue())
+	response.mimetype = 'image/png'
+	return response
 
 #pump log
 @app.route("/pump_log", methods=['GET'])    
@@ -101,6 +181,7 @@ def pump_log():
 		return render_template("pump_log.html", pumplog=pumplog)	
 	except Exception as e:
 		return (str(e))
-	
+
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=8080)
+	# ------------ Execute program 
+	app.run(host='127.0.0.1', port=5050, debug=True)
