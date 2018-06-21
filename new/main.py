@@ -280,6 +280,10 @@ cekOwCode()
 def main():
 	sampleFreq = 60
 	prediction  = 0
+	global temp
+	global hum
+	global soil
+	global rain
 	global soil2
 	global terbit
 	global terbenam
