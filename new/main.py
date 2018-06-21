@@ -35,10 +35,7 @@ overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
 treshold 		= 400;
-last_soil 		= getsoil();
 soil2 			= DB.getlast_soil2();
-soil  			= getsoil();
-
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
