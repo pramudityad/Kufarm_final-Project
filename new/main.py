@@ -198,7 +198,9 @@ def pump_on():
 	DB.addPumpLog('watering pump','OFF')
 
 # get data from DHT sensor
-def getdht():   
+def getdht():
+	global temp
+	global hum   
 	Sensor = Adafruit_DHT.DHT11
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
@@ -212,6 +214,7 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
+	global soil
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -221,6 +224,7 @@ def getsoil():
 
 # get data from rain sensor
 def getrain():
+	global rain
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -275,9 +279,6 @@ cekOwCode()
 
 def main():
 	sampleFreq = 60
-	temp, hum   = getdht()
-	soil        = getsoil()
-	rain        = getrain()
 	prediction  = 0
 	global soil2
 	global terbit
