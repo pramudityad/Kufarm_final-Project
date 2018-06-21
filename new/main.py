@@ -23,6 +23,11 @@ dbname='kufarm.db'
 conn=sqlite3.connect(dbname)
 curs = conn.cursor()
 
+username = 'pramudityad'
+api_key = 'nWvNw18KoFOnL5t8BtDA'
+stream_token = 'd5axv933b0'
+py.sign_in(username, api_key)
+
 pinwatering     = 18
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
