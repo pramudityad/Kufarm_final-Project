@@ -184,4 +184,4 @@ def pump_log():
 
 if __name__ == "__main__":
 	# ------------ Execute program 
-	app.run(host='127.0.0.1', port=5050, debug=True)
+	app.run(host='192.168.10.188', port=5050, debug=False)
