@@ -1,6 +1,8 @@
 from datetime import timedelta
 from calendar import monthrange
 from statsmodels.tsa.arima_model import ARIMA
+import plotly.plotly as py #plotly library
+import plotly.graph_objs as go
 import urllib.request
 import json
 import time, datetime
