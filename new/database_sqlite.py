@@ -306,7 +306,7 @@ def testeData(temps, hums, soils, rains):
 def maxRowsTable():
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	for row in curs.execute("select COUNT(temp) from DHT_data"):
+	for row in curs.execute("select COUNT(value) from soil"):
 		maxNumberRows=row[0]
 	return maxNumberRows
 

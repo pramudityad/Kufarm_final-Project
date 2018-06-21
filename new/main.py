@@ -313,7 +313,7 @@ def main():
 			conn.commit()
 		# fetch the recent readings
 		df = pd.read_sql(
-		"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150) AS X ORDER BY created_at ASC;", con = conn)
+		"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
 
 		df['date1'] = pd.to_datetime(df['created_at']).values
 		#df['day'] = df['date1'].dt.date
@@ -342,6 +342,53 @@ def main():
 		df = df.reset_index()
 		recentreadings = df
 		recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
+
+		# plot the recent readings
+
+		X=[str(i) for i in recentreadings['created_at'].values]
+		X_rev = X[::-1]
+		y_upper = [j for j in recentreadings['upper']]
+		y_lower = [j for j in recentreadings['lower']]
+		y_lower = y_lower[::-1]
+
+		trace1 = go.Scatter(
+		x = X,
+		y = [j for j in recentreadings['value'].values],
+			name = 'Soil Status',
+			line = dict(
+			color = ('brown'),
+			width = 4)
+		)
+
+		trace2 = go.Scatter(
+		x=X,
+		y=[j for j in recentreadings['forecast'].values],
+			name = 'Soil Prediction',
+			line = dict(
+			color = ('brown'),
+			width = 4,
+			dash = 'dot')
+		)
+
+		trace3 = go.Scatter(
+		x = X+X_rev,
+		y = y_upper+y_lower,
+			fill='tozerox',
+			fillcolor='rgba(231,107,243,0.2)',
+			line=go.Line(color='transparent'),
+			showlegend=True,
+			name='Std Error'
+		)
+
+		data = [trace1, trace2, trace3]
+
+		layout = go.Layout(
+		title='Soil Tend Data & Prediciton',
+		yaxis = dict(title = 'Value')
+		)
+
+		fig = go.Figure(data=data, layout=layout)
+		plot_url = py.plot(fig, filename='soil_predict', auto_open = False)
 	
 		print ("=============================")
 		print (timeRequest)

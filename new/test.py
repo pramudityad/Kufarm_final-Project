@@ -1,5 +1,6 @@
 from statsmodels.tsa.arima_model import ARIMA
 from plotly.graph_objs import *
+import plotly.graph_objs as go
 import plotly.plotly as py
 import time, datetime
 import io
@@ -98,7 +99,7 @@ def main():
 		data = [trace1, trace2, trace3]
 
 		layout = go.Layout(
-		title='Temperature',
+		title='Soil Graph',
 		yaxis = dict(title = 'Soil Trend Data')
 		)
 
