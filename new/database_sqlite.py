@@ -21,6 +21,24 @@ def addForecast(code,weather,wsp,dataTime):
 		print(e)
 	return status;
 
+def addForecast2(am,pm,am_condition,pm_condition,wsp,dataTime):
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "INSERT INTO forecast2(am,pm,am_condition,pm_condition,wsp,date) VALUES ("+str(am)+","+str(pm)+","+str(am_condition)+","+str(pm_condition)+",'"+str(wsp)+"','"+str(dataTime)+"')"
+	try:
+		curs.execute(sql)
+		conn.commit()
+		status = True
+		#conn.close()
+		print("berhasil")
+	except Exception as e:
+		conn.rollback()
+		status = False;
+		print(e)
+	return status;
+
 def getLatitude():
 	val = 0
 	conn=sqlite3.connect(dbname)

@@ -12,6 +12,7 @@ import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
 import openweather as OW
+import wunderground as WU
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
@@ -73,13 +74,13 @@ def requestData():
 				global timeForcast;
 				global weather;
 				global code;
-				global x
-				global y
+				#global x
+				#global y
 				global requestStatus
 				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				#str_wu_data = WU.getForecast(DB.getLatitude(),DB.getLongitude());
-				x=getpop(0)
-				y=getpop(1)
+				#x=getpop(0)
+				#y=getpop(1)
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
 				longitude   = str(OW.getCityLongitude(str_ow_data));
@@ -91,6 +92,16 @@ def requestData():
 		except Exception as e:
 				requestStatus = False;
 				print ('Error Connection')
+
+def cekWUCode():
+	global am
+	global pm
+	global am_condition 
+	global pm_condition
+	am = WU.getpop(0)
+	pm = WU.getpop(1)
+	am_condition = WU.getweather(0)
+	pm_condition = WU.getweather(1)
 
 def cekOwCode():
 	print ("CEK OW CODE")
@@ -277,6 +288,7 @@ while (requestStatus == False):
 		requestData()
 		time.sleep(1)
 cekOwCode()
+cekWUCode()
 
 def main():
 	sampleFreq = 60
@@ -284,7 +296,6 @@ def main():
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
-	soil2 		= DB.getlast_soil2()
 	global terbit
 	global terbenam
 	c_i = 0
@@ -305,6 +316,12 @@ def main():
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
+							am = getpop(0)
+							pm = getpop(1)
+							am_condition = WU.getweather(0)
+							pm_condition = WU.getweather(1)
+							wsp = 'wunderground'
+							DB.addForecast2(am,pm,am_condition,pm_condition,wsp,timeRequest)
 					if(now.hour%3==0):
 						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']

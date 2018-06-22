@@ -15,3 +15,12 @@ def getweather(a):
 	data   = json.loads(result.decode('utf-8'))
 	condition = data['forecast']['txt_forecast']['forecastday'][a]['icon']
 	return condition
+
+x=getpop(0)
+print ("Chance of rain rain today : {}".format(x))
+y=getpop(1)
+print ("Chance of rain rain tonight: {}".format(y))
+am=getweather(0)
+print ("Weather Condition Today  : {}".format(am))
+pm=getweather(1)
+print ("Weather Condition tonight: {}".format(pm))
