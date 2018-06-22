@@ -17,7 +17,12 @@
 			<h2> Last Watering: {{ time_watering }} ==> <a href="{{ url_for('pump_log') }}"class="button">Pump Log</a></h2>
 		</form>	
 	<hr>
-	<h3> TREND DATA <a href="/"class="button">REFRESH</a></h3>		
+	<h3> TREND DATA <a href="/"class="button">REFRESH</a></h3>	
+	<div>
+		<a href="https://plot.ly/~pramudityad/12/?share_key=txf8K2HWYpIV5k1kANh5SZ" target="_blank" title="soil_predict" style="display: block; text-align: center;"><img src="https://plot.ly/~pramudityad/12.png?share_key=txf8K2HWYpIV5k1kANh5SZ" alt="soil_predict" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" /></a>
+		<script data-plotly="pramudityad:12" sharekey-plotly="txf8K2HWYpIV5k1kANh5SZ" src="https://plot.ly/embed.js" async></script>
+	</div>
+		
 		<img src="/plot/temp" alt="Image Placeholder" width="40%">
 		<img src="/plot/rain" alt="Image Placeholder" width="40%">
     <p> @2018 Developed by kufarm</p>

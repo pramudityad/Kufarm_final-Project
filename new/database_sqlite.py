@@ -227,7 +227,7 @@ def addPumpLog(device,status):
 # log dht sensor data on database
 def logdht (temp, hum):
 	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO DHT_data (created_at, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
@@ -237,7 +237,7 @@ def logdht (temp, hum):
 # log spi sensor data on database
 def logsoil (soil):
 	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")
@@ -247,7 +247,7 @@ def logsoil (soil):
 # log spi sensor data on database
 def lograin (rain):
 	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S')
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	curs.execute("INSERT INTO rain (created_at, value) values('"+currentTime+"', "+str(rain)+")")
