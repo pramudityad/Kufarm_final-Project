@@ -313,7 +313,7 @@ def maxRowsTable():
 # Get sample frequency in minutes
 def freqSample():
 	temps, hums, rains, soils, times = getHistData(5)
-	fmt = '%Y-%m-%d %H:%M:%S'
+	fmt = '%Y-%m-%d %H:%M'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
 	freq = tstamp1-tstamp0
