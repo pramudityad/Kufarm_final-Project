@@ -42,7 +42,7 @@ overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
 treshold 		= 400;
-soil2 			= DB.getlast_soil2();
+
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -247,10 +247,10 @@ def decision2():
 	global treshold
 	global x
 	global y
-	global soil2
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
+	soil2 = DB.getlast_soil2();
 
 	if int(x) >=10:
 		rain_today = 1
@@ -284,7 +284,7 @@ def main():
 	temp, hum   = getdht()
 	soil        = getsoil()
 	rain        = getrain()
-	global soil2
+	soil2 		= DB.getlast_soil2()
 	global terbit
 	global terbenam
 	c_i = 0
