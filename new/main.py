@@ -11,7 +11,7 @@ import math
 import database_sqlite as DB
 import hisab as hisab
 import fuzzy as fuzzy
-import openweather3 as OW
+import openweather as OW
 import sqlite3
 import Adafruit_DHT
 import Adafruit_GPIO.SPI as SPI
