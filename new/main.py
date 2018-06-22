@@ -94,6 +94,7 @@ def requestData():
 				print ('Error Connection')
 
 def cekWUCode():
+	print ("CEK WU CODE")
 	global am
 	global pm
 	global am_condition 
@@ -315,6 +316,7 @@ def main():
 		if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
 				cekOwCode()
+				cekWUCode()
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
