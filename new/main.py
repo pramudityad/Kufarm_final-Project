@@ -256,16 +256,16 @@ def decision():
 
 def decision2():
 	global treshold
-	global x
-	global y
+	global am
+	global pm
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
 	soil2 = DB.getlast_soil2();
 
-	if int(x) >=10:
+	if int(am) >=10:
 		rain_today = 1
-	elif int(y)>=10:
+	elif int(pm)>=10:
 		rain_tonight = 1
 	else:
 		not_rain = 1
@@ -287,8 +287,9 @@ print ("Start")
 while (requestStatus == False):
 		requestData()
 		time.sleep(1)
-cekOwCode()
 cekWUCode()
+cekOwCode()
+
 
 def main():
 	sampleFreq = 60
