@@ -298,6 +298,8 @@ def main():
 	rain        = getrain()
 	global terbit
 	global terbenam
+	global am
+	global pm
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
@@ -316,8 +318,8 @@ def main():
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
-							am = getpop(0)
-							pm = getpop(1)
+							am = WU.getpop(0)
+							pm = WU.getpop(1)
 							am_condition = WU.getweather(0)
 							pm_condition = WU.getweather(1)
 							wsp = 'wunderground'
@@ -372,8 +374,8 @@ def main():
 		print ("humidity			: {}".format(hum))
 		print ("=============================")
 		print ("-prediciton-")
-		print ("Chance of rain rain today 	: {}".format(x) +"%")
-		print ("Chance of rain rain tonight 	: {}".format(y) +"%")
+		print ("Chance of rain rain today 	: {}".format(am) +"%")
+		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
 		print ("prediciton soil 		: "+ str(prediction))
 		decision2()
 

@@ -26,7 +26,7 @@ def addForecast2(am,pm,am_condition,pm_condition,wsp,dataTime):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "INSERT INTO forecast2(am,pm,am_condition,pm_condition,wsp,date) VALUES ("+str(am)+","+str(pm)+","+str(am_condition)+","+str(pm_condition)+",'"+str(wsp)+"','"+str(dataTime)+"')"
+	sql = "INSERT INTO forecast2(am,pm,am_condition,pm_condition,wsp,date) VALUES ("+str(am)+","+str(pm)+",'"+str(am_condition)+"','"+str(pm_condition)+"','"+str(wsp)+"','"+str(dataTime)+"')"
 	try:
 		curs.execute(sql)
 		conn.commit()
