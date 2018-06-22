@@ -404,7 +404,7 @@ def main():
 		print ("-prediciton-")
 		print ("Chance of rain rain today 	: {}".format(x) +"%")
 		print ("Chance of rain rain tonight 	: {}".format(y) +"%")
-		print ("prediciton soil 		: "+ str(soil2))
+		print ("prediciton soil 		: "+ str(prediction))
 		decision2()
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
