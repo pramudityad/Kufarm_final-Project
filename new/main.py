@@ -317,7 +317,7 @@ def main():
 			conn.commit()
 		# fetch the recent readings
 		df = pd.read_sql(
-		"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*60) AS X ORDER BY created_at ASC;", con = conn)
+		"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 200) AS X ORDER BY created_at ASC;", con = conn)
 
 		df['date1'] = pd.to_datetime(df['created_at']).values
 		#df['day'] = df['date1'].dt.date
