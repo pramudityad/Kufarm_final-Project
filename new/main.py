@@ -247,9 +247,8 @@ def getrain():
 
 def decision():
 	global treshold
-	soil = getsoil()
 	print("-keputusan saat ini-")
-	if soil <= treshold :
+	if getsoil() <= treshold :
 		print('Disiram')
 		pump_on()
 	else:
