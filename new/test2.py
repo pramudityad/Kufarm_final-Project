@@ -4,6 +4,7 @@ from matplotlib.dates import DateFormatter
 from matplotlib import style
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+from statsmodels.tsa.arima_model import ARIMA
 import database_sqlite as DB
 import time, datetime
 import pandas as pd
@@ -47,10 +48,10 @@ def index():
 	df['upper'] = df['value']
 	df['lower'] = df['value']
 
-	#model = ARIMA(df['value'], order=(5,1,0))
-	#model_fit = model.fit(disp=0)
-	#forecast = model_fit.forecast(5)
-	#prediction = round(forecast[0][0],2)
+	model = ARIMA(df['value'], order=(5,1,0))
+	model_fit = model.fit(disp=0)
+	forecast = model_fit.forecast(5)
+	prediction = round(forecast[0][0],2)
 	t0 = df['date1'][-1]
 	new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
 	new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
