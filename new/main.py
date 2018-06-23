@@ -291,12 +291,11 @@ while (requestStatus == False):
 cekWUCode()
 cekOwCode()
 
-
 def main():
 	sampleFreq = 60
 	prediction  = 0
 	temp, hum   = getdht()
-	soil        = getsoil()
+	#soil        = getsoil()
 	rain        = getrain()
 	global terbit
 	global terbenam
@@ -310,9 +309,9 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))		
 		print("retriving data")
-		DB.logdht(temp, hum)
-		DB.logsoil(soil)
-		DB.lograin(rain)
+		DB.logsoil(getsoil())
+		DB.lograin(getrain())
+		DB.logdht(temp, hum)	
 		if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
 				cekOwCode()
@@ -372,7 +371,7 @@ def main():
 	
 		print ("=============================")
 		print (timeRequest)
-		print ("current soil			: "+ str(soil))
+		print ("current soil			: "+ str(getsoil()))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
