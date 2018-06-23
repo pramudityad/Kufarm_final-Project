@@ -380,7 +380,7 @@ def main():
 		print ("-prediciton-")
 		print ("Chance of rain rain today 	: {}".format(am) +"%")
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
-		print ("prediciton soil 		: "+ str(prediction))
+		print ("prediciton soil 		: "+ str(DB.getlast_soil2()))
 		decision2()
 
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
