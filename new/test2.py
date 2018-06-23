@@ -1,4 +1,6 @@
 import matplotlib.dates as mdates
+import plotly.graph_objs as go
+import plotly.plotly as py
 from matplotlib.dates import date2num
 from matplotlib.dates import DateFormatter
 from matplotlib import style
@@ -20,6 +22,11 @@ app = Flask(__name__)
 import sqlite3
 conn=sqlite3.connect('kufarm.db',check_same_thread=False)
 curs=conn.cursor()
+
+username = 'pramudityad'
+api_key = 'nWvNw18KoFOnL5t8BtDA'
+stream_token = 'd5axv933b0'
+py.sign_in(username, api_key)
 
 #initialize global variables
 global numSamples

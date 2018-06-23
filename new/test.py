@@ -16,7 +16,6 @@ curs = conn.cursor()
 username = 'pramudityad'
 api_key = 'nWvNw18KoFOnL5t8BtDA'
 stream_token = 'd5axv933b0'
-
 py.sign_in(username, api_key)
 
 def main():
