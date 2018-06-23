@@ -6,6 +6,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import database_sqlite as DB
 import time, datetime
+import pandas as pd
 from dateutil import parser
 
 import matplotlib
