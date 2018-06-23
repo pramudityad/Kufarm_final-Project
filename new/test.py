@@ -93,7 +93,7 @@ def main():
 		    fillcolor='rgba(231,107,243,0.2)',
 		    line=go.Line(color='transparent'),
 		    showlegend=True,
-		    name='Std Error'
+		    name='Confidence Interval'
 		)
 
 		data = [trace1, trace2, trace3]

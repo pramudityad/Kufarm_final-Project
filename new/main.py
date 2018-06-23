@@ -295,7 +295,7 @@ def main():
 	prediction  = 0
 	temp, hum   = getdht()
 	#soil        = getsoil()
-	rain        = getrain()
+	#rain        = getrain()
 	global terbit
 	global terbenam
 	global am
@@ -325,8 +325,8 @@ def main():
 				"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
 
 				df['date1'] = pd.to_datetime(df['created_at']).values
-				#df['day'] = df['date1'].dt.date
-				#df['time'] = df['date1'].dt.time
+				df['day'] = df['date1'].dt.date
+				df['time'] = df['date1'].dt.time
 				df.index = df.date1
 				df.index = pd.DatetimeIndex(df.index)
 				df = df.drop('forecast',axis=1)
@@ -343,10 +343,10 @@ def main():
 				df2 = pd.DataFrame(columns=['created_at','value','forecast'])
 				df2.date = new_dates1
 				df2.forecast = forecast[0]
-				df2['upper'] = forecast[0]+forecast[1] #std error
-				df2['lower'] = forecast[0]-forecast[1] #std error
-				# df2['upper'] = forecast[2][:,1] #95% confidence interval
-				# df2['lower'] = forecast[2][:,0] #95% confidence interval
+				#df2['upper'] = forecast[0]+forecast[1] #std error
+				#df2['lower'] = forecast[0]-forecast[1] #std error
+				df2['upper'] = forecast[2][:,1] #95% confidence interval
+				df2['lower'] = forecast[2][:,0] #95% confidence interval
 				df = df.append(df2)
 				df = df.reset_index()
 				recentreadings = df
@@ -371,7 +371,7 @@ def main():
 		print ("=============================")
 		print (timeRequest)
 		print ("current soil			: "+ str(getsoil()))
-		print ("current rain			: "+ str(rain))
+		print ("current rain			: "+ str(getrain()))
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
 		print ("=============================")
