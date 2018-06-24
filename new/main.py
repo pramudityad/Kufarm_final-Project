@@ -42,7 +42,11 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
+<<<<<<< HEAD
 treshold 		= 330;
+=======
+treshold 		= 300;
+>>>>>>> 5d50d301d5833959822bdb2ddb0cc619eb12be3d
 
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
