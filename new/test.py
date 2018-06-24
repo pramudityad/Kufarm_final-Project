@@ -276,19 +276,17 @@ def decision2():
 	else:
 		decision()
 
-print ("Start")
-while (requestStatus == False):
-		requestData()
-		time.sleep(1)
-cekWUCode()
-cekOwCode()
+#print ("Start")
+#while (requestStatus == False):
+		#requestData()
+		#time.sleep(1)
+#cekWUCode()
+#cekOwCode()
 
 def main():
 	sampleFreq = 60
 	prediction  = 0
 	temp, hum   = getdht()
-	#soil        = getsoil()
-	#rain        = getrain()
 	global terbit
 	global terbenam
 	global am

@@ -12,9 +12,7 @@ import database_sqlite as DB
 import time, datetime
 import pandas as pd
 import test as script
-
 import matplotlib
-#matplotlib.use('Agg')
 import io
 
 from flask import Flask, render_template, send_file, make_response, request
