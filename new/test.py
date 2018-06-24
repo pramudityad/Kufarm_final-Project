@@ -383,3 +383,4 @@ def main():
 				print('Tidak Disiram')
 		time.sleep(sampleFreq)
 
+main()
