@@ -11,7 +11,8 @@ from dateutil import parser
 import database_sqlite as DB
 import time, datetime
 import pandas as pd
-import test as script
+#import test as script
+from test import main
 import matplotlib
 import io
 
@@ -42,8 +43,9 @@ rangeTime = 100
 # run main.py
 @app.route("/run-script")
 def run_main():
-	response = script.main()
-	return response()
+	#response = script.main()
+	#return response()
+	return main()
 
 # main route 
 @app.route("/")
