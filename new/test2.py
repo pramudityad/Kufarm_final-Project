@@ -44,7 +44,7 @@ rangeTime = 100
 @app.route("/")
 def index():
 	df = pd.read_sql(
-	"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 150) AS X ORDER BY created_at ASC;", con = conn)
+	"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
 
 	df['date1'] = pd.to_datetime(df['created_at']).values
 	df['day'] = df['date1'].dt.date
@@ -65,10 +65,10 @@ def index():
 	df2 = pd.DataFrame(columns=['value','created_at','forecast'])
 	df2.date = new_dates1
 	df2.forecast = forecast[0]
-	#df2['upper'] = forecast[0]+forecast[1] #std error
-	#df2['lower'] = forecast[0]-forecast[1] #std error
-	df2['upper'] = forecast[2][:,1] #95% confidence interval
-	df2['lower'] = forecast[2][:,0] #95% confidence interval
+	df2['upper'] = forecast[0]+forecast[1] #std error
+	df2['lower'] = forecast[0]-forecast[1] #std error
+	#df2['upper'] = forecast[2][:,1] #95% confidence interval
+	#df2['lower'] = forecast[2][:,0] #95% confidence interval
 	df = df.append(df2)
 	df = df.reset_index()
 	recentreadings = df
