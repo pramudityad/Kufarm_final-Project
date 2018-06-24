@@ -84,18 +84,18 @@ def index():
 	trace1 = go.Scatter(
 	x=X,
 	y=[j for j in recentreadings['value'].values],
-		name = 'Outdoor Temperature',
+		name = 'Soil Value',
 		line = dict(
-		color = ('rgb(205, 12, 24)'),
+		color = ('rgb(188, 93, 15)'),
 		width = 4)
 	)
 
 	trace2 = go.Scatter(
 	x=X,
 	y=[j for j in recentreadings['forecast'].values],
-		name = 'ARIMA Forecasted Temperature',
+		name = 'Soil Prediction',
 		line = dict(
-		color = ('rgb(205, 12, 24)'),
+		color = ('rgb(188, 93, 15)'),
 		width = 4,
 		dash = 'dot')
 	)
@@ -113,7 +113,7 @@ def index():
 	data = [trace1, trace2, trace3]
 
 	layout = go.Layout(
-	title='Soil Graph',
+	title='Soil Trend Data & Prediction',
 	yaxis = dict(title = 'Soil Trend Data')
 	)
 
