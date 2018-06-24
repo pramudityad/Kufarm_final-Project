@@ -355,6 +355,7 @@ def main():
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
+							time.sleep(1)
 							DB.addSunTime([strTerbit,strTerbenam])
 							am = WU.getpop(0)
 							pm = WU.getpop(1)
