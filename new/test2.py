@@ -11,7 +11,7 @@ from dateutil import parser
 import database_sqlite as DB
 import time, datetime
 import pandas as pd
-from test import main
+import test as script
 
 import matplotlib
 #matplotlib.use('Agg')
@@ -42,9 +42,10 @@ global rangeTime
 rangeTime = 100	
 
 # run main.py
-@app.route("/run-main")
+@app.route("/run-script")
 def run_main():
-	return main()
+	response = script.main()
+	return response()
 
 # main route 
 @app.route("/")
@@ -276,4 +277,4 @@ def pump_log():
 
 if __name__ == "__main__":
 	# ------------ Execute program 
-	app.run(host='192.168.10.188', port=5050, debug=False)
+	app.run(host='192.168.10.188', port=5050, debug=True)
