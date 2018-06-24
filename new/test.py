@@ -276,12 +276,12 @@ def decision2():
 	else:
 		decision()
 
-#print ("Start")
-#while (requestStatus == False):
-		#requestData()
-		#time.sleep(1)
-#cekWUCode()
-#cekOwCode()
+print ("Start")
+while (requestStatus == False):
+		requestData()
+		time.sleep(1)
+cekWUCode()
+cekOwCode()
 
 def main():
 	sampleFreq = 60
@@ -383,5 +383,3 @@ def main():
 				print('Tidak Disiram')
 		time.sleep(sampleFreq)
 
-if __name__ == '__main__':
-	main()
