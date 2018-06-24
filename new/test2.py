@@ -7,10 +7,11 @@ from matplotlib import style
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from statsmodels.tsa.arima_model import ARIMA
+from dateutil import parser
 import database_sqlite as DB
 import time, datetime
 import pandas as pd
-from dateutil import parser
+from test import main
 
 import matplotlib
 #matplotlib.use('Agg')
@@ -39,6 +40,11 @@ freqSamples = DB.freqSample()
 
 global rangeTime
 rangeTime = 100	
+
+# run main.py
+@app.route("/run-main")
+def run_main():
+	return main()
 
 # main route 
 @app.route("/")

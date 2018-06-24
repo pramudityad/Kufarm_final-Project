@@ -315,8 +315,9 @@ def main():
 		DB.logdht(temp, hum)	
 		if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
+				time.sleep(1)
 				cekOwCode()
-				cekWUCode()
+				cekWUCode()	
 				if prediction > 0:
 					#print (prediction)
 					new_row = [(prediction,)]
