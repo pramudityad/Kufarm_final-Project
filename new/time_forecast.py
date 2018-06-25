@@ -2,10 +2,10 @@ import time, datetime
 import database_sqlite as DB
 import urllib.request
 import json
-treshold = 400;
+treshold = 350;
 
 soil2 = 399.96
-last_soil = 402
+last_soil = 350
 
 def getpop(a):
 	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
@@ -62,7 +62,7 @@ def main():
 	global x
 	global y
 	global soil2
-	soil = 402
+	soil = 350
 	rain = 6
 	temp = 29
 	hum = 78

@@ -9,7 +9,8 @@ def getpop(a):
 	data   = json.loads(result.decode('utf-8'))
 	try:
 		pop = data['forecast']['txt_forecast']['forecastday'][a]['pop']
-	except HTTPError as e:
+	except Exception as e:
+		raise e
 		pop = "{\"status\":\"error\"}"
 	return pop
 
@@ -20,6 +21,7 @@ def getweather(a):
 	data   = json.loads(result.decode('utf-8'))
 	try:
 		condition = data['forecast']['txt_forecast']['forecastday'][a]['icon']
-	except HTTPError as e:
+	except Exception as e:
+		raise e
 		condition = "{\"status\":\"error\"}"
 	return condition
