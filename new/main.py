@@ -245,7 +245,7 @@ def decision():
 	if getsoil() <= treshold :
 		print('Disiram')
 		pump_on()
-		time.sleep(20)
+		time.sleep(120)
 	else:
 		print('Tidak Disiram')
 
@@ -275,7 +275,7 @@ def decision2():
 	if soil2 < treshold and not_rain:
 		print("Disiram, tidak akan ada hujan")
 		pump_on()
-		time.sleep(20)
+		time.sleep(120)
 	else:
 		decision()
 
@@ -291,7 +291,7 @@ def main():
 	prediction  = 0
 	temp, hum   = getdht()
 	#soil        = getsoil()
-	#rain        = getrain()
+	rain        = getrain()
 	global terbit
 	global terbenam
 	global am
@@ -306,7 +306,7 @@ def main():
 		time.sleep(1)		
 		print("retriving data")
 		DB.logsoil(getsoil())
-		DB.lograin(getrain())
+		DB.lograin(rain)
 		DB.logdht(temp, hum)	
 		if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
@@ -322,7 +322,6 @@ def main():
 					# fetch the recent readings
 					df = pd.read_sql(
 					"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
-
 					df['date1'] = pd.to_datetime(df['created_at']).values
 					df['day'] = df['date1'].dt.date
 					df['time'] = df['date1'].dt.time
@@ -331,7 +330,6 @@ def main():
 					df = df.drop('forecast',axis=1)
 					df['upper'] = df['value']
 					df['lower'] = df['value']
-
 					model = ARIMA(df['value'], order=(5,1,0))
 					model_fit = model.fit(disp=0, start_ar_lags = None)
 					forecast = model_fit.forecast(5)
@@ -352,7 +350,6 @@ def main():
 					recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
 				except :
 					pass
-				
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
@@ -368,8 +365,7 @@ def main():
 						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)
-	
+						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
 		print ("current soil			: "+ str(getsoil()))
@@ -382,7 +378,6 @@ def main():
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
 		print ("prediciton soil 		: "+ str(DB.getlast_soil2()))
 		decision2()
-
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):

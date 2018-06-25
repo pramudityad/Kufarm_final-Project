@@ -1,17 +1,9 @@
 from datetime import timedelta
 from calendar import monthrange
 from statsmodels.tsa.arima_model import ARIMA
-from matplotlib.dates import date2num
-from matplotlib.dates import DateFormatter
-from matplotlib import style
-from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
-from dateutil import parser
-import matplotlib.dates as mdates
 import plotly.plotly as py #plotly library
 import plotly.graph_objs as go
 import urllib.request
-import matplotlib
 import json
 import time, datetime
 import io
@@ -28,12 +20,14 @@ import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 import pandas as pd
 
-from flask import Flask, render_template, send_file, make_response, request
-app = Flask(__name__)
-
 dbname='kufarm.db'
 conn=sqlite3.connect(dbname)
 curs = conn.cursor()
+
+#username = 'pramudityad'
+#api_key = 'nWvNw18KoFOnL5t8BtDA'
+#stream_token = 'd5axv933b0'
+#py.sign_in(username, api_key)
 
 pinwatering     = 18
 GPIO.setwarnings(False)
@@ -59,6 +53,13 @@ ow_desc = 'Sunny'
 terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 
+def getpop(a):
+	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
+	result = urllib.request.urlopen(url).read()
+	data   = json.loads(result.decode('utf-8'))
+	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
+	return pop
+
 def requestData():
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -77,11 +78,11 @@ def requestData():
 				global am_condition;
 				global pm_condition;
 				global requestStatus;
-				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				am = WU.getpop(0)
 				pm = WU.getpop(1)
 				am_condition = WU.getweather(0)
 				pm_condition = WU.getweather(1)
+				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
 				longitude   = str(OW.getCityLongitude(str_ow_data));
@@ -244,6 +245,7 @@ def decision():
 	if getsoil() <= treshold :
 		print('Disiram')
 		pump_on()
+		time.sleep(120)
 	else:
 		print('Tidak Disiram')
 
@@ -273,6 +275,7 @@ def decision2():
 	if soil2 < treshold and not_rain:
 		print("Disiram, tidak akan ada hujan")
 		pump_on()
+		time.sleep(120)
 	else:
 		decision()
 
@@ -287,6 +290,8 @@ def main():
 	sampleFreq = 60
 	prediction  = 0
 	temp, hum   = getdht()
+	#soil        = getsoil()
+	rain        = getrain()
 	global terbit
 	global terbenam
 	global am
@@ -301,50 +306,50 @@ def main():
 		time.sleep(1)		
 		print("retriving data")
 		DB.logsoil(getsoil())
-		DB.lograin(getrain())
+		DB.lograin(rain)
 		DB.logdht(temp, hum)	
 		if(now.hour%1==0 and now.minute%30.0==0):
 				requestData()
 				time.sleep(0.5)
 				cekOwCode()
 				cekWUCode()	
-				if prediction > 0:
-					#print (prediction)
-					new_row = [(prediction,)]
-					curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-					conn.commit()
-				# fetch the recent readings
-				df = pd.read_sql(
-				"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
-
-				df['date1'] = pd.to_datetime(df['created_at']).values
-				df['day'] = df['date1'].dt.date
-				df['time'] = df['date1'].dt.time
-				df.index = df.date1
-				df.index = pd.DatetimeIndex(df.index)
-				df = df.drop('forecast',axis=1)
-				df['upper'] = df['value']
-				df['lower'] = df['value']
-
-				model = ARIMA(df['value'], order=(5,1,0))
-				model_fit = model.fit(disp=0)
-				forecast = model_fit.forecast(5)
-				prediction = round(forecast[0][0],2)
-				t0 = df['date1'][-1]
-				new_dates = [t0+datetime.timedelta(minutes = 60*i) for i in range(1,6)]
-				new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
-				df2 = pd.DataFrame(columns=['created_at','value','forecast'])
-				df2.date = new_dates1
-				df2.forecast = forecast[0]
-				#df2['upper'] = forecast[0]+forecast[1] #std error
-				#df2['lower'] = forecast[0]-forecast[1] #std error
-				df2['upper'] = forecast[2][:,1] #95% confidence interval
-				df2['lower'] = forecast[2][:,0] #95% confidence interval
-				df = df.append(df2)
-				df = df.reset_index()
-				recentreadings = df
-				recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-				
+				try:
+					if prediction > 0:
+						#print (prediction)
+						new_row = [(prediction,)]
+						curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
+						conn.commit()
+					# fetch the recent readings
+					df = pd.read_sql(
+					"SELECT * FROM (SELECT * FROM soil ORDER BY created_at DESC LIMIT 24*7) AS X ORDER BY created_at ASC;", con = conn)
+					df['date1'] = pd.to_datetime(df['created_at']).values
+					df['day'] = df['date1'].dt.date
+					df['time'] = df['date1'].dt.time
+					df.index = df.date1
+					df.index = pd.DatetimeIndex(df.index)
+					df = df.drop('forecast',axis=1)
+					df['upper'] = df['value']
+					df['lower'] = df['value']
+					model = ARIMA(df['value'], order=(5,1,0))
+					model_fit = model.fit(disp=0, start_ar_lags = None)
+					forecast = model_fit.forecast(5)
+					prediction = round(forecast[0][0],2)
+					t0 = df['date1'][-1]
+					new_dates = [t0+datetime.timedelta(minutes = 60*i) for i in range(1,6)]
+					new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
+					df2 = pd.DataFrame(columns=['created_at','value','forecast'])
+					df2.date = new_dates1
+					df2.forecast = forecast[0]
+					#df2['upper'] = forecast[0]+forecast[1] #std error
+					#df2['lower'] = forecast[0]-forecast[1] #std error
+					df2['upper'] = forecast[2][:,1] #95% confidence interval
+					df2['lower'] = forecast[2][:,0] #95% confidence interval
+					df = df.append(df2)
+					df = df.reset_index()
+					recentreadings = df
+					recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
+				except :
+					pass
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
@@ -360,8 +365,7 @@ def main():
 						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)
-	
+						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
 		print ("current soil			: "+ str(getsoil()))
@@ -374,7 +378,6 @@ def main():
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
 		print ("prediciton soil 		: "+ str(DB.getlast_soil2()))
 		decision2()
-
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
@@ -382,5 +385,3 @@ def main():
 			else:
 				print('Tidak Disiram')
 		time.sleep(sampleFreq)
-
-main()

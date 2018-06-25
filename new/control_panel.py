@@ -73,7 +73,7 @@ def index():
 	df = df.reset_index()
 	recentreadings = df
 	recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-
+	
 	# plot the recent readings
 	X=[str(i) for i in recentreadings['created_at'].values]
 	X_rev = X[::-1]
@@ -120,7 +120,8 @@ def index():
 	fig = go.Figure(data=data, layout=layout)
 
 	plot_url = py.plot(fig, filename='soil prediction', auto_open = False)
-
+	conn.close()
+	
 	time, temp, hum, soil, rain = DB.getLastData()
 	time_watering = DB.getLastWatering()
 	templateData = {
