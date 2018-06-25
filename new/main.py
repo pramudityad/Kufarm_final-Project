@@ -42,7 +42,7 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
-treshold 		= 300;
+treshold 		= 290;
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -241,11 +241,12 @@ def getrain():
 
 def decision():
 	global treshold
+	soil = getsoil()
 	print("-keputusan saat ini-")
-	if getsoil() <= treshold :
+	if soil <= treshold :
 		print('Disiram')
 		pump_on()
-		time.sleep(120)
+		time.sleep(300)
 	else:
 		print('Tidak Disiram')
 
@@ -290,7 +291,7 @@ def main():
 	sampleFreq = 60
 	prediction  = 0
 	temp, hum   = getdht()
-	#soil        = getsoil()
+	soil        = getsoil()
 	rain        = getrain()
 	global terbit
 	global terbenam
@@ -305,7 +306,7 @@ def main():
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		time.sleep(1)		
 		print("retriving data")
-		DB.logsoil(getsoil())
+		DB.logsoil(soil)
 		DB.lograin(rain)
 		DB.logdht(temp, hum)	
 		if(now.hour%1==0 and now.minute%30.0==0):
@@ -368,8 +369,8 @@ def main():
 						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
-		print ("current soil			: "+ str(getsoil()))
-		print ("current rain			: "+ str(getrain()))
+		print ("current soil			: "+ str(soil)
+		print ("current rain			: "+ str(rain)
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
 		print ("=============================")
