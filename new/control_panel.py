@@ -120,8 +120,7 @@ def index():
 	fig = go.Figure(data=data, layout=layout)
 
 	plot_url = py.plot(fig, filename='soil prediction', auto_open = False)
-	conn.close()
-	
+
 	time, temp, hum, soil, rain = DB.getLastData()
 	time_watering = DB.getLastWatering()
 	templateData = {
@@ -272,3 +271,4 @@ def pump_log():
 if __name__ == "__main__":
 	# ------------ Execute program 
 	app.run(host='192.168.10.188', port=5050, debug=False)
+	conn.close()
