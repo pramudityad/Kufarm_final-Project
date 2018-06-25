@@ -65,10 +65,10 @@ def index():
 	df2 = pd.DataFrame(columns=['value','created_at','forecast'])
 	df2.date = new_dates1
 	df2.forecast = forecast[0]
-	df2['upper'] = forecast[0]+forecast[1] #std error
-	df2['lower'] = forecast[0]-forecast[1] #std error
-	#df2['upper'] = forecast[2][:,1] #95% confidence interval
-	#df2['lower'] = forecast[2][:,0] #95% confidence interval
+	#df2['upper'] = forecast[0]+forecast[1] #std error
+	#df2['lower'] = forecast[0]-forecast[1] #std error
+	df2['upper'] = forecast[2][:,1] #95% confidence interval
+	df2['lower'] = forecast[2][:,0] #95% confidence interval
 	df = df.append(df2)
 	df = df.reset_index()
 	recentreadings = df
@@ -114,7 +114,7 @@ def index():
 
 	layout = go.Layout(
 	title='Soil Trend Data & Prediction',
-	yaxis = dict(title = 'Soil Trend Data')
+	yaxis = dict(title = 'Value')
 	)
 
 	fig = go.Figure(data=data, layout=layout)
