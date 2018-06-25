@@ -294,14 +294,10 @@ def main():
 	global pm
 	sampleFreq = 60
 	prediction  = 0
-	try:
+	while True:
 		temp, hum   = getdht()
 		soil        = getsoil()
 		rain        = getrain()
-	except :
-		pass
-
-	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
