@@ -294,10 +294,13 @@ def main():
 	global pm
 	sampleFreq = 60
 	prediction  = 0
-	temp, hum   = getdht()
-	soil        = getsoil()
-	rain        = getrain()
-	c_i = 0
+	try:
+		temp, hum   = getdht()
+		soil        = getsoil()
+		rain        = getrain()
+	except :
+		pass
+
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
