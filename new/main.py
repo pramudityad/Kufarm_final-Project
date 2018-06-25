@@ -223,23 +223,21 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
-	global soil
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	soil = mcp.read_adc(5)
 	soil = 1024-soil
-	#return soil
+	return soil
 
 # get data from rain sensor
 def getrain():
-	global rain
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	rain = mcp.read_adc(6)
 	rain = 1024-rain
-	#return rain
+	return rain
 
 def decision():
 	global treshold
@@ -290,8 +288,6 @@ cekWUCode()
 cekOwCode()
 
 def main():
-	global soil
-	global rain
 	global terbit
 	global terbenam
 	global am
