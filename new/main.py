@@ -290,17 +290,17 @@ cekWUCode()
 cekOwCode()
 
 def main():
-	sampleFreq = 60
-	prediction  = 0
-	temp, hum   = getdht()
-	#soil        = getsoil()
-	#rain        = getrain()
 	global soil
 	global rain
 	global terbit
 	global terbenam
 	global am
 	global pm
+	sampleFreq = 60
+	prediction  = 0
+	temp, hum   = getdht()
+	soil        = getsoil()
+	rain        = getrain()
 	c_i = 0
 	while True:
 		now = datetime.datetime.now()
