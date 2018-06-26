@@ -379,6 +379,7 @@ def main():
 		print ("prediciton soil 		: "+ str(DB.getlast_soil2()))
 		decision2()
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
+			print('fuzzy decision making')
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			if(NK>65):
 				pump_on()

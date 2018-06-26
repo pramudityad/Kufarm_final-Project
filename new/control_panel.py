@@ -216,7 +216,7 @@ def plot_temp():
 
 #plot rain
 @app.route('/plot/rain')
-def plot_soil():
+def plot_rain():
 	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
