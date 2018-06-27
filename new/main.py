@@ -330,8 +330,8 @@ def main():
 					df = df.drop('forecast',axis=1)
 					df['upper'] = df['value']
 					df['lower'] = df['value']
-					#model = ARIMA(df['value'], order=(5,1,0))
-					model = ARIMA(df['value'], order=(1,1,1))
+					model = ARIMA(df['value'], order=(5,1,0))
+					#model = ARIMA(df['value'], order=(1,1,1))
 					model_fit = model.fit(disp=0, start_ar_lags = None)
 					forecast = model_fit.forecast(5)
 					prediction = round(forecast[0][0],2)
