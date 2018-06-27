@@ -221,11 +221,6 @@ def getPerLiter():
 		conn.rollback()
 	return float(val);
 	
-def addpredict():
-	new_row = [(prediction,)]
-	curs.executemany("INSERT INTO soil ('forecast') VALUES (?)", new_row)
-	conn.commit()
-	
 def addPumpLog(device,status):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
@@ -248,9 +243,14 @@ def logdht (temp, hum):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO DHT_data (created_at, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))
-	conn.commit()
-	#conn.close()
+	try:
+		curs.execute("INSERT INTO DHT_data (created_at, temp, hum) values('"+currentTime+"', (?), (?))", (temp, hum))		
+		conn.commit()
+		status = True;
+	except Exception as e:
+		conn.rollback()
+		status = False;
+	return status
 
 # log spi sensor data on database
 def logsoil (soil):
@@ -258,9 +258,14 @@ def logsoil (soil):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")
-	conn.commit()
-	#conn.close()
+	try:
+		curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")		
+		conn.commit()
+		status = True;
+	except Exception as e:
+		conn.rollback()
+		status = False;
+	return status
 
 # log spi sensor data on database
 def lograin (rain):
@@ -268,9 +273,14 @@ def lograin (rain):
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	curs.execute("INSERT INTO rain (created_at, value) values('"+currentTime+"', "+str(rain)+")")
-	conn.commit()
-	#conn.close()
+	try:
+		curs.execute("INSERT INTO rain (created_at, value) values('"+currentTime+"', "+str(rain)+")")
+		conn.commit()
+		status = True;
+	except Exception as e:
+		conn.rollback()
+		status = False;
+	return status
 
 # Retrieve LAST data from database
 def getLastData():
