@@ -380,3 +380,12 @@ def getLastWatering():
 	except Exception as e:
 		conn.rollback()
 	return time_watering
+
+def meantemp():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	temp_x = conn.execute("SELECT temp FROM DHT_data")
+	temp_list = [int(a[0]) for a in temp_x]
+	average = (sum(temp_x))/len(temp_list)
+	return float(average)
+	
