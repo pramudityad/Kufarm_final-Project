@@ -283,6 +283,7 @@ cekWUCode()
 cekOwCode()
 
 def main():
+	global pump
 	global terbit
 	global terbenam
 	global am
