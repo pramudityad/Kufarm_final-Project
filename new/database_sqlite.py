@@ -101,36 +101,6 @@ def addSunTime(data):
 		status = False;
 	return status;
 
-def getPlant():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM setting WHERE parameter = 'plants_id' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row
-		conn.commit()
-		#conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
-def getPlantDetail(data):
-	val = ""
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM tanaman WHERE ID = 1 AND deleted_at IS NULL"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row
-		conn.commit()
-		#conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
 def getforecast_soil():
 	val = 0
 	conn=sqlite3.connect(dbname)
@@ -190,50 +160,21 @@ def getlast_rain():
 		conn.rollback()
 	return val
 
-def getAir(umur, id_tanaman):
-	val = {}
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT * FROM karakteristik WHERE id_tanaman = "+str(id_tanaman)+" AND umur > "+str(umur)+" AND deleted_at IS NULL ORDER BY umur ASC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val['air'] = row[3]
-			val['pupuk'] = row[4]
-		conn.commit()
-		#conn.close()
-	except Exception as e:
-		conn.rollback()
-	return val;
-
-def getPerLiter():
-	val = None
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
-	sql = "SELECT value FROM setting WHERE parameter = 'per_liter' ORDER BY ID DESC LIMIT 1"
-	try:
-		curs.execute(sql)
-		for row in curs.fetchall():
-			val = row[0]
-		conn.commit()
-		#conn.close()
-	except Exception as e:
-		conn.rollback()
-	return float(val);
-	
-def addPumpLog(device,status):
+def addDecision(decision,status,pump):
 	myTime  	= datetime.datetime.now();
 	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "INSERT INTO pump (device,status,Event) VALUES ('"+str(device)+"','"+str(status)+"','"+currentTime+"')"
+	sql = "INSERT INTO decision (decision,status,pump,Event) VALUES ('"+str(decision)+"','"+str(status)+"','"+str(pump)+"','"+currentTime+"')"
 	try:
 		curs.execute(sql)
 		conn.commit()
+		print('db ok')
 		status = True;
 		#conn.close()
 	except Exception as e:
 		conn.rollback()
+		print('db error')
 		status = False;
 	return status;
 
