@@ -296,18 +296,17 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		x = SL.adv_decision(temp,hum)
-		time.sleep(1)		
-		print("retriving data")	
-		DB.logsoil(soil)
-		DB.lograin(rain)
-		DB.logdht(temp, hum)
-		time.sleep(sampleFreq)
+		time.sleep(0.5)		
+		#time.sleep(sampleFreq)
 		if (now.hour == int(x)):
 			decision2()
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
-					requestData()
+					DB.logsoil(soil)
+					DB.lograin(rain)
+					DB.logdht(temp, hum)
 					time.sleep(0.5)
+					requestData()
 					cekOwCode()
 					cekWUCode()	
 					if(now.minute==0):
