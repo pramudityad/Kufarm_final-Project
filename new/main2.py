@@ -233,7 +233,7 @@ def getrain():
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	try:
-		rain = mcp.read_adc(5)
+		rain = mcp.read_adc(6)
 		rain = 1024-rain
 	except Exception as e:
 		raise e
@@ -283,6 +283,8 @@ cekWUCode()
 cekOwCode()
 
 def main():
+	global status
+	global pump
 	global terbit
 	global terbenam
 	global am
@@ -294,9 +296,9 @@ def main():
 		try:
 			temp, hum   = getdht()
 			soil        = getsoil()
+			rain		= getrain()
 		except :
 			pass
-		rain = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
@@ -308,10 +310,10 @@ def main():
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if (now.hour == int(x)):
+		if (now.minute == int(x)):
 			decision2()
 			decision = 'kufarm watering'
-			DB.addDecision(decision,soil,pump)
+			DB.addDecision(decision,status,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
 					time.sleep(0.5)
