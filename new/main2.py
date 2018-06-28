@@ -34,7 +34,7 @@ timePupuk     = 0;
 overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
-treshold 		= 200;
+treshold 		= 240;
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
@@ -294,10 +294,9 @@ def main():
 		try:
 			temp, hum   = getdht()
 			soil        = getsoil()
-			rain        = getrain()
-			#x = SL.adv_decision(temp,hum)
 		except :
 			pass
+		rain = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
@@ -315,7 +314,6 @@ def main():
 			DB.addDecision(decision,soil,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
-
 					time.sleep(0.5)
 					requestData()
 					cekOwCode()
@@ -346,6 +344,7 @@ def main():
 		print ("-prediciton-")
 		print ("Chance of rain rain today 	: {}".format(am) +"%")
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
+		print ("=============================")
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
 			status = NK

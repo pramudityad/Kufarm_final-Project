@@ -76,7 +76,7 @@ def adv_decision(temp,hum,):
 		waktu = '9'
 	if sejuk and lembab:
 		waktu = '10'
-	#print(waktu)
+	print ("Slot Time : " +(waktu))
 	return waktu
 
 
