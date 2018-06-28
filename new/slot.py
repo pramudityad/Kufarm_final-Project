@@ -69,11 +69,11 @@ def adv_decision(temp,hum,):
 	if panas and lembab:
 		waktu = '4'
 	if normal and normal:
-		waktu = '6'
+		waktu = '5'
 	if normal and lembab:
-		waktu = '8'
+		waktu = '7'
 	if sejuk and normal:
-		waktu = '9'
+		waktu = '59'
 	if sejuk and lembab:
 		waktu = '10'
 	print ("Slot Time : " +(waktu))
