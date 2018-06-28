@@ -361,8 +361,8 @@ def main():
 							df = df.reset_index()
 							recentreadings = df
 							recentreadings['forecast'][-6:-5] = recentreadings['value'][-6:-5]
-					except :
-						pass
+						except :
+							pass
 						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
