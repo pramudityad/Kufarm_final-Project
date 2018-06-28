@@ -287,7 +287,7 @@ def main():
 	global terbenam
 	global am
 	global pm
-	sampleFreq = 300
+	sampleFreq = 60
 	prediction  = 0
 	x = 1
 	while True:
@@ -304,17 +304,18 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		x = SL.adv_decision(temp,hum)
-		time.sleep(0.5)		
-		#time.sleep(sampleFreq)
+		time.sleep(0.5)
+		DB.logsoil(soil)
+		DB.lograin(rain)
+		DB.logdht(temp, hum)
+		time.sleep(sampleFreq)
 		if (now.hour == int(x)):
 			decision2()
 			decision = 'kufarm watering'
 			DB.addDecision(decision,soil,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
-					DB.logsoil(soil)
-					DB.lograin(rain)
-					DB.logdht(temp, hum)
+
 					time.sleep(0.5)
 					requestData()
 					cekOwCode()
