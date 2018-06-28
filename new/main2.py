@@ -194,11 +194,11 @@ def init_output(pinwatering):
 
 def pump_on():
 	init_output(pinwatering)
-	DB.addPumpLog('watering pump','ON')
+	#DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
 	time.sleep(2)
 	GPIO.output(pinwatering, GPIO.HIGH)
-	DB.addPumpLog('watering pump','OFF')
+	#DB.addPumpLog('watering pump','OFF')
 
 # get data from DHT sensor
 def getdht():  
@@ -241,33 +241,39 @@ def getrain():
 
 def decision2():
 	global treshold
+	global status
 	global am
 	global pm
+	global pump
+	pump = 'OFF'
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
 	soil = getsoil()
 
-	if int(am) >=10:
+	if int(am) >=30:
 		rain_today = 1
-	elif int(pm)>=10:
+	elif int(pm)>=30:
 		rain_tonight = 1
 	else:
 		not_rain = 1
 
 	print("-keputusan-")	
 	if soil < treshold and rain_today:
-		print("tidak disiram, mungkin hari ini akan hujan")
+		status = 1
 	if soil < treshold and rain_tonight:
-		print("tidak disiram, mungkin nanti malam akan hujan")
+		status = 2
 	if soil > treshold:
-		print("tanah tidak butuh air")
+		status = 3
 	if soil < treshold and not_rain:
-		print("Disiram, tidak akan ada hujan")
+		status = 4
 		pump_on()
+		pump = 'ON'
 		time.sleep(300)
 	else:
 		pass
+	print ("Status : " +str(status))
+	return status
 
 print ("Start")
 while (requestStatus == False):
@@ -283,11 +289,13 @@ def main():
 	global pm
 	sampleFreq = 300
 	prediction  = 0
+	x = 1
 	while True:
 		try:
 			temp, hum   = getdht()
 			soil        = getsoil()
 			rain        = getrain()
+			#x = SL.adv_decision(temp,hum)
 		except :
 			pass
 		now = datetime.datetime.now()
@@ -300,6 +308,8 @@ def main():
 		#time.sleep(sampleFreq)
 		if (now.hour == int(x)):
 			decision2()
+			decision = 'kufarm watering'
+			DB.addDecision(decision,soil,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
 					DB.logsoil(soil)
@@ -312,7 +322,6 @@ def main():
 					if(now.minute==0):
 						timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 						if(now.hour == 0):
-								time.sleep(1)
 								DB.addSunTime([strTerbit,strTerbenam])
 								am = WU.getpop(0)
 								pm = WU.getpop(1)
@@ -327,7 +336,7 @@ def main():
 							DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
-		print ("check circumstances every : "+str(x)+"hour")
+		print ("check circumstances every	: "+str(x)+" hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
@@ -337,12 +346,15 @@ def main():
 		print ("Chance of rain rain today 	: {}".format(am) +"%")
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
 		if((math.floor(terbit) == now.hour and int((terbit%1)*60) == now.minute)):
-			print('fuzzy decision making')
 			NK = fuzzy.calculate(soil,rain,temp,hum,ow_code)
+			status = NK
+			decision = 'fuzzy decision'
 			if(NK>65):
 				pump_on()
+				pump = 'ON'
 			else:
-				print('Tidak Disiram')
+				pump = 'OFF'
+			DB.addDecision(decision,status,pump)
 
 if __name__ == '__main__':
 	main()

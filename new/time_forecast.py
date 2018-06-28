@@ -2,10 +2,8 @@ import time, datetime
 import database_sqlite as DB
 import urllib.request
 import json
-treshold = 350;
-
-soil2 = 399.96
-last_soil = 350
+import fuzzy as fuzzy
+treshold = 250;
 
 def getpop(a):
 	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
@@ -14,58 +12,57 @@ def getpop(a):
 	pop    =  data['forecast']['txt_forecast']['forecastday'][a]['pop']
 	return pop
 
-x = getpop(0)
-y = getpop(1)
-#x = 10
-#y = 30
-
-def decision():
-	global treshold
-	global last_soil
-	print("-keputusan saat ini-")
-	if last_soil < treshold :
-		print('Disiram')
-	else:
-		print('Tidak Disiram')
+#am = getpop(0)
+#pm = getpop(1)
+am = 50
+pm = 35
 
 def decision2():
 	global treshold
-	global x
-	global y
-	global soil2
+	global status
+	global am
+	global pm
+	global pump
+	pump = 'OFF'
 	rain_today = 0
 	rain_tonight = 0
 	not_rain    = 0
+	soil = 200
 
-	if int(x) >=30:
+	if int(am) >=30:
 		rain_today = 1
-	elif int(y)>=30:
+	elif int(pm)>=30:
 		rain_tonight = 1
 	else:
 		not_rain = 1
 
 	print("-keputusan-")	
-	if soil2 <= treshold and rain_today:
-		print("tidak Disiram, Hari Ini Akan Hujan")
-	if soil2 <= treshold and rain_tonight:
-		print("Tidak Disiram, Nanti Malam Akan Hujan")
-	if soil2 >= treshold:
-		print("Tanah Diprediksi Tidak Akan Butuh Air")
-	if soil2 <= treshold and not_rain:
-		print("Disiram, Tidak Akan Ada Hujan")
+	if soil < treshold and rain_today:
+		status = 1
+	if soil < treshold and rain_tonight:
+		status = 2
+	if soil > treshold:
+		status = 3
+	if soil < treshold and not_rain:
+		status = 4
 		#pump_on()
-		#time.sleep(2)
+		pump = 'ON'
+		#time.sleep(300)
 	else:
-		decision()
+		pass
+	print ("Status : " +str(status))
+	return status
 		
 def main():
-	global x
-	global y
+	global am
+	global pm
 	global soil2
-	soil = 350
-	rain = 6
+	global pump
+	soil = 700
+	rain = 100
 	temp = 29
 	hum = 78
+	ow_code = 2
 	#while True:
 	now = datetime.datetime.now()
 	timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
@@ -79,10 +76,12 @@ def main():
 	print ("last rain			: "+ str(DB.getlast_rain()))
 	print ("=============================")
 	print ("-prediciton-")
-	print ("Chance of rain rain today 	: {}".format(x) +"%")
-	print ("Chance of rain rain tonight 	: {}".format(y) +"%")
-	print ("prediciton soil 		: "+ str(soil2))
+	print ("Chance of rain rain today 	: {}".format(am) +"%")
+	print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
 	decision2()
+	decision = 'kufarm decision'
+	
+	DB.addDecision(decision,status,pump)
 
 if __name__ == '__main__':
 	main()

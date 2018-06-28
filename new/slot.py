@@ -75,7 +75,7 @@ def adv_decision(temp,hum,):
 	if sejuk and normal:
 		waktu = '9'
 	if sejuk and lembab:
-		waktu = '12'
+		waktu = '10'
 	#print(waktu)
 	return waktu
 

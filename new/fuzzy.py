@@ -1,4 +1,7 @@
 def calculate(soil,rain,temp,hum,forecast):
+	global pump
+	global status
+	pump = 'OFF'
 	# START FUZZIFIKASI
 	# inisialisasi linguistik
 	#soil
@@ -403,7 +406,7 @@ def calculate(soil,rain,temp,hum,forecast):
 	i = 0;
 	mamdani_pembilang = 0;
 	mamdani_penyebut = 0;
-	mamdani = 0;
+	status = 0;
 	while count<100:
 		count += 5;
 		val = 0;
@@ -430,6 +433,6 @@ def calculate(soil,rain,temp,hum,forecast):
 		mamdani_penyebut  = mamdani_penyebut + val;
 		print(str(count) + ":" + str(y[i]));
 		i += 1;
-	mamdani = mamdani_pembilang/mamdani_penyebut;
-	#print "Nilai Kelayakan : "+str(mamdani);
-	return mamdani;
+	status = mamdani_pembilang/mamdani_penyebut;
+	print ("Nilai Kelayakan : " +str(status))
+	return status;
