@@ -1,4 +1,4 @@
-import test as adv
+import slot as adv
 import time, datetime
 import database_sqlite as DB
 

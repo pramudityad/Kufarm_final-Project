@@ -281,49 +281,54 @@ def main():
 	global terbenam
 	global am
 	global pm
-	sampleFreq = 60
+	sampleFreq = 300
 	prediction  = 0
 	while True:
-		temp, hum   = getdht()
-		soil        = getsoil()
-		rain        = getrain()
+		try:
+			temp, hum   = getdht()
+			soil        = getsoil()
+			rain        = getrain()
+		except :
+			pass
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-        x = SL.adv_decision(temp,hum)
+		x = SL.adv_decision(temp,hum)
 		time.sleep(1)		
-		print("retriving data")
+		print("retriving data")	
 		DB.logsoil(soil)
 		DB.lograin(rain)
-		DB.logdht(temp, hum)	
-        if (now.hour == int(x)):
-            decision2()
-        else:
-            if(now.hour%1==0 and now.minute%30.0==0):
-                    requestData()
-                    time.sleep(0.5)
-                    cekOwCode()
-                    cekWUCode()	
-                    if(now.minute==0):
-                        timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-                        if(now.hour == 0):
-                                time.sleep(1)
-                                DB.addSunTime([strTerbit,strTerbenam])
-                                am = WU.getpop(0)
-                                pm = WU.getpop(1)
-                                am_condition = WU.getweather(0)
-                                pm_condition = WU.getweather(1)
-                                wsp = 'wunderground'
-                                DB.addForecast2(am,pm,am_condition,pm_condition,wsp,timeRequest)
-                        if(now.hour%3==0):
-                            code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-                            weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-                            wsp = "openweather"
-                            DB.addForecast(code,weather,wsp,timeRequest)	
+		DB.logdht(temp, hum)
+		time.sleep(sampleFreq)
+		if (now.hour == int(x)):
+			decision2()
+		else:
+			if(now.hour%1==0 and now.minute%30.0==0):
+					requestData()
+					time.sleep(0.5)
+					cekOwCode()
+					cekWUCode()	
+					if(now.minute==0):
+						timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+						if(now.hour == 0):
+								time.sleep(1)
+								DB.addSunTime([strTerbit,strTerbenam])
+								am = WU.getpop(0)
+								pm = WU.getpop(1)
+								am_condition = WU.getweather(0)
+								pm_condition = WU.getweather(1)
+								wsp = 'wunderground'
+								DB.addForecast2(am,pm,am_condition,pm_condition,wsp,timeRequest)
+						if(now.hour%3==0):
+							code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+							weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+							wsp = "openweather"
+							DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
+		print ("check circumstances every : "+str(x)+"hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
