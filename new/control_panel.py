@@ -244,7 +244,7 @@ def decision_log():
 		curs=conn.cursor()
 		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
 		pumplog = curs.fetchall()
-		return render_template("decision_log.html", log=log)	
+		return render_template("decision_log.html", decision_log=decision_log)	
 	except Exception as e:
 		return (str(e))
 
