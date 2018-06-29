@@ -308,17 +308,11 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print("retrive data sensor")
-		schedule.run_pending()
-		time.sleep(0.5)							
-		if(now.hour%1==0 and now.minute%13.0==0):
-				x = SL.adv_decision(temp, hum)
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))							
 		print (timeRequest)
 		schedule.run_pending()							
 		if(now.hour%1==0 and now.minute%30.0==0):
 				print("retrive data sensor")
->>>>>>> 9f6ae214ba716a66a7eabea5ff52a2666b04d204
 				DB.logsoil(soil)
 				DB.lograin(rain)
 				DB.logdht(temp, hum)
