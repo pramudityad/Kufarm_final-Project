@@ -336,7 +336,7 @@ def main():
 						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
-		print ("check circumstances every	: "+str(x)+" hour")
+		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
