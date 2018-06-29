@@ -301,7 +301,7 @@ def main():
 		print("retrive data sensor")
 		schedule.run_pending()
 		time.sleep(0.5)							
-		if(now.hour%1==0 and now.minute%30.0==0):
+		if(now.hour%1==0 and now.minute%13.0==0):
 				x = SL.adv_decision(temp, hum)
 				DB.logsoil(soil)
 				DB.lograin(rain)
