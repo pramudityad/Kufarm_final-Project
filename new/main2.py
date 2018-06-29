@@ -289,10 +289,10 @@ cekWUCode()
 cekOwCode()
 x = SL.adv_decision(40, 38)
 
-schedule.every(5).minutes.do(DB.logsoil(soil))
+""" schedule.every(5).minutes.do(DB.logsoil(soil))
 schedule.every(5).minutes.do(DB.lograin(rain))
 schedule.every(30).minutes.do(DB.logdht(temp, hum))
-schedule.every(x).hour.do(decision2())
+schedule.every(x).hour.do(decision2()) """
 
 def main():
 	global status
@@ -301,6 +301,14 @@ def main():
 	global terbenam
 	global am
 	global pm
+	global soil
+	global rain
+	global temp
+	global hum
+	schedule.every(5).minutes.do(DB.logsoil(soil))
+	schedule.every(5).minutes.do(DB.lograin(rain))
+	schedule.every(30).minutes.do(DB.logdht(temp, hum))
+	schedule.every(x).hour.do(decision2())
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
