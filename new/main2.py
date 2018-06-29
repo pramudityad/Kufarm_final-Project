@@ -312,7 +312,7 @@ def main():
 		time.sleep(sampleFreq)
 		if (now.hour == int(x)):
 			decision2()
-			decision = 'kufarm watering'
+			decision = 'kufarm decision'
 			DB.addDecision(decision,status,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
