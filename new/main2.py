@@ -291,7 +291,7 @@ def main():
 	soil		= getsoil()
 	rain		= getrain()
 	temp, hum 	= getdht()
-	schedule.every(x).hour.do(decision2)
+	schedule.every(x).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
