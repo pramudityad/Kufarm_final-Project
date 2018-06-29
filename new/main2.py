@@ -4,6 +4,7 @@ import urllib.request
 import json
 import time, datetime
 import io
+import schedule
 import math
 import database_sqlite as DB
 import hisab as hisab
@@ -196,7 +197,7 @@ def pump_on():
 	init_output(pinwatering)
 	#DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(4)
+	time.sleep(3)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	#DB.addPumpLog('watering pump','OFF')
 
@@ -245,6 +246,7 @@ def decision2():
 	global am
 	global pm
 	global pump
+	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
 	rain_tonight = 0
@@ -273,7 +275,7 @@ def decision2():
 	else:
 		pass
 	print ("Status : " +str(status))
-	return status
+	DB.addDecision(decision,status,pump)
 
 print ("Start")
 while (requestStatus == False):
@@ -282,6 +284,11 @@ while (requestStatus == False):
 cekWUCode()
 cekOwCode()
 
+schedule.every(5).minutes.do(DB.logsoil(getsoil()))
+schedule.every(5).minutes.do(DB.lograin(getrain()))
+schedule.every(30).minutes.do(DB.logdht(getrain()))
+schedule.every(x).hour.do(decision2())
+
 def main():
 	global status
 	global pump
@@ -289,54 +296,35 @@ def main():
 	global terbenam
 	global am
 	global pm
-	sampleFreq = 60
 	while True:
-		try:
-			temp, hum   = getdht()
-			soil        = getsoil()
-			rain		= getrain()
-			x = 10
-		except :
-			pass
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		time.sleep(0.5)
 		print("retrive data sensor")
-		DB.logsoil(soil)
-		DB.lograin(rain)
-		DB.logdht(temp, hum)
-		time.sleep(sampleFreq)
-		if(now.minute==00 and now.second==0):
-			#x = SL.adv_decision(temp,hum)
-			timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-			if (now.hour == int(x)):
-				decision2()
-				decision = 'kufarm decision'
-				DB.addDecision(decision,status,pump)
-			else:
-				if(now.hour%1==0 and now.minute%30.0==0):
-						time.sleep(0.5)
-						requestData()
-						cekOwCode()
-						cekWUCode()	
-						if(now.minute==0):
-							timeRequest = now.strftime('%Y-%m-%d %H:00:00');
-							if(now.hour == 0):
-									DB.addSunTime([strTerbit,strTerbenam])
-									am = WU.getpop(0)
-									pm = WU.getpop(1)
-									am_condition = WU.getweather(0)
-									pm_condition = WU.getweather(1)
-									wsp = 'wunderground'
-									DB.addForecast2(am,pm,am_condition,pm_condition,wsp,timeRequest)
-							if(now.hour%3==0):
-								code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
-								weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
-								wsp = "openweather"
-								DB.addForecast(code,weather,wsp,timeRequest)	
+		schedule.run_pending()
+		time.sleep(1)							
+		if(now.hour%1==0 and now.minute%30.0==0):
+				time.sleep(0.5)
+				requestData()
+				cekOwCode()
+				cekWUCode()	
+				if(now.minute==0):
+					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
+					if(now.hour == 0):
+							DB.addSunTime([strTerbit,strTerbenam])
+							am = WU.getpop(0)
+							pm = WU.getpop(1)
+							am_condition = WU.getweather(0)
+							pm_condition = WU.getweather(1)
+							wsp = 'wunderground'
+							DB.addForecast2(am,pm,am_condition,pm_condition,wsp,timeRequest)
+					if(now.hour%3==0):
+						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
+						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
+						wsp = "openweather"
+						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
 		#print ("check circumstances every	: "+str(x)+" hour")

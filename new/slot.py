@@ -4,7 +4,7 @@ def adv_decision(temp,hum,):
 # inisialisasi linguistik
 
 #timeslot
-	waktu = '0'
+	waktu = 0
 
 	#temp
 	dingin	= 0;
@@ -65,18 +65,18 @@ def adv_decision(temp,hum,):
 	print("NORMAL : "+str(normal));
 
 	if panas and normal:
-		waktu = '3'
+		waktu = 3
 	if panas and lembab:
-		waktu = '4'
+		waktu = 1
 	if normal and normal:
-		waktu = '5'
+		waktu = 5
 	if normal and lembab:
-		waktu = '7'
+		waktu = 7
 	if sejuk and normal:
-		waktu = '8'
+		waktu = 8
 	if sejuk and lembab:
-		waktu = '10'
-	print ("Slot Time : " +(waktu))
+		waktu = 10
+	print ("Slot Time : " +str(waktu))
 	return waktu
 
 
