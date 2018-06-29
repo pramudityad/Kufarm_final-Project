@@ -203,8 +203,8 @@ def pump_on():
 
 # get data from DHT sensor
 def getdht():  
-	global temp
-	global hum
+	#global temp
+	#global hum
 	Sensor = Adafruit_DHT.DHT11
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
@@ -218,8 +218,8 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
-	global soil
-	soil = 0
+	#global soil
+	#soil = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -232,8 +232,8 @@ def getsoil():
 
 # get data from rain sensor
 def getrain():
-	global rain
-	rain = 0
+	#global rain
+	#rain = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -301,10 +301,9 @@ def main():
 	global terbenam
 	global am
 	global pm
-	global soil
-	global rain
-	global temp
-	global hum
+	soil		= getsoil()
+	rain		= getrain()
+	temp, hum 	= getdht()
 	schedule.every(5).minutes.do(DB.logsoil(soil))
 	schedule.every(5).minutes.do(DB.lograin(rain))
 	schedule.every(30).minutes.do(DB.logdht(temp, hum))
