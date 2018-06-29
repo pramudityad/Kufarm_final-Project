@@ -303,7 +303,7 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
-		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
+		if(now.hour%1==0 and now.minute%30.0==0):
 				print("retrive data sensor")
 				DB.logsoil(soil)
 				DB.lograin(rain)
@@ -312,7 +312,7 @@ def main():
 				cekOwCode()
 				cekWUCode()
 				circumstances()	
-				if(now.minute==0 and now.second==0):
+				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
