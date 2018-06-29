@@ -310,13 +310,13 @@ def main():
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if (now.minute == int(x)):
+		if (now.hour == int(x)):
 			decision2()
 			decision = 'kufarm watering'
 			DB.addDecision(decision,status,pump)
 		else:
 			if(now.hour%1==0 and now.minute%30.0==0):
-					time.sleep(0.5)
+					#time.sleep(0.5)
 					requestData()
 					cekOwCode()
 					cekWUCode()	
