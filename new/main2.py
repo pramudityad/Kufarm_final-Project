@@ -277,7 +277,6 @@ def circumstances():
 	temp, hum 	= getdht()
 	try:
 		ts = SL.adv_decision(temp, hum)
-		print ("Temp : {}".format(temp)" & Humidity : {}".format(hum))
 	except Exception as e:
 		print ("error")
 	return temp, hum
@@ -289,7 +288,6 @@ while (requestStatus == False):
 cekWUCode()
 cekOwCode()
 circumstances()
-
 
 def main():
 	global status
@@ -319,7 +317,8 @@ def main():
 				time.sleep(1)
 				requestData()
 				cekOwCode()
-				cekWUCode()	
+				cekWUCode()
+				circumstances()	
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
