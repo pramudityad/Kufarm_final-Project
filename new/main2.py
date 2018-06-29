@@ -310,7 +310,7 @@ def main():
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if (now.minute == int(x)):
+		if (now.hour == int(x) and now.minute==0):
 			decision2()
 			decision = 'kufarm decision'
 			DB.addDecision(decision,status,pump)
