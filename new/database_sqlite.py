@@ -312,7 +312,7 @@ def getLastWatering():
 	time_watering = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
-	sql = "SELECT * FROM pump ORDER BY ID DESC LIMIT 1"
+	sql = "SELECT * FROM decision WHERE pump = 'ON' ORDER BY ID DESC LIMIT 1;"
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():

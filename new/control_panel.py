@@ -234,7 +234,7 @@ def plot_rain():
 	response.mimetype = 'image/png'
 	return response
 
-#pump log
+#decision log
 @app.route("/decision_log", methods=['GET'])    
 def decision_log():
 	try:
