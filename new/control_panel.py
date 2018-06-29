@@ -243,12 +243,12 @@ def decision_log():
 		conn=sqlite3.connect(dbname)
 		curs=conn.cursor()
 		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
-		decision_log = curs.fetchall()
-		return render_template("decision_log.html", decision_log=decision_log)	
+		log = curs.fetchall()
+		return render_template("decision_log.html", log=log)	
 	except Exception as e:
 		return (str(e))
 
 if __name__ == "__main__":
 	# ------------ Execute program 
-	app.run(host='192.168.10.188', port=5050, debug=False)
+	app.run(host='192.168.10.188', port=5050, debug=True)
 	conn.close()
