@@ -266,11 +266,21 @@ def decision2():
 		status = 4
 		pump_on()
 		pump = 'ON'
-		time.sleep(300)
+		time.sleep(60)
 	else:
 		pass
 	print ("Status : " +str(status))
 	DB.addDecision(decision,status,pump)
+
+def circumstances():
+	global ts
+	temp, hum 	= getdht()
+	try:
+		ts = SL.adv_decision(temp, hum)
+		print ("Temp : {}".format(temp)" & Humidity : {}".format(hum))
+	except Exception as e:
+		print ("error")
+	return temp, hum
 
 print ("Start")
 while (requestStatus == False):
@@ -278,31 +288,31 @@ while (requestStatus == False):
 		time.sleep(1)
 cekWUCode()
 cekOwCode()
+circumstances()
 
 
 def main():
 	global status
+	global ts
 	global pump
 	global terbit
 	global terbenam
 	global am
 	global pm
-	x = 0
 	soil		= getsoil()
 	rain		= getrain()
 	temp, hum 	= getdht()
-	schedule.every(x).hours.do(decision2)
+	schedule.every(ts).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-		print("retrive data sensor")
-		schedule.run_pending()
-		time.sleep(0.5)							
+		print (timeRequest)
+		schedule.run_pending()							
 		if(now.hour%1==0 and now.minute%30.0==0):
-				x = SL.adv_decision(temp, hum)
+				print("retrive data sensor")
 				DB.logsoil(soil)
 				DB.lograin(rain)
 				DB.logdht(temp, hum)
