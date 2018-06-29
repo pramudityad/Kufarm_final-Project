@@ -1,6 +1,6 @@
 import time, datetime
 import sqlite3
-dbname='kufarm.db'
+dbname='2kufarm.db'
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):

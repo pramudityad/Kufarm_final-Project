@@ -283,6 +283,7 @@ while (requestStatus == False):
 		time.sleep(1)
 cekWUCode()
 cekOwCode()
+x = SL.adv_decision(40, 38)
 
 schedule.every(5).minutes.do(DB.logsoil(getsoil()))
 schedule.every(5).minutes.do(DB.lograin(getrain()))
@@ -306,6 +307,7 @@ def main():
 		schedule.run_pending()
 		time.sleep(1)							
 		if(now.hour%1==0 and now.minute%30.0==0):
+				x = SL.adv_decision(40, 38)
 				time.sleep(0.5)
 				requestData()
 				cekOwCode()
@@ -327,7 +329,7 @@ def main():
 						DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
-		#print ("check circumstances every	: "+str(x)+" hour")
+		print ("check circumstances every	: "+str(x)+" hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
