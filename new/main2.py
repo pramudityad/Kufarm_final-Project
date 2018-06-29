@@ -203,8 +203,6 @@ def pump_on():
 
 # get data from DHT sensor
 def getdht():  
-	#global temp
-	#global hum
 	Sensor = Adafruit_DHT.DHT11
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
@@ -218,22 +216,24 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
-	#global soil
-	#soil = 0
+	myTime  	= datetime.datetime.now()
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	try:
 		soil = mcp.read_adc(5)
 		soil = 1024-soil
+		curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")
+		conn.commit()
 	except Exception as e:
-		raise e
+		conn.rollback()
 	return soil
 
 # get data from rain sensor
 def getrain():
-	#global rain
-	#rain = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
@@ -289,11 +289,6 @@ cekWUCode()
 cekOwCode()
 x = SL.adv_decision(40, 38)
 
-""" schedule.every(5).minutes.do(DB.logsoil(soil))
-schedule.every(5).minutes.do(DB.lograin(rain))
-schedule.every(30).minutes.do(DB.logdht(temp, hum))
-schedule.every(x).hour.do(decision2()) """
-
 def main():
 	global status
 	global pump
@@ -304,13 +299,13 @@ def main():
 	soil		= getsoil()
 	rain		= getrain()
 	temp, hum 	= getdht()
-	logsoil = DB.logsoil(soil)
-	lograin = DB.lograin(rain)
-	logdht  = DB.logdht(temp, hum)
+	#logsoil = DB.logsoil(soil)
+	#lograin = DB.lograin(rain)
+	#logdht  = DB.logdht(temp, hum)
 	schedule.every(5).minutes.do(logsoil)
 	schedule.every(5).minutes.do(lograin)
 	schedule.every(30).minutes.do(logdht)
-	schedule.every(x).hour.do(decision2())
+	schedule.every(x).hour.do(decision2)
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
@@ -321,7 +316,7 @@ def main():
 		schedule.run_pending()
 		time.sleep(1)							
 		if(now.hour%1==0 and now.minute%30.0==0):
-				x = SL.adv_decision(40, 38)
+				x = SL.adv_decision(temp, hum)
 				time.sleep(0.5)
 				requestData()
 				cekOwCode()
