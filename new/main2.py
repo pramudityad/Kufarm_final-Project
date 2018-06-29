@@ -309,7 +309,7 @@ def main():
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if(now.minute==19 and now.second==0):
+		if(now.minute==23 and now.second==0):
 			time_slot = now.strftime('%Y-%m-%d %H:00:00');
 			x = SL.adv_decision(temp,hum)
 			if (now.hour == int(x)):
