@@ -90,30 +90,10 @@ def index():
 		width = 4)
 	)
 
-	trace2 = go.Scatter(
-	x=X,
-	y=[j for j in recentreadings['forecast'].values],
-		name = 'Soil Prediction',
-		line = dict(
-		color = ('rgb(188, 93, 15)'),
-		width = 4,
-		dash = 'dot')
-	)
-
-	trace3 = go.Scatter(
-	x = X+X_rev,
-	y = y_upper+y_lower,
-		fill='tozerox',
-		fillcolor='rgba(231,107,243,0.2)',
-		line=go.Line(color='transparent'),
-		showlegend=True,
-		name='Confidence Interval'
-	)
-
-	data = [trace1, trace2, trace3]
+	data = [trace1]
 
 	layout = go.Layout(
-	title='Soil Trend Data & Prediction',
+	title='Soil Trend Data',
 	yaxis = dict(title = 'Value')
 	)
 
@@ -255,16 +235,16 @@ def plot_rain():
 	return response
 
 #pump log
-@app.route("/pump_log", methods=['GET'])    
-def pump_log():
+@app.route("/decision_log", methods=['GET'])    
+def decision_log():
 	try:
 		import sqlite3
 		dbname = 'kufarm.db'
 		conn=sqlite3.connect(dbname)
 		curs=conn.cursor()
-		curs.execute("SELECT * FROM pump ORDER BY ID DESC")
+		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
 		pumplog = curs.fetchall()
-		return render_template("pump_log.html", pumplog=pumplog)	
+		return render_template("decision_log.html", log=log)	
 	except Exception as e:
 		return (str(e))
 
