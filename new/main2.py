@@ -290,8 +290,6 @@ def main():
 	global am
 	global pm
 	sampleFreq = 60
-	prediction  = 0
-	x = 1
 	while True:
 		try:
 			temp, hum   = getdht()
@@ -309,9 +307,10 @@ def main():
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if(now.minute==25 and now.second==0):
+		if(now.minute==45 and now.second==0):
 			time_slot = now.strftime('%Y-%m-%d %H:00:00');
-			x = SL.adv_decision(temp,hum)
+			#x = SL.adv_decision(temp,hum)
+			x = 10
 			if (now.hour == int(x)):
 				decision2()
 				decision = 'kufarm decision'
@@ -339,7 +338,7 @@ def main():
 								DB.addForecast(code,weather,wsp,timeRequest)	
 		print ("=============================")
 		print (timeRequest)
-		print ("check circumstances every	: "+str(x)+" hour")
+		#print ("check circumstances every	: "+str(x)+" hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
