@@ -1,12 +1,18 @@
+import schedule
 import time, datetime
 import slot as SL
 
-now = datetime.datetime.now()
-timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
-#SL.adv_decision(25,50)
+def job():
+	print("I'm working...")
 
-print(timeRequest)
-if(now.minute==12 and now.second==30):
-	print ('test')
-else:
-	print('v')
+x = SL.adv_decision(40, 38)
+schedule.every(x).minutes.do(job)
+
+while True:
+	now = datetime.datetime.now()
+	timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
+	print(timeRequest)
+	if(now.minute==12 and now.second==0):
+		print('bisa')
+	schedule.run_pending()
+	time.sleep(1)
