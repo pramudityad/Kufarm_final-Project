@@ -23,11 +23,12 @@ body { font-family: "Trebuchet MS", Courier; }
 <table border="4" cellspacing="4" cellpadding="2">
 <tr>
 <td class="table_titles">ID</td>
+<td class="table_titles">Decision</td>
 <td class="table_titles">Status</td>
 <td class="table_titles">Pump</td>
 <td class="table_titles">Event</td>
 </tr>
- {% for row in log %}
+ {% for row in decision_log %}
         <tr>
         {% for d in row %}
             <td>{{ d }}</td>
