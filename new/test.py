@@ -6,7 +6,7 @@ def job():
 	print("I'm working...")
 
 x = SL.adv_decision(40, 38)
-schedule.every(x).minutes.do(job)
+schedule.every(0).minutes.do(job)
 
 while True:
 	now = datetime.datetime.now()

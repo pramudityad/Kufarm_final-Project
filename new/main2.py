@@ -18,10 +18,6 @@ import Adafruit_GPIO.SPI as SPI
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 
-dbname='2kufarm.db'
-conn=sqlite3.connect(dbname)
-curs = conn.cursor()
-
 pinwatering     = 18
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -282,7 +278,7 @@ while (requestStatus == False):
 		time.sleep(1)
 cekWUCode()
 cekOwCode()
-x = SL.adv_decision(40, 38)
+
 
 def main():
 	global status
@@ -291,6 +287,7 @@ def main():
 	global terbenam
 	global am
 	global pm
+	x = 0
 	soil		= getsoil()
 	rain		= getrain()
 	temp, hum 	= getdht()
