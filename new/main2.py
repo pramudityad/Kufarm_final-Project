@@ -203,6 +203,8 @@ def pump_on():
 
 # get data from DHT sensor
 def getdht():  
+	global temp
+	global hum
 	Sensor = Adafruit_DHT.DHT11
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
@@ -216,6 +218,7 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
+	global soil
 	soil = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
@@ -229,6 +232,7 @@ def getsoil():
 
 # get data from rain sensor
 def getrain():
+	global rain
 	rain = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
@@ -285,9 +289,9 @@ cekWUCode()
 cekOwCode()
 x = SL.adv_decision(40, 38)
 
-schedule.every(5).minutes.do(DB.logsoil(getsoil()))
-schedule.every(5).minutes.do(DB.lograin(getrain()))
-schedule.every(30).minutes.do(DB.logdht(getrain()))
+schedule.every(5).minutes.do(DB.logsoil(soil))
+schedule.every(5).minutes.do(DB.lograin(rain))
+schedule.every(30).minutes.do(DB.logdht(temp, hum))
 schedule.every(x).hour.do(decision2())
 
 def main():
