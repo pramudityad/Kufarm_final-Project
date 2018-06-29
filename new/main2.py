@@ -338,7 +338,6 @@ def main():
 		except :
 			pass	
 		print ("=============================")
-		print (timeRequest)
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("current soil			: "+ str(soil))
 		print ("current rain			: "+ str(rain))
