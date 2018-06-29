@@ -316,7 +316,7 @@ def getLastWatering():
 	try:
 		curs.execute(sql)
 		for row in curs.fetchall():
-			time_watering = row[3]
+			time_watering = row[4]
 		conn.commit()
 	except Exception as e:
 		conn.rollback()
