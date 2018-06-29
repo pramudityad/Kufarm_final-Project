@@ -297,9 +297,6 @@ def main():
 	global terbenam
 	global am
 	global pm
-	soil		= getsoil()
-	rain		= getrain()
-	temp, hum 	= getdht()
 	schedule.every(ts).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()
@@ -309,7 +306,7 @@ def main():
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))							
 		print (timeRequest)
 		schedule.run_pending()							
-		if(now.hour%1==0 and now.minute%30.0==0):
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 				print("retrive data sensor")
 				DB.logsoil(soil)
 				DB.lograin(rain)
@@ -319,7 +316,7 @@ def main():
 				cekOwCode()
 				cekWUCode()
 				circumstances()	
-				if(now.minute==0):
+				if(now.minute==0 and now.second==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
@@ -333,7 +330,13 @@ def main():
 						code = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['id']
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
-						DB.addForecast(code,weather,wsp,timeRequest)	
+						DB.addForecast(code,weather,wsp,timeRequest)
+		try:
+			soil		= getsoil()
+			rain		= getrain()
+			temp, hum 	= getdht()
+		except :
+			pass	
 		print ("=============================")
 		print (timeRequest)
 		print ("check circumstances every	: "+str(ts)+" hour")

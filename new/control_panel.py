@@ -13,14 +13,13 @@ import pandas as pd
 from dateutil import parser
 
 import matplotlib
-#matplotlib.use('Agg')
 import io
 
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-conn=sqlite3.connect('kufarm.db',check_same_thread=False)
+conn=sqlite3.connect('2kufarm.db',check_same_thread=False)
 curs=conn.cursor()
 
 username = 'pramudityad'
