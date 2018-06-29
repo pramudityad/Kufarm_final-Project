@@ -295,6 +295,7 @@ def main():
 			temp, hum   = getdht()
 			soil        = getsoil()
 			rain		= getrain()
+			x = 10
 		except :
 			pass
 		now = datetime.datetime.now()
@@ -303,14 +304,14 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		time.sleep(0.5)
+		print("retrive data sensor")
 		DB.logsoil(soil)
 		DB.lograin(rain)
 		DB.logdht(temp, hum)
 		time.sleep(sampleFreq)
-		if(now.minute==45 and now.second==0):
-			time_slot = now.strftime('%Y-%m-%d %H:00:00');
+		if(now.minute==57 and now.second==0):
 			#x = SL.adv_decision(temp,hum)
-			x = 10
+			timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 			if (now.hour == int(x)):
 				decision2()
 				decision = 'kufarm decision'
