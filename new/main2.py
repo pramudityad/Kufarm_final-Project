@@ -18,7 +18,7 @@ import Adafruit_GPIO.SPI as SPI
 import RPi.GPIO as GPIO
 import Adafruit_MCP3008
 
-dbname='kufarm.db'
+dbname='2kufarm.db'
 conn=sqlite3.connect(dbname)
 curs = conn.cursor()
 
@@ -216,20 +216,15 @@ def getdht():
 
 # get data from soil sensor
 def getsoil():
-	myTime  	= datetime.datetime.now()
-	currentTime	= myTime.strftime('%Y-%m-%d %H:%M')
-	conn=sqlite3.connect(dbname)
-	curs=conn.cursor()
+	soil = 0
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 	try:
 		soil = mcp.read_adc(5)
 		soil = 1024-soil
-		curs.execute("INSERT INTO soil (created_at, value) values('"+currentTime+"', "+str(soil)+")")
-		conn.commit()
 	except Exception as e:
-		conn.rollback()
+		raise e
 	return soil
 
 # get data from rain sensor
@@ -299,12 +294,6 @@ def main():
 	soil		= getsoil()
 	rain		= getrain()
 	temp, hum 	= getdht()
-	#logsoil = DB.logsoil(soil)
-	#lograin = DB.lograin(rain)
-	#logdht  = DB.logdht(temp, hum)
-	schedule.every(5).minutes.do(logsoil)
-	schedule.every(5).minutes.do(lograin)
-	schedule.every(30).minutes.do(logdht)
 	schedule.every(x).hour.do(decision2)
 	while True:
 		now = datetime.datetime.now()
@@ -314,10 +303,13 @@ def main():
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print("retrive data sensor")
 		schedule.run_pending()
-		time.sleep(1)							
+		time.sleep(0.5)							
 		if(now.hour%1==0 and now.minute%30.0==0):
 				x = SL.adv_decision(temp, hum)
-				time.sleep(0.5)
+				DB.logsoil(soil)
+				DB.lograin(rain)
+				DB.logdht(temp, hum)
+				time.sleep(1)
 				requestData()
 				cekOwCode()
 				cekWUCode()	
