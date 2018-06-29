@@ -300,10 +300,7 @@ def main():
 	schedule.every(ts).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()
-		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');
-		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))							
+		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
@@ -311,7 +308,6 @@ def main():
 				DB.logsoil(soil)
 				DB.lograin(rain)
 				DB.logdht(temp, hum)
-				time.sleep(1)
 				requestData()
 				cekOwCode()
 				cekWUCode()
@@ -335,8 +331,11 @@ def main():
 			soil		= getsoil()
 			rain		= getrain()
 			temp, hum 	= getdht()
-		except :
-			pass	
+			terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+			strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
+			strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+		except Exception as e:
+			print (e)	
 		print ("=============================")
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("current soil			: "+ str(soil))
