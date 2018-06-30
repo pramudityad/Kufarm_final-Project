@@ -299,8 +299,6 @@ def main():
 	global pm
 	schedule.every(ts).hours.do(decision2)
 	while True:
-		#soil		= getsoil()
-		#rain		= getrain()
 		temp, hum 	= getdht()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
@@ -337,9 +335,12 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print ("=============================")
+		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60)))
 		print ("check circumstances every	: "+str(ts)+" hour")
+		print ("Will check again at : " )
+		print ("=============================")
 		print ("current soil			: "+ str(getsoil()))
-		print ("current rain			: "+ str(getrain()))
+		#print ("current rain			: "+ str())
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
 		print ("=============================")
