@@ -6,7 +6,7 @@ def adv_decision(temp,hum,):
 #timeslot
 	waktu = 0
 
-	#temp
+	#tempe
 	dingin	= 0;
 	sejuk	= 0;
 	panas	= 0;
