@@ -280,14 +280,14 @@ def maxRowsTable():
 	return maxNumberRows
 
 # Get sample frequency in minutes
-def freqSample():
+""" def freqSample():
 	temps, hums, rains, soils, times = getHistData(5)
 	fmt = '%Y-%m-%d %H:%M'
 	tstamp0 = datetime.datetime.strptime(times[0], fmt)
 	tstamp1 = datetime.datetime.strptime(times[1], fmt)
 	freq = tstamp1-tstamp0
 	freq = int(round(freq.total_seconds()/60))
-	return (freq)
+	return (freq) """
 
 def log_pump():
 	conn=sqlite3.connect(dbname)
