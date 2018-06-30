@@ -299,21 +299,21 @@ def main():
 	global pm
 	schedule.every(ts).hours.do(decision2)
 	while True:
+		soil		= getsoil()
+		rain		= getrain()
+		temp, hum 	= getdht()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
-		if(now.hour%1==0 and now.minute%21.0==0):
+		if(now.hour%1==0 and now.minute%23.0==0):
 				try:
-					soil		= getsoil()
-					rain		= getrain()
-					temp, hum 	= getdht()
+					print("retrive data sensor")
+					DB.logsoil(soil)
+					DB.lograin(rain)
+					DB.logdht(temp, hum)
 				except Exception as e:
 					print (e)
-				print("retrive data sensor")
-				DB.logsoil(soil)
-				DB.lograin(rain)
-				DB.logdht(temp, hum)
 				requestData()
 				cekOwCode()
 				cekWUCode()
