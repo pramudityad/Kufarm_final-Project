@@ -357,6 +357,6 @@ def main():
 			else:
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
-			time.sleep(sampleFreq)
+		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()
