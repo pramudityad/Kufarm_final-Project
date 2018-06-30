@@ -67,7 +67,7 @@ def adv_decision(temp,hum,):
 	if panas and normal:
 		waktu = 3
 	if panas and lembab:
-		waktu = 1
+		waktu = 4
 	if normal and normal:
 		waktu = 5
 	if normal and lembab:
