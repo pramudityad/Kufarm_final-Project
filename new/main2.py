@@ -302,12 +302,11 @@ def main():
 		#soil		= getsoil()
 		#rain		= getrain()
 		temp, hum 	= getdht()
-		time.sleep(1)
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
-		if(now.hour%1==0 and now.minute%23.0==0):
+		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
 				try:
 					print("retrive data sensor")
 					DB.logsoil(getsoil())
@@ -319,7 +318,7 @@ def main():
 				cekOwCode()
 				cekWUCode()
 				circumstances()	
-				if(now.minute==0):
+				if(now.minute==0 and now.second==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
