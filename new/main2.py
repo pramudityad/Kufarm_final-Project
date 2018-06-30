@@ -292,7 +292,7 @@ def main():
 	global am
 	global pm
 	sampleFreq = 60
-	schedule.every(ts).minutes.do(decision2)
+	schedule.every(ts).hours.do(decision2)
 	t0 = time.time()
 	t1 = t0 + (ts*60)*60
 	while True:
