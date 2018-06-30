@@ -303,13 +303,10 @@ def main():
 		print (timeRequest)
 		schedule.run_pending()							
 		if(now.hour%1==0 and now.minute%30.0==0):
-				try:
-					print("retrive data sensor")
-					DB.logsoil(soil)
-					DB.lograin(rain)
-					DB.logdht(temp, hum)
-				except Exception as e:
-					print (e)
+				print("retrive data sensor")
+				DB.logsoil(soil)
+				DB.lograin(rain)
+				DB.logdht(temp, hum)
 				requestData()
 				cekOwCode()
 				cekWUCode()
