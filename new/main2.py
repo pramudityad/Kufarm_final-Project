@@ -299,8 +299,8 @@ def main():
 	global pm
 	schedule.every(ts).hours.do(decision2)
 	while True:
-		soil		= getsoil()
-		rain		= getrain()
+		#soil		= getsoil()
+		#rain		= getrain()
 		temp, hum 	= getdht()
 		time.sleep(1)
 		now = datetime.datetime.now()
@@ -310,8 +310,8 @@ def main():
 		if(now.hour%1==0 and now.minute%23.0==0):
 				try:
 					print("retrive data sensor")
-					DB.logsoil(soil)
-					DB.lograin(rain)
+					DB.logsoil(getsoil())
+					DB.lograin(getrain())
 					DB.logdht(temp, hum)
 				except Exception as e:
 					print (e)
@@ -339,8 +339,8 @@ def main():
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print ("=============================")
 		print ("check circumstances every	: "+str(ts)+" hour")
-		print ("current soil			: "+ str(soil))
-		print ("current rain			: "+ str(rain))
+		print ("current soil			: "+ str(getsoil()))
+		print ("current rain			: "+ str(getrain()))
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
 		print ("=============================")
