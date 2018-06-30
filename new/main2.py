@@ -303,7 +303,13 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
-		if(now.hour%1==0 and now.minute%30.0==0):
+		if(now.hour%1==0 and now.minute%21.0==0):
+				try:
+					soil		= getsoil()
+					rain		= getrain()
+					temp, hum 	= getdht()
+				except Exception as e:
+					print (e)
 				print("retrive data sensor")
 				DB.logsoil(soil)
 				DB.lograin(rain)
@@ -327,16 +333,10 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-		try:
-			soil		= getsoil()
-			rain		= getrain()
-			temp, hum 	= getdht()
-		except Exception as e:
-			print (e)	
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
-					
+		time.sleep(1)
 		print ("=============================")
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("current soil			: "+ str(soil))
@@ -358,6 +358,5 @@ def main():
 			else:
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
-		time.sleep(5)
 if __name__ == '__main__':
 	main()
