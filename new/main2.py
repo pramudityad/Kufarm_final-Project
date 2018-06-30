@@ -298,6 +298,8 @@ def main():
 	global am
 	global pm
 	schedule.every(ts).hours.do(decision2)
+	t0 = time.time()
+	t1 = t0 + (ts*60)*60
 	while True:
 		temp, hum 	= getdht()
 		now = datetime.datetime.now()
@@ -337,13 +339,13 @@ def main():
 		print ("=============================")
 		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60)))
 		print ("check circumstances every	: "+str(ts)+" hour")
-		print ("Will check again at : " )
-		print ("=============================")
+		print ("Will check again at : "+time.strftime("%I %M %p",time.localtime(t1)))
+		print ("-----------------------------")
 		print ("current soil			: "+ str(getsoil()))
 		#print ("current rain			: "+ str())
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
-		print ("=============================")
+		print ("-----------------------------")
 		print ("-prediciton-")
 		print ("Chance of rain rain today 	: {}".format(am) +"%")
 		print ("Chance of rain rain tonight 	: {}".format(pm) +"%")
