@@ -302,6 +302,7 @@ def main():
 		soil		= getsoil()
 		rain		= getrain()
 		temp, hum 	= getdht()
+		time.sleep(1)
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
