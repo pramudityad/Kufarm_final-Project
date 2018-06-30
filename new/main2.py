@@ -334,7 +334,7 @@ def main():
 		except Exception as e:
 			print(e)
 		print ("=============================")
-		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
+		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("Will check plant again at 	: "+time.strftime("%I %M %p",time.localtime(t1)))
 		print ("-----------------------------")
