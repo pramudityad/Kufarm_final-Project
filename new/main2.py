@@ -306,11 +306,7 @@ def main():
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
 		schedule.run_pending()							
-<<<<<<< HEAD
-		if(now.hour%1==0 and now.minute%30.0==0):
-=======
 		if(now.hour%1==0 and now.minute%30.0==0 and now.second==0):
->>>>>>> 392ef382ff13ab8574ce7a9510cc292c48e650e9
 				try:
 					print("retrive data sensor")
 					DB.logsoil(getsoil())
