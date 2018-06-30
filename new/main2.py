@@ -32,9 +32,9 @@ overrideSiram = False;
 delaySecond   = 1;
 maxtimewatering = 1;
 treshold 		= 240;
-timezone = 10;
-latitude = -6.978887;
-longitude = 107.630328;
+timezone = float(10);
+latitude = float(-6.978887);
+longitude = float(107.630328);
 
 ow_hujan_code   = {500,501,502,503,504,511,520,521,522,531,300,301,302,310,311,312,313,314,321}
 ow_mendung_code = {803,804}
