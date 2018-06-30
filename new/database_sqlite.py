@@ -1,5 +1,6 @@
 import time, datetime
 import sqlite3
+
 dbname='2kufarm.db'
 
 # add forecast into database	
