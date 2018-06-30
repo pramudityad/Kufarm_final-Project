@@ -358,6 +358,6 @@ def main():
 			else:
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
-		time.sleep(5)
+		time.sleep(10)
 if __name__ == '__main__':
 	main()
