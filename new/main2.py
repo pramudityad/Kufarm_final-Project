@@ -228,7 +228,7 @@ def getrain():
 	rain = mcp.read_adc(6)
 	rain = 1024-rain
 	return rain
-	
+
 def circumstances():
 	global ts
 	temp, hum 	= getdht()
@@ -278,6 +278,7 @@ def decision2():
 		pass
 	print ("Status : " +str(status))
 	DB.addDecision(decision,status,pump)
+	return t1
 
 print ("Start")
 while (requestStatus == False):
