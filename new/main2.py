@@ -228,6 +228,15 @@ def getrain():
 	rain = mcp.read_adc(6)
 	rain = 1024-rain
 	return rain
+	
+def circumstances():
+	global ts
+	temp, hum 	= getdht()
+	try:
+		ts = SL.adv_decision(temp, hum)
+	except Exception as e:
+		print ("error")
+	return temp, hum
 
 def decision2():
 	global treshold
@@ -235,6 +244,10 @@ def decision2():
 	global am
 	global pm
 	global pump
+	global ts
+	global t1
+	t0 = time.time()
+	t1 = t0 + (ts*60)*60
 	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
@@ -266,15 +279,6 @@ def decision2():
 	print ("Status : " +str(status))
 	DB.addDecision(decision,status,pump)
 
-def circumstances():
-	global ts
-	temp, hum 	= getdht()
-	try:
-		ts = SL.adv_decision(temp, hum)
-	except Exception as e:
-		print ("error")
-	return temp, hum
-
 print ("Start")
 while (requestStatus == False):
 		requestData()
@@ -291,6 +295,7 @@ def main():
 	global terbenam
 	global am
 	global pm
+	global t1
 	sampleFreq = 60
 	schedule.every(ts).hours.do(decision2)
 	while True:
@@ -331,8 +336,6 @@ def main():
 			rain        = getrain()
 		except Exception as e:
 			print(e)
-		t0 = time.time()
-		t1 = t0 + (ts*60)*60
 		print ("=============================")
 		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
