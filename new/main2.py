@@ -206,11 +206,8 @@ def getdht():
 	DHTpin = 4
 	hum, temp = Adafruit_DHT.read_retry(Sensor, DHTpin)
 	if hum is not None and temp is not None:
-		try:
-			hum = round(hum)
-			temp = round(temp, 1)
-		except Exception as e:
-			raise e
+		hum = round(hum)
+		temp = round(temp, 1)
 	return temp, hum
 
 # get data from soil sensor
@@ -219,11 +216,8 @@ def getsoil():
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	try:
-		soil = mcp.read_adc(5)
-		soil = 1024-soil
-	except Exception as e:
-		raise e
+	soil = mcp.read_adc(5)
+	soil = 1024-soil
 	return soil
 
 # get data from rain sensor
@@ -231,11 +225,8 @@ def getrain():
 	SPI_PORT   = 0
 	SPI_DEVICE = 0
 	mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
-	try:
-		rain = mcp.read_adc(6)
-		rain = 1024-rain
-	except Exception as e:
-		raise e
+	rain = mcp.read_adc(6)
+	rain = 1024-rain
 	return rain
 
 def decision2():
@@ -304,6 +295,9 @@ def main():
 	t0 = time.time()
 	t1 = t0 + (ts*60)*60
 	while True:
+		temp, hum   = getdht()
+		soil        = getsoil()
+		rain        = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
@@ -311,8 +305,8 @@ def main():
 		if(now.hour%1==0 and now.minute%30.0==0):
 				try:
 					print("retrive data sensor")
-					DB.logsoil(getsoil())
-					DB.lograin(getrain())
+					DB.logsoil(soil)
+					DB.lograin(rain)
 					DB.logdht(temp, hum)
 				except Exception as e:
 					print (e)
@@ -335,10 +329,6 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-		try:
-			temp, hum   = getdht()
-		except :
-			pass
 		terbit = hisab.terbit(float(timezone),float(latitude),float(longitude),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
@@ -347,8 +337,8 @@ def main():
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("Will check plant again at 	: "+time.strftime("%I %M %p",time.localtime(t1)))
 		print ("-----------------------------")
-		print ("current soil			: "+ str(getsoil()))
-		#print ("current rain			: "+ str())
+		print ("current soil			: "+ str(soil))
+		print ("current rain			: "+ str(rain))
 		print ("temperature			: {}".format(temp))
 		print ("humidity			: {}".format(hum))
 		print ("-----------------------------")
