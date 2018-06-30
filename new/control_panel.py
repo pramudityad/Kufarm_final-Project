@@ -76,8 +76,8 @@ def index():
 	# plot the recent readings
 	X=[str(i) for i in recentreadings['created_at'].values]
 	X_rev = X[::-1]
-	#y_upper = [j for j in recentreadings['upper']]
-	#y_lower = [j for j in recentreadings['lower']]
+	y_upper = [j for j in recentreadings['upper']]
+	y_lower = [j for j in recentreadings['lower']]
 	y_lower = y_lower[::-1]
 
 	trace1 = go.Scatter(
