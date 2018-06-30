@@ -48,8 +48,8 @@ def index():
 	df['date1'] = pd.to_datetime(df['created_at']).values
 	df['day'] = df['date1'].dt.date
 	df['time'] = df['date1'].dt.time
-	df.index = df.date1
-	df.index = pd.DatetimeIndex(df.index)
+	#df.index = df.date1
+	#df.index = pd.DatetimeIndex(df.index)
 	#df = df.drop('forecast',1)
 	df['upper'] = df['value']
 	df['lower'] = df['value']
