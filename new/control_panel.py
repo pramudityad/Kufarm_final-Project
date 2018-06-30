@@ -69,7 +69,7 @@ def index():
 	#df2['upper'] = forecast[2][:,1] #95% confidence interval
 	#df2['lower'] = forecast[2][:,0] #95% confidence interval
 	#df = df.append(df2)
-	df = df.reset_index()
+	#df = df.reset_index()
 	recentreadings = df
 	recentreadings['value'][-6:-5]
 	
