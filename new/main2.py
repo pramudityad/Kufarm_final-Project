@@ -295,9 +295,6 @@ def main():
 	t0 = time.time()
 	t1 = t0 + (ts*60)*60
 	while True:
-		temp, hum   = getdht()
-		soil        = getsoil()
-		rain        = getrain()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
@@ -329,6 +326,12 @@ def main():
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
+		try:
+			temp, hum   = getdht()
+			soil        = getsoil()
+			rain        = getrain()
+		except Exception as e:
+			print(e)
 		print ("=============================")
 		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
