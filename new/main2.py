@@ -242,9 +242,9 @@ def decision2():
 	not_rain    = 0
 	soil = getsoil()
 
-	if int(am) >=30:
+	if int(am) >=50:
 		rain_today = 1
-	elif int(pm)>=30:
+	elif int(pm)>=50:
 		rain_tonight = 1
 	else:
 		not_rain = 1
@@ -296,7 +296,10 @@ def main():
 	t1 = t0 + (ts*60)*60
 	while True:
 		now = datetime.datetime.now()
-		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
+		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
+		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))					
 		print (timeRequest)
 		schedule.run_pending()							
 		if(now.hour%1==0 and now.minute%30.0==0):
@@ -323,9 +326,6 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
-		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		try:
 			temp, hum   = getdht()
 			soil        = getsoil()
