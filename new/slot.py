@@ -14,6 +14,7 @@ def adv_decision(temp,hum,):
 	#hum
 	lembab	= 0;
 	normal	= 0;
+	kering = 0;
 
 #inisialisasi batas
 	#temp
@@ -25,10 +26,12 @@ def adv_decision(temp,hum,):
 	u_panas = 50;
 
 	#hum
-	l_lembab = 0;
-	u_lembab = 39;
-	l_normal = 40;
-	u_normal = 80;
+	l_kering = 0;
+	u_kering = 30;
+	l_normal = 32;
+	u_normal = 40;
+	l_lembab = 55;
+	u_lembab = 80;
 
 # hitung linguistik
 	#temp
@@ -46,13 +49,18 @@ def adv_decision(temp,hum,):
 		panas = 1;
 
 	#hum
-	if hum < u_lembab:
-		lembab = 1;
-	elif hum >= u_lembab and hum <= l_normal:
-		lembab = (hum * (-1.0) + l_normal) / (l_normal - u_lembab);
-		normal  = (hum - u_lembab) * 1.0 / (l_normal - u_lembab);
-	elif hum > l_normal:
+	if hum < u_kering:
+		kering = 1;
+	elif hum >= u_kering and hum <= l_normal:
+		kering = (hum * (-1.0) + l_normal) / (l_normal - u_kering);
+		normal = (hum - u_kering) * 1.0 / (l_normal - u_kering);
+	elif hum >= l_normal and hum < u_normal:
 		normal = 1;
+	elif hum >= u_normal and hum <= l_lembab:
+		normal = (hum * (-1.0) + l_lembab) / (l_lembab - u_normal);
+		lembab = (hum - u_normal) * 1.0 / (l_lembab - u_normal);
+	elif hum >= l_lembab:
+		lembab = 1;
 	
 #print linguistik
 	print("-TEMP = %d " % (temp)+"C-");
@@ -63,18 +71,25 @@ def adv_decision(temp,hum,):
 	print("-HUM = %d-" % (hum));
 	print("LEMBAB : "+str(lembab));
 	print("NORMAL : "+str(normal));
+	print("KERING : "+str(kering));
 
+	if panas and kering:
+		waktu = 2
 	if panas and normal:
 		waktu = 3
 	if panas and lembab:
 		waktu = 4
-	if normal and normal:
+	if sejuk and kering:
 		waktu = 5
-	if normal and lembab:
-		waktu = 7
 	if sejuk and normal:
-		waktu = 8
+		waktu = 6
 	if sejuk and lembab:
+		waktu = 7
+	if dingin and kering:
+		waktu = 8
+	if dingin and normal:
+		waktu = 9
+	if dingin and lembab:
 		waktu = 10
 	print ("Slot Time : " +str(waktu))
 	return waktu

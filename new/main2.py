@@ -293,8 +293,6 @@ def main():
 	global pm
 	sampleFreq = 60
 	schedule.every(ts).hours.do(decision2)
-	t0 = time.time()
-	t1 = t0 + (ts*60)*60
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
@@ -333,8 +331,10 @@ def main():
 			rain        = getrain()
 		except Exception as e:
 			print(e)
+		t0 = time.time()
+		t1 = t0 + (ts*60)*60
 		print ("=============================")
-		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
+		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
 		print ("Will check plant again at 	: "+time.strftime("%I %M %p",time.localtime(t1)))
 		print ("-----------------------------")

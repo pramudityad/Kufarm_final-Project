@@ -51,10 +51,10 @@ def calculate(soil,rain,temp,hum,forecast):
 	u_panas = 50;
 
 	#hum
-	l_lembab = 0;
-	u_lembab = 39;
-	l_normal = 40;
-	u_normal = 80;
+	l_normal = 0;
+	u_normal = 39;
+	l_lembab = 40;
+	u_lembab = 80;
 
 	# hitung linguistik
 	#soil
@@ -95,13 +95,13 @@ def calculate(soil,rain,temp,hum,forecast):
 		hujan = 1;
 
 	#hum
-	if hum < u_lembab:
-		lembab = 1;
-	elif hum >= u_lembab and hum <= l_normal:
-		lembab = (hum * (-1.0) + l_normal) / (l_normal - u_lembab);
-		normal  = (hum - u_lembab) * 1.0 / (l_normal - u_lembab);
-	elif hum > l_normal:
+	if hum < u_normal:
 		normal = 1;
+	elif hum >= u_normal and hum <= l_lembab:
+		normal = (hum * (-1.0) + l_lembab) / (l_lembab - u_normal);
+		lembab  = (hum - u_normal) * 1.0 / (l_lembab - u_normal);
+	elif hum > l_lembab:
+		lembab = 1;
 
 #openweather	
 	if forecast == 0:
