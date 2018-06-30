@@ -288,13 +288,13 @@ circumstances()
 
 def main():
 	global status
-	global ts
 	global pump
 	global terbit
 	global terbenam
 	global am
 	global pm
 	sampleFreq = 60
+	t0 = time.time()
 	schedule.every(ts).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()
@@ -333,7 +333,6 @@ def main():
 			rain        = getrain()
 		except Exception as e:
 			print(e)
-		t0 = time.time()
 		t1 = t0 + (ts*60)*60
 		print ("=============================")
 		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
