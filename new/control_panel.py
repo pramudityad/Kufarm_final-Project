@@ -33,11 +33,11 @@ numSamples = DB.maxRowsTable()
 if (numSamples > 101):
 	numSamples = 100
 
-global freqSamples
-freqSamples = DB.freqSample()
+""" global freqSamples
+freqSamples = DB.freqSample() """
 
-global rangeTime
-rangeTime = 100	
+""" global rangeTime
+rangeTime = 100 """	
 
 # main route 
 @app.route("/")
@@ -108,35 +108,35 @@ def index():
 	  'hum'			: hum,
 	  'soil'		: soil,
 	  'rain'		: rain,
-	  'freq'		: freqSamples,
-	  'rangeTime'	: rangeTime
-	  #'numSamples'	: numSamples
+	  #'freq'		: freqSamples,
+	  #'rangeTime'	: rangeTime
+	  'numSamples'	: numSamples
 	}
 	return render_template('index_copy.html', **templateData)
 
 @app.route('/', methods=['POST'])
 def my_form_post():
 	global numSamples 
-	global freqSamples
-	global rangeTime
-	rangeTime = int (request.form['rangeTime'])
-	if (rangeTime < freqSamples):
-		rangeTime = freqSamples + 1
-	numSamples = rangeTime//freqSamples
+	#global freqSamples
+	#global rangeTime
+	#rangeTime = int (request.form['rangeTime'])
+	numSamples = int (request.form['numSamples'])
+	#if (rangeTime < freqSamples):
+	#	rangeTime = freqSamples + 1
+	#numSamples = rangeTime//freqSamples
 	numMaxSamples = DB.maxRowsTable()
 	if (numSamples > numMaxSamples):
 		numSamples = (numMaxSamples-1)
 	time, temp, hum, soil, rain = DB.getLastData()
-	
 	templateData = {
 	  'time'		: time,
 	  'temp'		: temp,
 	  'hum'			: hum,
 	  'soil'		: soil,
 	  'rain'		: rain,
-	  'freq'		: freqSamples,
-	  'rangeTime'	: rangeTime
-	  #'numSamples'	: numSamples
+	  #'freq'		: freqSamples,
+	  #'rangeTime'	: rangeTime
+	  'numSamples'	: numSamples
 	}
 	return render_template('index_copy.html', **templateData)
 
