@@ -297,11 +297,10 @@ def main():
 	global terbenam
 	global am
 	global pm
-	schedule.every(ts).hours.do(decision2)
+	schedule.every(ts).minutes.do(decision2)
 	t0 = time.time()
 	t1 = t0 + (ts*60)*60
 	while True:
-		temp, hum 	= getdht()
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');					
 		print (timeRequest)
@@ -333,13 +332,17 @@ def main():
 						weather = OW.getForcastByTime(str_ow_data, timeRequest)['weather'][0]['description']
 						wsp = "openweather"
 						DB.addForecast(code,weather,wsp,timeRequest)
+		try:
+			temp, hum   = getdht()
+		except :
+			pass
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))
 		print ("=============================")
-		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60)))
+		print ("Sunrise : " + str(int(terbit))+":"+str(int((terbit%1)*60))+"AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
-		print ("Will check again at : "+time.strftime("%I %M %p",time.localtime(t1)))
+		print ("Will check plant again at 	: "+time.strftime("%I %M %p",time.localtime(t1)))
 		print ("-----------------------------")
 		print ("current soil			: "+ str(getsoil()))
 		#print ("current rain			: "+ str())
