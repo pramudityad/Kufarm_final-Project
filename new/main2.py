@@ -246,8 +246,6 @@ def decision2():
 	global pump
 	global ts
 	global t1
-	t0 = time.time()
-	t1 = t0 + (ts*60)*60
 	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
@@ -278,7 +276,7 @@ def decision2():
 		pass
 	print ("Status : " +str(status))
 	DB.addDecision(decision,status,pump)
-	return t1
+	circumstances()
 
 print ("Start")
 while (requestStatus == False):
@@ -296,7 +294,6 @@ def main():
 	global terbenam
 	global am
 	global pm
-	global t1
 	sampleFreq = 60
 	schedule.every(ts).hours.do(decision2)
 	while True:
@@ -314,8 +311,7 @@ def main():
 				DB.logdht(temp, hum)
 				requestData()
 				cekOwCode()
-				cekWUCode()
-				circumstances()	
+				cekWUCode()	
 				if(now.minute==0):
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
@@ -337,6 +333,8 @@ def main():
 			rain        = getrain()
 		except Exception as e:
 			print(e)
+		t0 = time.time()
+		t1 = t0 + (ts*60)*60
 		print ("=============================")
 		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("check circumstances every	: "+str(ts)+" hour")
