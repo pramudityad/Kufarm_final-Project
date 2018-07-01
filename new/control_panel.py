@@ -19,7 +19,8 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-conn=sqlite3.connect('2kufarm.db',check_same_thread=False)
+dbname = '2kufarm.db'
+conn=sqlite3.connect(dbname,check_same_thread=False)
 curs=conn.cursor()
 
 username = 'pramudityad'
@@ -31,13 +32,7 @@ py.sign_in(username, api_key)
 global numSamples
 numSamples = DB.maxRowsTable()
 if (numSamples > 101):
-	numSamples = 100
-
-""" global freqSamples
-freqSamples = DB.freqSample() """
-
-""" global rangeTime
-rangeTime = 100 """	
+	numSamples = 100	
 
 # main route 
 @app.route("/")
@@ -143,12 +138,11 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM DHT_data')
-	data = c.fetchall()
+	curs.execute('SELECT * FROM DHT_data')
+	data = curs.fetchall()
 
 	temperature = []
 	humidity = []
@@ -196,12 +190,11 @@ def plot_temp():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM rain')
-	data = c.fetchall()
+	curs.execute('SELECT * FROM rain')
+	data = curs.fetchall()
 
 	value_rain = []
 	timenow2 = []
@@ -236,9 +229,6 @@ def plot_rain():
 #decision log
 @app.route("/decision_log", methods=['GET'])    
 def decision_log():
-	import sqlite3
-	dbname = '2kufarm.db'
-	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	try:
 		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
