@@ -236,7 +236,7 @@ def circumstances():
 		ts = SL.adv_decision(temp, hum)
 	except Exception as e:
 		print ("error")
-	return temp, hum
+	return ts
 
 def decision2():
 	global treshold
@@ -244,8 +244,8 @@ def decision2():
 	global am
 	global pm
 	global pump
-	global ts
-	global t1
+	global t0
+	t0 = time.time()
 	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
@@ -277,6 +277,7 @@ def decision2():
 	print ("Status : " +str(status))
 	DB.addDecision(decision,status,pump)
 	circumstances()
+	return t0
 
 print ("Start")
 while (requestStatus == False):
@@ -293,8 +294,10 @@ def main():
 	global terbenam
 	global am
 	global pm
+	global t0
+	global ts
 	sampleFreq = 60
-	t0 = time.time()
+	t0 = decision2()
 	schedule.every(ts).hours.do(decision2)
 	while True:
 		now = datetime.datetime.now()

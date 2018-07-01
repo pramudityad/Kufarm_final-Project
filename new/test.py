@@ -4,23 +4,30 @@ import slot as SL
 import database_sqlite as DB
 
 def job():
+	global t0
+	global ts
+	ts = 1
 	print("I'm working...")
+	t0 = time.time()
+	return t0
 
-ts = 1
-schedule.every(ts).minutes.do(job)
+
 soil = 300
 wu_desc = 'Sunny'
 command = 'watering'
 
-while True:
-	schedule.run_pending()
-	t0 = time.time()
-	print ("========================")
-	print ("time now		: " +time.strftime("%I %M %p",time.localtime(t0)))
-	print ("current soil		: "+ str(soil))
+def main():
+	global t0
+	global ts
+	t0 = job()
+	schedule.every(ts).minutes.do(job)
+	while True:
+		schedule.run_pending()
+		t1 = t0 + (ts*1)*60
+		print ("========================")
+		print ("check circumstances every	: "+str(ts)+" minute")
+		print ("check again 		: " +time.strftime("%I %M %p",time.localtime(t1)))
+		time.sleep(1)
 
-	t1 = t0 + (ts*60)*60
-	print ("========================")
-	print ("check circumstances every	: "+str(ts)+" minute")
-	print ("check again 		: " +time.strftime("%I %M %p",time.localtime(t1)))
-
+if __name__ == '__main__':
+	main()
