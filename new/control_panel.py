@@ -236,11 +236,11 @@ def plot_rain():
 #decision log
 @app.route("/decision_log", methods=['GET'])    
 def decision_log():
+	import sqlite3
+	dbname = '2kufarm.db'
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
 	try:
-		import sqlite3
-		dbname = 'kufarm.db'
-		conn=sqlite3.connect(dbname)
-		curs=conn.cursor()
 		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
 		log = curs.fetchall()
 		return render_template("decision_log.html", log=log)	
