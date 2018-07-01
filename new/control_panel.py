@@ -138,11 +138,12 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
+	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	curs.execute('SELECT * FROM DHT_data')
-	data = curs.fetchall()
+	c.execute('SELECT * FROM DHT_data')
+	data = c.fetchall()
 
 	temperature = []
 	humidity = []
@@ -190,11 +191,12 @@ def plot_temp():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
+	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	curs.execute('SELECT * FROM rain')
-	data = curs.fetchall()
+	c.execute('SELECT * FROM rain')
+	data = c.fetchall()
 
 	value_rain = []
 	timenow2 = []

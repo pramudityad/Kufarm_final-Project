@@ -271,7 +271,7 @@ def decision2():
 		status = 4
 		pump_on()
 		pump = 'ON'
-		time.sleep(60)
+		time.sleep(10)
 	else:
 		pass
 	print ("Status : " +str(status))
