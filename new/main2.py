@@ -196,7 +196,7 @@ def pump_on():
 	init_output(pinwatering)
 	#DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(3)
+	time.sleep(2)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	#DB.addPumpLog('watering pump','OFF')
 
@@ -253,9 +253,9 @@ def decision2():
 	not_rain    = 0
 	soil = getsoil()
 
-	if int(am) >=50:
+	if int(am) >=30:
 		rain_today = 1
-	elif int(pm)>=50:
+	elif int(pm)>=30:
 		rain_tonight = 1
 	else:
 		not_rain = 1
@@ -361,6 +361,7 @@ def main():
 			else:
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
+			circumstances()
 		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()
