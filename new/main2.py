@@ -306,7 +306,7 @@ def main():
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
 		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))					
 		print (timeRequest)
-		schedule.run_pending()							
+		schedule.run_pending()					
 		if(now.hour%1==0 and now.minute%30.0==0):
 				print("retrive data sensor")
 				DB.logsoil(soil)
