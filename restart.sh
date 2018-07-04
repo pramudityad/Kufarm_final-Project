@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #cari semua PID
-pid=`ps aux | grep 'main2.py' | awk '{print $2}'`
+$pid=`ps ax | grep 'main2.py'`
 
 #jika PID tidak ditemukan maka print empty, jika isi maka di kill
 if [ -z $pid ]
@@ -16,4 +16,4 @@ fi
 printf '%s\tStart Application\n' "$(date +'%T %A %d %B %Y')" >>/home/pi/Damar/forecast/logs/restartlog
 cd /home/pi/Damar/forecast/new
 rm -f /home/pi/Damar/forecast/new/nohub.out
-nohup python3 /home/pi/Damar/forecast/new/main2.py &
+nohup python3 /home/pi/Damar/forecast/new/main2.py & python3 /home/pi/Damar/forecast/new/control_panel.py && fg
