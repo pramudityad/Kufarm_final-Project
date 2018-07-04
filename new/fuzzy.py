@@ -273,18 +273,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkRendah[58]=min(sedang,hujan,panas,lembab,f_mendung)
 	if sedang and hujan and panas and lembab and f_hujan:
 		nkRendah[59]=min(sedang,hujan,panas,lembab,f_hujan)
-	if sedang and hujan and normal and lembab and f_cerah:
-		nkRendah[60]=min(sedang,hujan,normal,lembab,f_cerah)
-	if sedang and hujan and normal and lembab and f_mendung:
-		nkRendah[61]=min(sedang,hujan,normal,lembab,f_mendung)
-	if sedang and hujan and normal and lembab and f_hujan:
-		nkRendah[62]=min(sedang,hujan,normal,lembab,f_hujan)
-	if sedang and hujan and normal and lembab and f_cerah:
-		nkRendah[63]=min(sedang,hujan,normal,lembab,f_cerah)
-	if sedang and hujan and normal and lembab and f_mendung:
-		nkRendah[64]=min(sedang,hujan,normal,lembab,f_mendung)
-	if sedang and hujan and normal and lembab and f_hujan:
-		nkRendah[65]=min(sedang,hujan,normal,lembab,f_hujan)
+	if sedang and hujan and sejuk and lembab and f_cerah:
+		nkRendah[60]=min(sedang,hujan,sejuk,lembab,f_cerah)
+	if sedang and hujan and sejuk and lembab and f_mendung:
+		nkRendah[61]=min(sedang,hujan,sejuk,lembab,f_mendung)
+	if sedang and hujan and sejuk and lembab and f_hujan:
+		nkRendah[62]=min(sedang,hujan,sejuk,lembab,f_hujan)
+	if sedang and hujan and sejuk and lembab and f_cerah:
+		nkRendah[63]=min(sedang,hujan,sejuk,lembab,f_cerah)
+	if sedang and hujan and sejuk and lembab and f_mendung:
+		nkRendah[64]=min(sedang,hujan,sejuk,lembab,f_mendung)
+	if sedang and hujan and sejuk and lembab and f_hujan:
+		nkRendah[65]=min(sedang,hujan,sejuk,lembab,f_hujan)
 	if sedang and hujan and dingin and lembab and f_cerah:
 		nkRendah[66]=min(sedang,hujan,dingin,lembab,f_cerah)
 	if sedang and hujan and dingin and lembab and f_mendung:
@@ -311,18 +311,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkRendah[76]=min(basah,tdk_hujan,panas,lembab,f_mendung)
 	if basah and tdk_hujan and panas and lembab and f_hujan:
 		nkRendah[77]=min(basah,tdk_hujan,panas,lembab,f_hujan)
-	if basah and tdk_hujan and normal and lembab and f_cerah:
-		nkRendah[78]=min(basah,tdk_hujan,normal,lembab,f_cerah)
-	if basah and tdk_hujan and normal and lembab and f_mendung:
-		nkRendah[79]=min(basah,tdk_hujan,normal,lembab,f_mendung)
-	if basah and tdk_hujan and normal and lembab and f_hujan:
-		nkRendah[80]=min(basah,tdk_hujan,normal,lembab,f_hujan)
-	if basah and tdk_hujan and normal and lembab and f_cerah:
-		nkRendah[81]=min(basah,tdk_hujan,normal,lembab,f_cerah)
-	if basah and tdk_hujan and normal and lembab and f_mendung:
-		nkRendah[82]=min(basah,tdk_hujan,normal,lembab,f_mendung)
-	if basah and tdk_hujan and normal and lembab and f_hujan:
-		nkRendah[83]=min(basah,tdk_hujan,normal,lembab,f_hujan)
+	if basah and tdk_hujan and sejuk and lembab and f_cerah:
+		nkRendah[78]=min(basah,tdk_hujan,sejuk,lembab,f_cerah)
+	if basah and tdk_hujan and sejuk and lembab and f_mendung:
+		nkRendah[79]=min(basah,tdk_hujan,sejuk,lembab,f_mendung)
+	if basah and tdk_hujan and sejuk and lembab and f_hujan:
+		nkRendah[80]=min(basah,tdk_hujan,sejuk,lembab,f_hujan)
+	if basah and tdk_hujan and sejuk and lembab and f_cerah:
+		nkRendah[81]=min(basah,tdk_hujan,sejuk,lembab,f_cerah)
+	if basah and tdk_hujan and sejuk and lembab and f_mendung:
+		nkRendah[82]=min(basah,tdk_hujan,sejuk,lembab,f_mendung)
+	if basah and tdk_hujan and sejuk and lembab and f_hujan:
+		nkRendah[83]=min(basah,tdk_hujan,sejuk,lembab,f_hujan)
 	if basah and tdk_hujan and dingin and lembab and f_cerah:
 		nkRendah[84]=min(basah,tdk_hujan,dingin,lembab,f_cerah)
 	if basah and tdk_hujan and dingin and lembab and f_mendung:
@@ -348,18 +348,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkRendah[94]=min(basah,hujan,panas,lembab,f_mendung)
 	if basah and hujan and panas and lembab and f_hujan:
 		nkRendah[95]=min(basah,hujan,panas,lembab,f_hujan)
-	if basah and hujan and normal and lembab and f_cerah:
-		nkRendah[96]=min(basah,hujan,normal,lembab,f_cerah)
-	if basah and hujan and normal and lembab and f_mendung:
-		nkRendah[97]=min(basah,hujan,normal,lembab,f_mendung)
-	if basah and hujan and normal and lembab and f_hujan:
-		nkRendah[98]=min(basah,hujan,normal,lembab,f_hujan)
-	if basah and hujan and normal and lembab and f_cerah:
-		nkRendah[99]=min(basah,hujan,normal,lembab,f_cerah)
-	if basah and hujan and normal and lembab and f_mendung:
-		nkRendah[100]=min(basah,hujan,normal,lembab,f_mendung)
-	if basah and hujan and normal and lembab and f_hujan:
-		nkRendah[101]=min(basah,hujan,normal,lembab,f_hujan)
+	if basah and hujan and sejuk and lembab and f_cerah:
+		nkRendah[96]=min(basah,hujan,sejuk,lembab,f_cerah)
+	if basah and hujan and sejuk and lembab and f_mendung:
+		nkRendah[97]=min(basah,hujan,sejuk,lembab,f_mendung)
+	if basah and hujan and sejuk and lembab and f_hujan:
+		nkRendah[98]=min(basah,hujan,sejuk,lembab,f_hujan)
+	if basah and hujan and sejuk and lembab and f_cerah:
+		nkRendah[99]=min(basah,hujan,sejuk,lembab,f_cerah)
+	if basah and hujan and sejuk and lembab and f_mendung:
+		nkRendah[100]=min(basah,hujan,sejuk,lembab,f_mendung)
+	if basah and hujan and sejuk and lembab and f_hujan:
+		nkRendah[101]=min(basah,hujan,sejuk,lembab,f_hujan)
 	if basah and hujan and dingin and lembab and f_cerah:
 		nkRendah[102]=min(basah,hujan,dingin,lembab,f_cerah)
 	if basah and hujan and dingin and lembab and f_mendung:

@@ -13,10 +13,10 @@ def job():
 	return t0
 
 
-soil = 260
+soil = 400
 rain = 4
-temp = 30
-hum = 72
+temp = 25
+hum = 61
 forecast = 2
 wu_desc = 'Sunny'
 
@@ -24,13 +24,13 @@ def main():
 	global t0
 	global ts
 	t0 = job()
-	#schedule.every(ts).minutes.do(job)
+	schedule.every(ts).minutes.do(job)
 	while True:
-		#schedule.run_pending()
+		schedule.run_pending()
 		t1 = t0 + (ts*1)*60
 		print ("========================")
-		#print ("check circumstances every	: "+str(ts)+" minute")
-		#print ("check again 		: " +time.strftime("%I %M %p",time.localtime(t1)))
+		print ("check circumstances every	: "+str(ts)+" minute")
+		print ("check again 		: " +time.strftime("%I %M %p",time.localtime(t1)))
 		time.sleep(1)
 		NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
 		print (NK)
