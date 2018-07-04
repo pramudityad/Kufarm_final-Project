@@ -13,7 +13,7 @@ def job():
 	return t0
 
 
-soil = 502
+soil = 260
 rain = 4
 temp = 30
 hum = 72
