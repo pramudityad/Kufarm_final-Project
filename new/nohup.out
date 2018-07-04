@@ -1,0 +1,34 @@
+Start
+Request Data
+Request Success
+CEK WU CODE
+CEK OW CODE
+-TEMP = 32 C-
+DINGIN  : 0
+SEJUK : 0
+PANAS : 1
+-HUM = 44-
+LEMBAB : 0.26666666666666666
+NORMAL : 0.7333333333333333
+KERING : 0
+Slot Time : 4
+-keputusan-
+Status : 3
+db ok
+-TEMP = 32 C-
+DINGIN  : 0
+SEJUK : 0
+PANAS : 1
+-HUM = 45-
+LEMBAB : 0.3333333333333333
+NORMAL : 0.6666666666666666
+KERING : 0
+Slot Time : 4
+2018-07-04 17:30:48
+retrive data sensor
+Traceback (most recent call last):
+  File "/home/pi/Damar/forecast/new/main2.py", line 367, in <module>
+    main()
+  File "/home/pi/Damar/forecast/new/main2.py", line 312, in main
+    DB.logsoil(soil)
+UnboundLocalError: local variable 'soil' referenced before assignment
