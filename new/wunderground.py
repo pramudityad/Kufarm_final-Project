@@ -10,7 +10,6 @@ def getpop(a):
 	try:
 		pop = data['forecast']['txt_forecast']['forecastday'][a]['pop']
 	except Exception as e:
-		raise e
 		pop = "{\"status\":\"error\"}"
 	return pop
 
@@ -22,6 +21,5 @@ def getweather(a):
 	try:
 		condition = data['forecast']['txt_forecast']['forecastday'][a]['icon']
 	except Exception as e:
-		raise e
 		condition = "{\"status\":\"error\"}"
 	return condition
