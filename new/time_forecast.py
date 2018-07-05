@@ -63,6 +63,9 @@ def main():
 	temp = 29
 	hum = 78
 	ow_code = 2
+	t0 = time.time()
+	t1 = t0 + (1*60)*60
+	t2 = time.strftime("%I %M %p",time.localtime(t1))
 	#while True:
 	now = datetime.datetime.now()
 	timeRequest = now.strftime('%Y-%m-%d %H:%M:%S');

@@ -161,18 +161,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkTinggi[4]=min(kering,tdk_hujan,panas,normal,f_mendung)
 	if kering and tdk_hujan and panas and normal and f_hujan:
 		nkTinggi[5]=min(kering,tdk_hujan,panas,normal,f_hujan)
-	if kering and tdk_hujan and normal and normal and f_cerah:
-		nkTinggi[6]=min(kering,tdk_hujan,normal,normal,f_cerah)
-	if kering and tdk_hujan and normal and normal and f_mendung:
-		nkTinggi[7]=min(kering,tdk_hujan,normal,normal,f_mendung)
-	if kering and tdk_hujan and normal and normal and f_hujan:
-		nkTinggi[8]=min(kering,tdk_hujan,normal,normal,f_hujan)
-	if kering and tdk_hujan and normal and normal and f_cerah:
-		nkTinggi[9]=min(kering,tdk_hujan,normal,normal,f_cerah)
-	if kering and tdk_hujan and normal and normal and f_mendung:
-		nkTinggi[10]=min(kering,tdk_hujan,normal,normal,f_mendung)
-	if kering and tdk_hujan and normal and normal and f_hujan:
-		nkTinggi[11]=min(kering,tdk_hujan,normal,normal,f_hujan)
+	if kering and tdk_hujan and sejuk and normal and f_cerah:
+		nkTinggi[6]=min(kering,tdk_hujan,sejuk,normal,f_cerah)
+	if kering and tdk_hujan and sejuk and normal and f_mendung:
+		nkTinggi[7]=min(kering,tdk_hujan,sejuk,normal,f_mendung)
+	if kering and tdk_hujan and sejuk and normal and f_hujan:
+		nkTinggi[8]=min(kering,tdk_hujan,sejuk,normal,f_hujan)
+	if kering and tdk_hujan and sejuk and normal and f_cerah:
+		nkTinggi[9]=min(kering,tdk_hujan,sejuk,normal,f_cerah)
+	if kering and tdk_hujan and sejuk and normal and f_mendung:
+		nkTinggi[10]=min(kering,tdk_hujan,sejuk,normal,f_mendung)
+	if kering and tdk_hujan and sejuk and normal and f_hujan:
+		nkTinggi[11]=min(kering,tdk_hujan,sejuk,normal,f_hujan)
 	if kering and tdk_hujan and dingin and normal and f_cerah:
 		nkTinggi[12]=min(kering,tdk_hujan,dingin,normal,f_cerah)
 	if kering and tdk_hujan and dingin and normal and f_mendung:
@@ -198,18 +198,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkTinggi[22]=min(kering,hujan,panas,normal,f_mendung)
 	if kering and hujan and panas and normal and f_hujan:
 		nkTinggi[23]=min(kering,hujan,panas,normal,f_hujan)
-	if kering and hujan and normal and normal and f_cerah:
-		nkTinggi[24]=min(kering,hujan,normal,normal,f_cerah)
-	if kering and hujan and normal and normal and f_mendung:
-		nkTinggi[25]=min(kering,hujan,normal,normal,f_mendung)
-	if kering and hujan and normal and normal and f_hujan:
-		nkTinggi[26]=min(kering,hujan,normal,normal,f_hujan)
-	if kering and hujan and normal and normal and f_cerah:
-		nkTinggi[27]=min(kering,hujan,normal,normal,f_cerah)
-	if kering and hujan and normal and normal and f_mendung:
-		nkTinggi[28]=min(kering,hujan,normal,normal,f_mendung)
-	if kering and hujan and normal and normal and f_hujan:
-		nkTinggi[29]=min(kering,hujan,normal,normal,f_hujan)
+	if kering and hujan and sejuk and normal and f_cerah:
+		nkTinggi[24]=min(kering,hujan,sejuk,normal,f_cerah)
+	if kering and hujan and sejuk and normal and f_mendung:
+		nkTinggi[25]=min(kering,hujan,sejuk,normal,f_mendung)
+	if kering and hujan and sejuk and normal and f_hujan:
+		nkTinggi[26]=min(kering,hujan,sejuk,normal,f_hujan)
+	if kering and hujan and sejuk and normal and f_cerah:
+		nkTinggi[27]=min(kering,hujan,sejuk,normal,f_cerah)
+	if kering and hujan and sejuk and normal and f_mendung:
+		nkTinggi[28]=min(kering,hujan,sejuk,normal,f_mendung)
+	if kering and hujan and sejuk and normal and f_hujan:
+		nkTinggi[29]=min(kering,hujan,sejuk,normal,f_hujan)
 	if kering and hujan and dingin and normal and f_cerah:
 		nkTinggi[30]=min(kering,hujan,dingin,normal,f_cerah)
 	if kering and hujan and dingin and normal and f_mendung:
@@ -236,18 +236,18 @@ def calculate(soil,rain,temp,hum,forecast):
 		nkTinggi[40]=min(sedang,tdk_hujan,panas,normal,f_mendung)
 	if sedang and tdk_hujan and panas and normal and f_hujan:
 		nkTinggi[41]=min(sedang,tdk_hujan,panas,normal,f_hujan)
-	if sedang and tdk_hujan and normal and normal and f_cerah:
-		nkTinggi[42]=min(sedang,tdk_hujan,normal,normal,f_cerah)
-	if sedang and tdk_hujan and normal and normal and f_mendung:
-		nkTinggi[43]=min(sedang,tdk_hujan,normal,normal,f_mendung)
-	if sedang and tdk_hujan and normal and normal and f_hujan:
-		nkTinggi[44]=min(sedang,tdk_hujan,normal,normal,f_hujan)
-	if sedang and tdk_hujan and normal and normal and f_cerah:
-		nkTinggi[45]=min(sedang,tdk_hujan,normal,normal,f_cerah)
-	if sedang and tdk_hujan and normal and normal and f_mendung:
-		nkTinggi[46]=min(sedang,tdk_hujan,normal,normal,f_mendung)
-	if sedang and tdk_hujan and normal and normal and f_hujan:
-		nkTinggi[47]=min(sedang,tdk_hujan,normal,normal,f_hujan)
+	if sedang and tdk_hujan and sejuk and normal and f_cerah:
+		nkTinggi[42]=min(sedang,tdk_hujan,sejuk,normal,f_cerah)
+	if sedang and tdk_hujan and sejuk and normal and f_mendung:
+		nkTinggi[43]=min(sedang,tdk_hujan,sejuk,normal,f_mendung)
+	if sedang and tdk_hujan and sejuk and normal and f_hujan:
+		nkTinggi[44]=min(sedang,tdk_hujan,sejuk,normal,f_hujan)
+	if sedang and tdk_hujan and sejuk and normal and f_cerah:
+		nkTinggi[45]=min(sedang,tdk_hujan,sejuk,normal,f_cerah)
+	if sedang and tdk_hujan and sejuk and normal and f_mendung:
+		nkTinggi[46]=min(sedang,tdk_hujan,sejuk,normal,f_mendung)
+	if sedang and tdk_hujan and sejuk and normal and f_hujan:
+		nkTinggi[47]=min(sedang,tdk_hujan,sejuk,normal,f_hujan)
 	if sedang and tdk_hujan and dingin and normal and f_cerah:
 		nkTinggi[48]=min(sedang,tdk_hujan,dingin,normal,f_cerah)
 	if sedang and tdk_hujan and dingin and normal and f_mendung:
