@@ -104,12 +104,14 @@ def my_form_post():
 	if (numSamples > numMaxSamples):
 		numSamples = (numMaxSamples-1)
 	time, temp, hum, soil, rain = DB.getLastData()
+	predict = DB.getPrediction()
 	templateData = {
 	  'time'		: time,
 	  'temp'		: temp,
 	  'hum'			: hum,
 	  'soil'		: soil,
 	  'rain'		: rain,
+	  'predict'		: predict,
 	  #'freq'		: freqSamples,
 	  #'rangeTime'	: rangeTime
 	  'numSamples'	: numSamples

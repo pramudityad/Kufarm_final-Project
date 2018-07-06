@@ -179,6 +179,23 @@ def addDecision(decision,status,pump):
 		status = False;
 	return status;
 
+def addPrediction(timeslot):
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "INSERT INTO prediction(timeslot, created_at) VALUES ('"+str(timeslot)+"','"+currentTime+"')"
+	try:
+		curs.execute(sql)
+		conn.commit()
+		status = True
+		print("ts ok")
+	except Exception as e:
+		conn.rollback()
+		status = False;
+		print("ts not okay")	
+	return status; 
+
 # log dht sensor data on database
 def logdht (temp, hum):
 	myTime  	= datetime.datetime.now()
@@ -236,6 +253,14 @@ def getLastData():
 		rain = row[9]
 	#conn.close()
 	return time, temp, hum, soil, rain
+
+def getPrediction():
+	predict = None
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	for row in curs.execute("SELECT * FROM prediction ORDER BY ID DESC LIMIT 1"):
+		predict = row[1]
+	return predict
 
 def getHistData(numSamples):
 #def getHistData():
