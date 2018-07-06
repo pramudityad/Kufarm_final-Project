@@ -14,7 +14,7 @@ def adv_decision(temp,hum,):
 	#hum
 	lembab	= 0;
 	normal	= 0;
-	kering = 0;
+	kekeringan = 0;
 
 #inisialisasi batas
 	#temp
@@ -26,8 +26,8 @@ def adv_decision(temp,hum,):
 	u_panas = 50;
 
 	#hum
-	l_kering = 0;
-	u_kering = 30;
+	l_kekeringan = 0;
+	u_kekeringan = 30;
 	l_normal = 32;
 	u_normal = 40;
 	l_lembab = 55;
@@ -49,11 +49,11 @@ def adv_decision(temp,hum,):
 		panas = 1;
 
 	#hum
-	if hum < u_kering:
-		kering = 1;
-	elif hum >= u_kering and hum <= l_normal:
-		kering = (hum * (-1.0) + l_normal) / (l_normal - u_kering);
-		normal = (hum - u_kering) * 1.0 / (l_normal - u_kering);
+	if hum < u_kekeringan:
+		kekeringan = 1;
+	elif hum >= u_kekeringan and hum <= l_normal:
+		kekeringan = (hum * (-1.0) + l_normal) / (l_normal - u_kekeringan);
+		normal = (hum - u_kekeringan) * 1.0 / (l_normal - u_kekeringan);
 	elif hum >= l_normal and hum < u_normal:
 		normal = 1;
 	elif hum >= u_normal and hum <= l_lembab:
@@ -71,21 +71,21 @@ def adv_decision(temp,hum,):
 	print("-HUM = %d-" % (hum));
 	print("LEMBAB : "+str(lembab));
 	print("NORMAL : "+str(normal));
-	print("KERING : "+str(kering));
+	print("KEKERINGAN : "+str(kekeringan));
 
-	if panas and kering:
+	if panas and kekeringan:
 		waktu = 2
 	if panas and normal:
 		waktu = 3
 	if panas and lembab:
 		waktu = 4
-	if sejuk and kering:
+	if sejuk and kekeringan:
 		waktu = 5
 	if sejuk and normal:
 		waktu = 6
 	if sejuk and lembab:
 		waktu = 7
-	if dingin and kering:
+	if dingin and kekeringan:
 		waktu = 8
 	if dingin and normal:
 		waktu = 9

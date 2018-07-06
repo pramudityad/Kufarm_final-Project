@@ -12,7 +12,6 @@ def job():
 	t0 = time.time()
 	return t0
 
-
 soil = 28
 rain = 4
 temp = 25
@@ -24,7 +23,7 @@ def main():
 	global t0
 	global ts
 	t0 = job()
-	schedule.every(ts).minutes.do(job)
+	#schedule.every(ts).minutes.do(job)
 	while True:
 		schedule.run_pending()
 		t1 = t0 + (ts*1)*60
