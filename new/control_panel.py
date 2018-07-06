@@ -19,7 +19,7 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-dbname = 'kufarm.db'
+dbname = '/home/pi/Damar/forecast/new/kufarm.db'
 conn=sqlite3.connect(dbname,check_same_thread=False)
 curs=conn.cursor()
 
@@ -216,7 +216,7 @@ def plot_rain():
 def decision_log():
 	curs=conn.cursor()
 	try:
-		curs.execute("SELECT decision, status, pump, Event FROM decision ORDER BY ID DESC")
+		curs.execute("SELECT *  FROM decision ORDER BY ID DESC")
 		log = curs.fetchall()
 		return render_template("decision_log.html", log=log)	
 	except Exception as e:
