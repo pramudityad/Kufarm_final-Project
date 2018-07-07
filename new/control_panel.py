@@ -19,8 +19,8 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-dbname = '/home/pi/Damar/forecast/new/kufarm.db'
-conn=sqlite3.connect(dbname,check_same_thread=False)
+dbname = 'kufarm.db'
+conn=sqlite3.connect(dbname, check_same_thread=False)
 curs=conn.cursor()
 
 username = 'pramudityad'
