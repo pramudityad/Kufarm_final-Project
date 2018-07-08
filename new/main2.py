@@ -257,7 +257,7 @@ def decision2():
 		rain_today = 1
 	elif int(pm)>=30:
 		rain_tonight = 1
-	else:
+	elif:
 		not_rain = 1
 
 	print("-keputusan-")	
