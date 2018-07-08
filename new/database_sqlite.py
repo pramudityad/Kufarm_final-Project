@@ -256,7 +256,6 @@ def getLastData():
 	return time, temp, hum, soil, rain
 
 def getPrediction():
-	predict = None
 	conn=sqlite3.connect(dbname)
 	curs=conn.cursor()
 	for row in curs.execute("SELECT * FROM prediction ORDER BY ID DESC LIMIT 1"):
