@@ -6,8 +6,40 @@ rain = 7
 temp = 40
 hum = 50
 forecast = 1
+am = 20
+pm = 10
+treshold = 200
 
-NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
-ts = SL.adv_decision(temp, hum)
-print(NK)
-print(ts)
+def des2():
+	global am
+	global pm
+	soil = 169
+	rain_today = 0
+	rain_tonight = 0
+	not_rain    = 0
+
+	if int(am) >=30:
+		rain_today = 1
+	elif int(pm)>=30:
+		rain_tonight = 1
+	elif int(am) or int(pm) <30:
+		not_rain = 1
+	
+	print("-keputusan-")	
+	if soil < treshold and rain_today:
+		status = 1
+	if soil < treshold and rain_tonight:
+		status = 2
+	if soil > treshold:
+		status = 3
+	if soil < treshold and not_rain:
+		status = 4
+	else:
+		pass
+	print ("Status : " +str(status))
+
+#NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
+#ts = SL.adv_decision(temp, hum)
+#print(NK)
+#print(ts)
+des2()
