@@ -17,4 +17,4 @@ sleep 5
 printf '%s\tStart Application\n' "$(date +'%T %A %d %B %Y')" >>/home/pi/Damar/forecast/logs/restartlog
 cd /home/pi/Damar/forecast/new
 rm -f /home/pi/Damar/forecast/new/nohub.out
-nohup python3 /home/pi/Damar/forecast/new/main2.py & python3 /home/pi/Damar/forecast/new/control_panel.py && fg
+sudo python3 /home/pi/Damar/forecast/new/main2.py & python3 /home/pi/Damar/forecast/new/control_panel.py && fg
