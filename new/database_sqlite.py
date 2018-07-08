@@ -1,5 +1,6 @@
 import time, datetime
 import sqlite3
+import os
 
 dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
 
