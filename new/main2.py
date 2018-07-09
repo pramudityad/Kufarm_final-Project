@@ -284,10 +284,9 @@ def main():
 	global pump
 	global terbit
 	global terbenam
-	global am
-	global pm
 	global t0
 	global ts
+	am, pm = DB.getPOP()
 	sampleFreq = 60
 	t0 = decision2()
 	schedule.every(ts).hours.do(decision2)
