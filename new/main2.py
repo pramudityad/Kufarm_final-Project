@@ -66,15 +66,7 @@ def requestData():
 				global timeForcast;
 				global weather;
 				global code;
-				global am;
-				global pm;
-				global am_condition;
-				global pm_condition;
 				global requestStatus;
-				am = WU.getpop(0)
-				pm = WU.getpop(1)
-				am_condition = WU.getweather(0)
-				pm_condition = WU.getweather(1)
 				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
@@ -242,11 +234,10 @@ def circumstances():
 def decision2():
 	global treshold
 	global status
-	global am
-	global pm
 	global pump
 	global t0
 	t0 = time.time()
+	am, pm = DB.getPOP()
 	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
@@ -314,14 +305,15 @@ def main():
 				DB.lograin(rain)
 				DB.logdht(temp, hum)
 				requestData()
-				cekOwCode()
-				cekWUCode()	
+				cekOwCode()	
 				if(now.minute==0):
+					cekWUCode()
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
 							am = WU.getpop(0)
 							pm = WU.getpop(1)
+							time.sleep(0.5)
 							am_condition = WU.getweather(0)
 							pm_condition = WU.getweather(1)
 							wsp = 'wunderground'

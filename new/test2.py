@@ -1,18 +1,18 @@
 import fuzzy as fuzzy
 import slot as SL
+import database_sqlite as DB
 
 soil = 300
 rain = 5
 temp = 40
 hum = 50
 forecast = 0
-am = 20
-pm = 10
+#am = 20
+#pm = 10
 treshold = 200
 
 def des2():
-	global am
-	global pm
+	am, pm = DB.getPOP()
 	soil = 169
 	rain_today = 0
 	rain_tonight = 0

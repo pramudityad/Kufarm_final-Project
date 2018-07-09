@@ -3,6 +3,7 @@ import sqlite3
 import os
 
 dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
+#dbname='kufarm2.db'
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):
@@ -241,6 +242,14 @@ def lograin (rain):
 		conn.rollback()
 		status = False;
 	return status
+
+def getPOP():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	for row in curs.execute("select * from forecast2 ORDER BY ID DESC LIMIT 1"):
+		am = row[1]
+		pm = row[2]
+	return am, pm
 
 # Retrieve LAST data from database
 def getLastData():
