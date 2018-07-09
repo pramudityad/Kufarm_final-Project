@@ -335,8 +335,8 @@ def main():
 			temp, hum   = getdht()
 			soil        = getsoil()
 			rain        = getrain()
-		except Exception as e:
-			print(e)
+		except :
+			pass
 		t1 = t0 + (ts*60)*60
 		t2 = time.strftime("%I %M %p",time.localtime(t1))
 		DB.addPrediction(t2)
