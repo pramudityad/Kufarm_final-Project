@@ -339,7 +339,7 @@ def main():
 			pass
 		t1 = t0 + (ts*60)*60
 		t2 = time.strftime("%I %M %p",time.localtime(t1))
-		DB.addPrediction(t2)
+		#DB.addPrediction(t2)
 		print ("=============================")
 		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
 		print ("plant will need water in	: "+str(ts)+" hour again")

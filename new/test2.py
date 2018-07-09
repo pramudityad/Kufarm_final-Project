@@ -1,11 +1,11 @@
 import fuzzy as fuzzy
 import slot as SL
 
-soil = 690
-rain = 7
+soil = 300
+rain = 5
 temp = 40
 hum = 50
-forecast = 1
+forecast = 0
 am = 20
 pm = 10
 treshold = 200
@@ -38,8 +38,8 @@ def des2():
 		pass
 	print ("Status : " +str(status))
 
-#NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
+NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
 #ts = SL.adv_decision(temp, hum)
-#print(NK)
+print(NK)
 #print(ts)
 des2()
