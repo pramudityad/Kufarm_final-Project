@@ -2,11 +2,11 @@ import fuzzy as fuzzy
 import slot as SL
 #import database_sqlite as DB
 
-soil = 351 
-rain = 31
+soil = 187 
+rain = 14
 temp = 25
 hum = 63
-forecast = 0
+forecast = 1
 #am = 20
 #pm = 10
 treshold = 200
