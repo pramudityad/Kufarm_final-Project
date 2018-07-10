@@ -2,6 +2,8 @@ import time, datetime
 import sqlite3
 import os
 
+#!/usr/bin/python3
+
 dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
 #dbname='kufarm2.db'
 
