@@ -9,4 +9,3 @@ while True:
 		pass
 	print (terbit)
 	time.sleep(1)
-	
