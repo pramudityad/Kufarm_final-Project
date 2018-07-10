@@ -1,18 +1,18 @@
 import fuzzy as fuzzy
 import slot as SL
-import database_sqlite as DB
+#import database_sqlite as DB
 
 soil = 300
 rain = 5
-temp = 40
+temp = 38
 hum = 50
 forecast = 0
 #am = 20
 #pm = 10
 treshold = 200
 
-def des2():
-	am, pm = DB.getPOP()
+""" def des2():
+	#am, pm = DB.getPOP()
 	soil = 169
 	rain_today = 0
 	rain_tonight = 0
@@ -36,10 +36,10 @@ def des2():
 		status = 4
 	else:
 		pass
-	print ("Status : " +str(status))
+	print ("Status : " +str(status)) """
 
 NK = fuzzy.calculate(soil,rain,temp,hum,forecast)
-#ts = SL.adv_decision(temp, hum)
+ts = SL.adv_decision(temp, hum)
 print(NK)
-#print(ts)
-des2()
+print(ts)
+#des2()
