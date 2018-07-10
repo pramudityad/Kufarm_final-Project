@@ -293,8 +293,10 @@ def main():
 	while True:
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
+		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))					
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))	
+		time.sleep(1)					
 		print (timeRequest)
 		schedule.run_pending()					
 		if(now.hour%1==0 and now.minute%30.0==0):
@@ -325,7 +327,6 @@ def main():
 			temp, hum   = getdht()
 			soil        = getsoil()
 			rain        = getrain()
-			terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		except :
 			pass
 		t1 = t0 + (ts*60)*60
