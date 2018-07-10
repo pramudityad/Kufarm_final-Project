@@ -19,7 +19,7 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-dbname = 'db/kufarm.db'
+dbname = '/home/pi/Damar/forecast/new/db/kufarm.db'
 conn=sqlite3.connect(dbname, check_same_thread=False)
 curs=conn.cursor()
 
