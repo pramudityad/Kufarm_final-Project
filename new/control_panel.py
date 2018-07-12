@@ -19,9 +19,10 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-dbname = '/home/pi/Damar/forecast/new/db/kufarm.db'
+#dbname = '/home/pi/Damar/forecast/new/db/kufarm.db'
+dbname= 'kufarm2.db'
 conn=sqlite3.connect(dbname, check_same_thread=False)
-curs=conn.cursor()
+#curs=conn.cursor()
 
 username = 'pramudityad'
 api_key = 'nWvNw18KoFOnL5t8BtDA'
@@ -174,12 +175,12 @@ def plot_temp():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	c = conn.cursor()
+	d = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM rain')
-	data = c.fetchall()
+	d.execute('SELECT * FROM rain')
+	data = d.fetchall()
 
 	value_rain = []
 	timenow2 = []
