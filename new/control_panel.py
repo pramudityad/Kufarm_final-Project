@@ -123,12 +123,12 @@ def my_form_post():
 @app.route('/plot/temp')
 def plot_temp():
 	#curs=conn.cursor()
-	#c = conn.cursor()
+	c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	curs.execute('SELECT * FROM DHT_data')
-	data = curs.fetchall()
+	c.execute('SELECT * FROM DHT_data')
+	data = c.fetchall()
 
 	temperature = []
 	humidity = []
