@@ -22,7 +22,7 @@ import sqlite3
 #dbname = '/home/pi/Damar/forecast/new/db/kufarm.db'
 dbname= 'kufarm2.db'
 conn=sqlite3.connect(dbname, check_same_thread=False)
-curs=conn.cursor()
+#curs=conn.cursor()
 
 username = 'pramudityad'
 api_key = 'nWvNw18KoFOnL5t8BtDA'
@@ -122,13 +122,13 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	#curs=conn.cursor()
-	c = conn.cursor()
+	curs=conn.cursor()
+	#c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM DHT_data')
-	data = c.fetchall()
+	curs.execute('SELECT * FROM DHT_data')
+	data = curs.fetchall()
 
 	temperature = []
 	humidity = []
@@ -176,12 +176,12 @@ def plot_temp():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	#d = conn.cursor()
+	d = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	curs.execute('SELECT * FROM rain')
-	data = curs.fetchall()
+	d.execute('SELECT * FROM rain')
+	data = d.fetchall()
 
 	value_rain = []
 	timenow2 = []
