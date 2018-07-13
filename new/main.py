@@ -279,11 +279,9 @@ def main():
 	global status
 	global pump
 	global terbit
-	global terbenam
 	global t0
 	global ts
 	am, pm = DB.getPOP()
-	sampleFreq = 60
 	t0 = decision2()
 	schedule.every(ts).hours.do(decision2)
 	while True:
@@ -352,6 +350,5 @@ def main():
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
 			circumstances()
-		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()
