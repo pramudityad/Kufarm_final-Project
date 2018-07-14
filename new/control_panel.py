@@ -19,9 +19,10 @@ from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 
 import sqlite3
-dbname = '2kufarm.db'
-conn=sqlite3.connect(dbname,check_same_thread=False)
-curs=conn.cursor()
+#dbname = '/home/pi/Damar/forecast/new/db/kufarm.db'
+dbname= 'kufarm2.db'
+conn=sqlite3.connect(dbname, check_same_thread=False)
+#curs=conn.cursor()
 
 username = 'pramudityad'
 api_key = 'nWvNw18KoFOnL5t8BtDA'
@@ -43,27 +44,8 @@ def index():
 	df['date1'] = pd.to_datetime(df['created_at']).values
 	df['day'] = df['date1'].dt.date
 	df['time'] = df['date1'].dt.time
-	#df.index = df.date1
-	#df.index = pd.DatetimeIndex(df.index)
-	#df = df.drop('forecast',1)
 	df['upper'] = df['value']
 	df['lower'] = df['value']
-
-	#model = ARIMA(df['value'], order=(5,1,0))
-	#model_fit = model.fit(disp=0)
-	#forecast = model_fit.forecast(5)
-	#prediction = round(forecast[0][0],2)
-	#t0 = df['date1'][-1]
-	#new_dates = [t0+datetime.timedelta(minutes = 30*i) for i in range(1,6)]
-	#new_dates1 = map(lambda x: x.strftime('%Y-%m-%d %H:%M'), new_dates)
-	#df2 = pd.DataFrame(columns=['value','created_at','forecast'])
-	#df2.date = new_dates1
-	#df2.forecast = forecast[0]
-	#df2['upper'] = forecast[0]+forecast[1] #std error
-	#df2['lower'] = forecast[0]-forecast[1] #std error
-	#df2['upper'] = forecast[2][:,1] #95% confidence interval
-	#df2['lower'] = forecast[2][:,0] #95% confidence interval
-	#df = df.append(df2)
 	df = df.reset_index()
 	recentreadings = df
 	recentreadings['value'][-6:-5]
@@ -123,12 +105,14 @@ def my_form_post():
 	if (numSamples > numMaxSamples):
 		numSamples = (numMaxSamples-1)
 	time, temp, hum, soil, rain = DB.getLastData()
+	predict = DB.getPrediction()
 	templateData = {
 	  'time'		: time,
 	  'temp'		: temp,
 	  'hum'			: hum,
 	  'soil'		: soil,
 	  'rain'		: rain,
+	  'predict'		: predict,
 	  #'freq'		: freqSamples,
 	  #'rangeTime'	: rangeTime
 	  'numSamples'	: numSamples
@@ -138,12 +122,13 @@ def my_form_post():
 #plot temp	
 @app.route('/plot/temp')
 def plot_temp():
-	c = conn.cursor()
+	curs=conn.cursor()
+	#c = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM DHT_data')
-	data = c.fetchall()
+	curs.execute('SELECT * FROM DHT_data')
+	data = curs.fetchall()
 
 	temperature = []
 	humidity = []
@@ -191,12 +176,12 @@ def plot_temp():
 #plot rain
 @app.route('/plot/rain')
 def plot_rain():
-	c = conn.cursor()
+	d = conn.cursor()
 	now = datetime.datetime.now()
 	style.use('fivethirtyeight')
 
-	c.execute('SELECT * FROM rain')
-	data = c.fetchall()
+	d.execute('SELECT * FROM rain')
+	data = d.fetchall()
 
 	value_rain = []
 	timenow2 = []
@@ -233,7 +218,7 @@ def plot_rain():
 def decision_log():
 	curs=conn.cursor()
 	try:
-		curs.execute("SELECT * FROM decision ORDER BY ID DESC")
+		curs.execute("SELECT decision, status, pump, Event FROM decision ORDER BY ID DESC")
 		log = curs.fetchall()
 		return render_template("decision_log.html", log=log)	
 	except Exception as e:

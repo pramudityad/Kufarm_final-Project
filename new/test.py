@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #import schedule
 import time, datetime
 import slot as SL
@@ -15,3 +16,16 @@ temp = 42
 hum = 45
 
 x = SL.adv_decision(temp,hum,)
+=======
+import database_sqlite as DB
+import hisab as hisab
+import time
+
+while True:
+	try:
+		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+	except:
+		pass
+	print (terbit)
+	time.sleep(1)
+>>>>>>> 2798fecf485d285836f409c7d5218ade33b055c7

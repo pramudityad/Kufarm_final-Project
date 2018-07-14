@@ -4,6 +4,7 @@ import urllib.request
 import json
 import time, datetime
 import io
+import os
 import schedule
 import math
 import database_sqlite as DB
@@ -42,8 +43,8 @@ ow_cerah_code   = {800,801,802}
 ow_code = 0
 ow_desc = 'Sunny'
 
-terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
-terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+#terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+#terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 
 def getpop(a):
 	url    = 'http://api.wunderground.com/api/003508f51f58d4f4/geolookup/forecast/q/-6.978887,107.630328.json'
@@ -65,15 +66,7 @@ def requestData():
 				global timeForcast;
 				global weather;
 				global code;
-				global am;
-				global pm;
-				global am_condition;
-				global pm_condition;
 				global requestStatus;
-				am = WU.getpop(0)
-				pm = WU.getpop(1)
-				am_condition = WU.getweather(0)
-				pm_condition = WU.getweather(1)
 				str_ow_data = OW.getForecast(DB.getLatitude(),DB.getLongitude());
 				location    = OW.getCityName(str_ow_data);
 				latitude    = str(OW.getCityLatitude(str_ow_data));
@@ -196,7 +189,7 @@ def pump_on():
 	init_output(pinwatering)
 	#DB.addPumpLog('watering pump','ON')
 	GPIO.output(pinwatering, GPIO.LOW)
-	time.sleep(3)
+	time.sleep(2)
 	GPIO.output(pinwatering, GPIO.HIGH)
 	#DB.addPumpLog('watering pump','OFF')
 
@@ -241,11 +234,10 @@ def circumstances():
 def decision2():
 	global treshold
 	global status
-	global am
-	global pm
 	global pump
 	global t0
 	t0 = time.time()
+	am, pm = DB.getPOP()
 	decision = 'kufarm decision'
 	pump = 'OFF'
 	rain_today = 0
@@ -253,11 +245,11 @@ def decision2():
 	not_rain    = 0
 	soil = getsoil()
 
-	if int(am) >=50:
+	if int(am) >=30:
 		rain_today = 1
-	elif int(pm)>=50:
+	elif int(pm)>=30:
 		rain_tonight = 1
-	else:
+	elif int(am) or int(pm) <30:
 		not_rain = 1
 
 	print("-keputusan-")	
@@ -292,10 +284,9 @@ def main():
 	global pump
 	global terbit
 	global terbenam
-	global am
-	global pm
 	global t0
 	global ts
+	am, pm = DB.getPOP()
 	sampleFreq = 60
 	t0 = decision2()
 	schedule.every(ts).hours.do(decision2)
@@ -303,24 +294,27 @@ def main():
 		now = datetime.datetime.now()
 		timeRequest = now.strftime('%Y-%m-%d %H:%M:%S')
 		terbit = hisab.terbit(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
+		terbenam = hisab.terbenam(DB.getTimezone(),DB.getLatitude(),DB.getLongitude(),0)
 		strTerbit   = str(int(math.floor(terbit)))+":"+str(int((terbit%1)*60))
-		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))					
+		strTerbenam = str(int(math.floor(terbenam)))+":"+str(int((terbenam%1)*60))	
+		time.sleep(1)					
 		print (timeRequest)
-		schedule.run_pending()							
+		schedule.run_pending()					
 		if(now.hour%1==0 and now.minute%30.0==0):
 				print("retrive data sensor")
 				DB.logsoil(soil)
 				DB.lograin(rain)
 				DB.logdht(temp, hum)
 				requestData()
-				cekOwCode()
-				cekWUCode()	
+				cekOwCode()	
 				if(now.minute==0):
+					cekWUCode()
 					timeRequest = now.strftime('%Y-%m-%d %H:00:00');
 					if(now.hour == 0):
 							DB.addSunTime([strTerbit,strTerbenam])
 							am = WU.getpop(0)
 							pm = WU.getpop(1)
+							time.sleep(0.5)
 							am_condition = WU.getweather(0)
 							pm_condition = WU.getweather(1)
 							wsp = 'wunderground'
@@ -334,12 +328,14 @@ def main():
 			temp, hum   = getdht()
 			soil        = getsoil()
 			rain        = getrain()
-		except Exception as e:
-			print(e)
+		except :
+			pass
 		t1 = t0 + (ts*60)*60
+		t2 = time.strftime("%I %M %p",time.localtime(t1))
+		#DB.addPrediction(t2)
 		print ("=============================")
 		print ("Sunrise 			: " + str(int(terbit))+":"+str(int((terbit%1)*60))+" AM")
-		print ("check circumstances every	: "+str(ts)+" hour")
+		print ("plant will need water in	: "+str(ts)+" hour again")
 		print ("Will check plant again at 	: "+time.strftime("%I %M %p",time.localtime(t1)))
 		print ("-----------------------------")
 		print ("current soil			: "+ str(soil))
@@ -361,6 +357,7 @@ def main():
 			else:
 				pump = 'OFF'
 			DB.addDecision(decision,status,pump)
+			circumstances()
 		time.sleep(sampleFreq)
 if __name__ == '__main__':
 	main()

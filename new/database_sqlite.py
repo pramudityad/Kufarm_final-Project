@@ -1,7 +1,11 @@
 import time, datetime
 import sqlite3
+import os
 
-dbname='2kufarm.db'
+#!/usr/bin/python3
+
+dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
+#dbname='kufarm2.db'
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):
@@ -179,6 +183,23 @@ def addDecision(decision,status,pump):
 		status = False;
 	return status;
 
+def addPrediction(timeslot):
+	myTime  	= datetime.datetime.now();
+	currentTime	= myTime.strftime('%Y-%m-%d %H:%M:%S');
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	sql = "INSERT INTO prediction(timeslot, created_at) VALUES ('"+str(timeslot)+"','"+currentTime+"')"
+	try:
+		curs.execute(sql)
+		conn.commit()
+		status = True
+		print("ts ok")
+	except Exception as e:
+		conn.rollback()
+		status = False;
+		print("ts not okay")	
+	return status; 
+
 # log dht sensor data on database
 def logdht (temp, hum):
 	myTime  	= datetime.datetime.now()
@@ -224,6 +245,14 @@ def lograin (rain):
 		status = False;
 	return status
 
+def getPOP():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	for row in curs.execute("select * from forecast2 ORDER BY ID DESC LIMIT 1"):
+		am = row[1]
+		pm = row[2]
+	return am, pm
+
 # Retrieve LAST data from database
 def getLastData():
 	conn=sqlite3.connect(dbname)
@@ -236,6 +265,13 @@ def getLastData():
 		rain = row[9]
 	#conn.close()
 	return time, temp, hum, soil, rain
+
+def getPrediction():
+	conn=sqlite3.connect(dbname)
+	curs=conn.cursor()
+	for row in curs.execute("SELECT * FROM prediction ORDER BY ID DESC LIMIT 1"):
+		predict = row[1]
+	return predict
 
 def getHistData(numSamples):
 #def getHistData():
