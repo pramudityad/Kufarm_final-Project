@@ -4,8 +4,8 @@ import os
 
 #!/usr/bin/python3
 
-dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
-#dbname='kufarm2.db'
+#dbname='/home/pi/Damar/forecast/new/db/kufarm.db'
+dbname='kufarm2.db'
 
 # add forecast into database	
 def addForecast(code,weather,wsp,dataTime):

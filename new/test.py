@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #import schedule
 import time, datetime
 import slot as SL
@@ -28,4 +27,3 @@ while True:
 		pass
 	print (terbit)
 	time.sleep(1)
->>>>>>> 2798fecf485d285836f409c7d5218ade33b055c7
