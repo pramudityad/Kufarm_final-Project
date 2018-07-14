@@ -9,3 +9,64 @@ empty
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 491-433-106
+192.168.10.180 - - [13/Jul/2018 18:50:42] "GET / HTTP/1.1" 200 -
+192.168.10.180 - - [13/Jul/2018 18:50:42] "GET /static/style.css HTTP/1.1" 200 -
+192.168.10.180 - - [13/Jul/2018 18:50:42] "GET /static/raphael-2.1.4.min.js HTTP/1.1" 304 -
+192.168.10.180 - - [13/Jul/2018 18:50:42] "GET /static/justgage.js HTTP/1.1" 304 -
+/usr/local/lib/python3.5/dist-packages/matplotlib/tight_layout.py:207: UserWarning:
+
+tight_layout : falling back to Agg renderer
+
+192.168.10.180 - - [13/Jul/2018 18:50:45] "GET /plot/temp HTTP/1.1" 200 -
+/usr/local/lib/python3.5/dist-packages/matplotlib/tight_layout.py:207: UserWarning:
+
+tight_layout : falling back to Agg renderer
+
+No handles with labels found to put in legend.
+192.168.10.180 - - [13/Jul/2018 18:50:52] "GET /plot/rain HTTP/1.1" 200 -
+192.168.10.180 - - [13/Jul/2018 18:50:52] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.10.180 - - [13/Jul/2018 18:50:52] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.10.180 - - [13/Jul/2018 18:51:59] "GET /decision_log HTTP/1.1" 200 -
+192.168.10.180 - - [13/Jul/2018 18:52:05] "GET / HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 2309, in __call__
+    return self.wsgi_app(environ, start_response)
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 2295, in wsgi_app
+    response = self.handle_exception(e)
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1741, in handle_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.5/dist-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/local/lib/python3.5/dist-packages/flask/_compat.py", line 35, in reraise
+    raise value
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/local/lib/python3.5/dist-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/pi/Damar/forecast/new/control_panel.py", line 78, in index
+    plot_url = py.plot(fig, filename='soil trend', auto_open = False)
+  File "/usr/local/lib/python3.5/dist-packages/plotly/plotly/plotly.py", line 233, in plot
+    response = v1.clientresp(data, **plot_options)
+  File "/usr/local/lib/python3.5/dist-packages/plotly/api/v1/clientresp.py", line 35, in clientresp
+    response = request('post', url, data=payload)
+  File "/usr/local/lib/python3.5/dist-packages/plotly/api/v1/utils.py", line 85, in request
+    raise exceptions.PlotlyRequestError(message, status_code, content)
+plotly.exceptions.PlotlyRequestError: No message
+192.168.10.180 - - [13/Jul/2018 18:52:09] "GET / HTTP/1.1" 200 -
+/usr/local/lib/python3.5/dist-packages/matplotlib/tight_layout.py:207: UserWarning:
+
+tight_layout : falling back to Agg renderer
+
+192.168.10.180 - - [13/Jul/2018 18:52:12] "GET /plot/temp HTTP/1.1" 200 -
+/usr/local/lib/python3.5/dist-packages/matplotlib/tight_layout.py:207: UserWarning:
+
+tight_layout : falling back to Agg renderer
+
+No handles with labels found to put in legend.
+192.168.10.180 - - [13/Jul/2018 18:52:17] "GET /plot/rain HTTP/1.1" 200 -
