@@ -226,5 +226,5 @@ def decision_log():
 
 if __name__ == "__main__":
 	# ------------ Execute program 
-	app.run(host='192.168.10.188', port=5050, debug=True)
+	app.run(host='172.16.10.81', port=5050, debug=True)
 	conn.close()
